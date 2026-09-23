@@ -8,6 +8,7 @@ import { MorePage } from './components/pages/MorePage';
 import { MatchDetailPage } from './components/pages/MatchDetailPage';
 import { IconBoard, IconCalendar, IconHome, IconLive, IconMore } from './components/ui/Icons';
 import { SEASON } from './data/schedule';
+import { useRemoteData } from './hooks/useRemoteData';
 import './index.css';
 
 const NAV_TABS: { id: Screen; label: string; Icon: () => React.JSX.Element }[] = [
@@ -20,6 +21,7 @@ const NAV_TABS: { id: Screen; label: string; Icon: () => React.JSX.Element }[] =
 
 const AppContent = () => {
   const { screen, matchId, navigate } = useNavigation();
+  useRemoteData();
 
   return (
     <div className="app">

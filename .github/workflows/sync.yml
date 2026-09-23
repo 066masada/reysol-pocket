@@ -1,0 +1,42 @@
+name: データ同期
+
+# 公式ページから日程・結果・順位表を取り込み、変化があればコミットする。
+# アプリは data/*.json を実行時に読むので、デプロイは不要。
+on:
+  schedule:
+    # JST 06:00 と 23:30（UTC 21:00 / 14:30）
+    - cron: '0 21 * * *'
+    - cron: '30 14 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: 公式ページから取得
+        run: node scripts/sync.mjs
+
+      - name: 変化があればコミット
+        run: |
+          if [ -z "$(git status --porcelain data)" ]; then
+            echo "変更なし"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          git commit -m "data: 公式ページから同期 ($(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M'))"
+          git push

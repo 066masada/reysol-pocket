@@ -6,7 +6,8 @@ import { BROADCASTS, COMPETITIONS } from '../../data/competitions';
 import { getClub } from '../../data/clubs';
 import { BOARD_BY_CLUB, boardUrl } from '../../data/boards';
 import { STADIUMS } from '../../data/stadiums';
-import { FIXTURES, TICKET_LINKS } from '../../data/schedule';
+import { TICKET_LINKS } from '../../data/schedule';
+import { useData } from '../../data/store';
 import { isHome, isInMatchWindow, kickoffDate, opponentId, outcome, ticketState, SALE_COLOR, SALE_LABEL } from '../../utils/fixtures';
 import { fmtDateFull, fmtTime, fmtMonthDay } from '../../utils/date';
 import { openExternal } from '../../utils/external';
@@ -24,7 +25,8 @@ const REYSOL_X = 'https://x.com/REYSOL_Official';
 export const MatchDetailPage = ({ id }: { id: string }) => {
   const { closeMatch } = useNavigation();
   const now = useNow(1000);
-  const f = FIXTURES.find((x) => x.id === id);
+  const { fixtures } = useData();
+  const f = fixtures.find((x) => x.id === id);
   const weather = useWeather(f, now);
 
   useEffect(() => {

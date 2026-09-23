@@ -5,7 +5,7 @@ import { getClub, KASHIWA_ID } from '../../data/clubs';
 import { boardUrl } from '../../data/boards';
 import { HOME_STADIUM } from '../../data/stadiums';
 import { TICKET_LINKS, SEASON } from '../../data/schedule';
-import { J1_STANDINGS } from '../../data/standings';
+import { useData } from '../../data/store';
 import {
   focusFixture, isHome, j1Record, matchPhase, nextFixture, opponentId,
   recentResults, scoreForKashiwa, kickoffDate,
@@ -21,6 +21,7 @@ import { IconBoard, IconMap, IconPlay, IconTicket } from '../ui/Icons';
 export const HomePage = () => {
   const now = useNow(1000);
   const { navigate, openMatch } = useNavigation();
+  const { standings: J1_STANDINGS } = useData();
 
   // 試合当日は当日モードの帯を最上段に出し、ヒーローは次の試合を示す
   const focus = focusFixture(now);

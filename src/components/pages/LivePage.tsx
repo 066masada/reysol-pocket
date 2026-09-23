@@ -1,5 +1,6 @@
 import { useNavigation, type LiveView } from '../../contexts/NavigationContext';
 import { useNow } from '../../hooks/useNow';
+import { useData } from '../../data/store';
 import { COMPETITIONS } from '../../data/competitions';
 import { getClub } from '../../data/clubs';
 import { isInMatchWindow, kickoffDate, nextFixture, opponentId, sortedFixtures, isHome } from '../../utils/fixtures';
@@ -26,6 +27,7 @@ const VIEWS: { id: LiveView; label: string }[] = [
 export const LivePage = () => {
   const now = useNow(1000);
   const { openMatch, navigate, view } = useNavigation();
+  useData();
   const current: LiveView = view ?? 'today';
   const next = nextFixture(now);
   const todays = sortedFixtures().filter((f) => isSameDay(kickoffDate(f), now));

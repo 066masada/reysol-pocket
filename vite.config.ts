@@ -33,6 +33,15 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
         runtimeCaching: [
           {
+            urlPattern: /^https:\/\/raw\.githubusercontent\.com\/.*\/data\/.*\.json$/i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'reysol-data',
+              networkTimeoutSeconds: 6,
+              expiration: { maxEntries: 8, maxAgeSeconds: 60 * 60 * 24 * 14 },
+            },
+          },
+          {
             urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/i,
             handler: 'CacheFirst',
             options: { cacheName: 'google-fonts', expiration: { maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 365 } },

@@ -4,6 +4,7 @@ import { useSettings, type ThemeMode } from '../../contexts/SettingsContext';
 import { LINK_GROUPS, linksByGroup } from '../../data/links';
 import { HOME_STADIUM } from '../../data/stadiums';
 import { CHANGELOG } from '../../data/changelog';
+import { useData } from '../../data/store';
 import { openExternal } from '../../utils/external';
 import { StadiumMap } from '../stadium/StadiumMap';
 import { IconExternal } from '../ui/Icons';
@@ -24,6 +25,7 @@ const THEMES: { id: ThemeMode; label: string }[] = [
 
 export const MorePage = () => {
   const { theme, setTheme } = useSettings();
+  const { updatedAt } = useData();
   const [showLog, setShowLog] = useState(false);
 
   return (
@@ -83,8 +85,14 @@ export const MorePage = () => {
           <button type="button" className="link" onClick={() => setShowLog(true)}>更新履歴 →</button>
         </div>
         <p className="note">
-          Reysol Pocket は柏レイソルサポーターによる非公式のファンアプリです。試合日程は柏レイソル公式サイトの発表に基づきます。
+          Reysol Pocket は柏レイソルサポーターによる非公式のファンアプリです。
+          日程・結果は柏レイソル公式サイト、順位表はJリーグ公式サイトから1日2回取り込んでいます。
           各リンク先の内容は各サイトに帰属します。
+        </p>
+        <p className="note">
+          データ最終更新: {updatedAt
+            ? `${new Date(updatedAt).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })}`
+            : 'アプリ同梱データ（オフラインまたは取得待ち）'}
         </p>
       </section>
 

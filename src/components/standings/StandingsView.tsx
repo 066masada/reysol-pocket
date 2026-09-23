@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { CompetitionId } from '../../types';
 import { COMPETITIONS } from '../../data/competitions';
 import { findStandings } from '../../data/standings';
+import { useData } from '../../data/store';
 import { CompetitionChip } from '../match/Parts';
 import { StandingsTable } from './StandingsTable';
 import { RecordCard } from './RecordCard';
@@ -12,7 +13,8 @@ const CATS: CompetitionId[] = ['j1', 'acle', 'levain', 'emperor'];
 /** 順位・成績（カテゴリ別） */
 export const StandingsView = ({ initial = 'j1', onOpen }: { initial?: CompetitionId; onOpen: (id: string) => void }) => {
   const [cat, setCat] = useState<CompetitionId>(initial);
-  const table = findStandings(cat);
+  const { standings } = useData();
+  const table = cat === 'j1' ? standings : findStandings(cat);
   const comp = COMPETITIONS[cat];
 
   return (

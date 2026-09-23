@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { CompetitionId } from '../../types';
 import { useNavigation } from '../../contexts/NavigationContext';
 import { useNow } from '../../hooks/useNow';
+import { useData } from '../../data/store';
 import { COMPETITION_ORDER } from '../../data/competitions';
 import { kickoffDate, sortedFixtures, nextFixture } from '../../utils/fixtures';
 import { monthKey, monthLabel } from '../../utils/date';
@@ -29,6 +30,7 @@ const CONTENTS: { id: Content; label: string }[] = [
 export const SchedulePage = () => {
   const now = useNow(60_000);
   const { openMatch } = useNavigation();
+  useData();
   const fixtures = useMemo(() => sortedFixtures(), []);
   const months = useMemo(() => Array.from(new Set(fixtures.map((f) => monthKey(kickoffDate(f))))), [fixtures]);
 

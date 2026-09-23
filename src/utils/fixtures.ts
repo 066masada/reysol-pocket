@@ -1,6 +1,6 @@
 import type { Fixture, TicketSale, TicketSaleType } from '../types';
 import { KASHIWA_ID } from '../data/clubs';
-import { FIXTURES } from '../data/schedule';
+import { getFixtures } from '../data/store';
 import { isSameDay, MATCH_WINDOW_MS, parseKickoff } from '../utils/date';
 
 export type HomeAway = 'H' | 'A';
@@ -31,7 +31,7 @@ export const scoreForKashiwa = (f: Fixture) => {
 export const kickoffDate = (f: Fixture) => parseKickoff(f.kickoffAt);
 
 export const sortedFixtures = (): Fixture[] =>
-  [...FIXTURES].sort((a, b) => kickoffDate(a).getTime() - kickoffDate(b).getTime());
+  [...getFixtures()].sort((a, b) => kickoffDate(a).getTime() - kickoffDate(b).getTime());
 
 /** 現在時刻を基準に「試合中」かどうか（Phase 1 は時刻ベースの推定） */
 export const isInMatchWindow = (f: Fixture, now: Date) => {
