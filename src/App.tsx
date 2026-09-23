@@ -10,6 +10,7 @@ import { AclePage } from './components/pages/AclePage';
 import { IconBoard, IconCalendar, IconHome, IconLive, IconMore } from './components/ui/Icons';
 import { SEASON } from './data/schedule';
 import { useRemoteData } from './hooks/useRemoteData';
+import { useLiveScore } from './hooks/useLiveScore';
 import './index.css';
 
 const NAV_TABS: { id: Screen; label: string; Icon: () => React.JSX.Element }[] = [
@@ -23,6 +24,7 @@ const NAV_TABS: { id: Screen; label: string; Icon: () => React.JSX.Element }[] =
 const AppContent = () => {
   const { screen, view, matchId, navigate } = useNavigation();
   useRemoteData();
+  useLiveScore();
 
   return (
     <div className="app">

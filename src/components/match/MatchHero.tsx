@@ -5,6 +5,8 @@ import { STADIUMS } from '../../data/stadiums';
 import { isHome, isInMatchWindow, kickoffDate, ticketState } from '../../utils/fixtures';
 import { countdownTo, fmtTime, pad2, weekdayEn } from '../../utils/date';
 import { mapsDirectionsUrl, openExternal } from '../../utils/external';
+import { useData } from '../../data/store';
+import { STATUS_LABEL } from '../../utils/livescore';
 import { CompetitionChip, Crest } from './Parts';
 import { IconMap, IconPlay, IconTicket } from '../ui/Icons';
 
@@ -25,6 +27,8 @@ export const MatchHero = ({ f, now, onOpen }: Props) => {
   const tk = ticketState(f, now);
   const bc = comp.broadcast[0] ? BROADCASTS[comp.broadcast[0]] : undefined;
   const elapsed = live ? Math.floor((now.getTime() - d.getTime()) / 60000) : 0;
+  const { live: ls } = useData();
+  const score = ls && ls.fixtureId === f.id ? ls : null;
 
   return (
     <section className="hero" aria-label={live ? '試合中' : '次の試合'}>
@@ -45,8 +49,12 @@ export const MatchHero = ({ f, now, onOpen }: Props) => {
         <div className="hero-ko">
           {live ? (
             <>
-              <div className="hero-score">–</div>
-              <div className="d" style={{ color: 'var(--live)' }}>{elapsed}′ 進行中</div>
+              <div className="hero-score">{score ? (isHome(f) ? `${score.reysol}–${score.opponent}` : `${score.opponent}–${score.reysol}`) : '–'}</div>
+              <div className="d" style={{ color: 'var(--live)' }}>
+                {score
+                  ? `${score.minute !== null ? `${score.minute}′ ` : ''}${STATUS_LABEL[score.status]}`
+                  : `${elapsed}′ 進行中`}
+              </div>
             </>
           ) : (
             <>
@@ -74,7 +82,7 @@ export const MatchHero = ({ f, now, onOpen }: Props) => {
       )}
       {live && (
         <p className="hero-venue" style={{ marginTop: 0, marginBottom: 'var(--s-3)' }}>
-          スコアのリアルタイム表示は Phase 2 で対応。今は公式速報・配信でご確認ください。
+          {score ? '10秒ごとに自動更新中' : 'スコアを取得中…'}
         </p>
       )}
 

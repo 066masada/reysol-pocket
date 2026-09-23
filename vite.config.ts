@@ -33,6 +33,11 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
         runtimeCaching: [
           {
+            // ライブスコアはキャッシュせず常に取りにいく
+            urlPattern: /^https:\/\/www\.thesportsdb\.com\/api\/.*livescore.*/i,
+            handler: 'NetworkOnly',
+          },
+          {
             urlPattern: /^https:\/\/raw\.githubusercontent\.com\/.*\/data\/.*\.json$/i,
             handler: 'NetworkFirst',
             options: {

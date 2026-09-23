@@ -6,6 +6,16 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    label: 'v0.12.0',
+    date: '2026-09-23',
+    items: [
+      '試合中のスコアを10秒ごとに自動更新（リロード不要）',
+      'ホームの当日バナーとLIVEタブに、経過時間つきでスコアを表示',
+      '試合中だけ動作し、画面を離れている間は止まる（通信を無駄にしない）',
+      '取得に失敗したときは間隔を空けて再試行し、画面は通常表示のまま',
+    ],
+  },
+  {
     label: 'v0.11.1',
     date: '2026-09-23',
     items: [

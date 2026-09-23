@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from 'react';
 import type { Fixture, StandingsSnapshot, StandingsTable } from '../types';
+import type { LiveScore } from '../utils/livescore';
 import { FIXTURES } from './schedule';
 import { ACLE_STANDINGS, J1_STANDINGS } from './standings';
 
@@ -13,11 +14,13 @@ interface DataState {
   acleStandings: StandingsTable;
   /** 順位推移用のスナップショット（古い順） */
   history: StandingsSnapshot[];
+  /** 試合中のスコア。どの試合のものかを fixtureId で持つ */
+  live: (LiveScore & { fixtureId: string }) | null;
   /** 取得できた時刻（ISO）。null は同梱データのまま */
   updatedAt: string | null;
 }
 
-let state: DataState = { fixtures: FIXTURES, standings: J1_STANDINGS, acleStandings: ACLE_STANDINGS, history: [], updatedAt: null };
+let state: DataState = { fixtures: FIXTURES, standings: J1_STANDINGS, acleStandings: ACLE_STANDINGS, history: [], live: null, updatedAt: null };
 const listeners = new Set<() => void>();
 
 export const getData = () => state;

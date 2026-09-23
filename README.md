@@ -77,6 +77,15 @@ GitHub Actions が1日2回（JST 6:00 / 23:30）公式ページを取得し、�
 配信元は `src/data/remote.ts` の `BASE` 定数（既定: `raw.githubusercontent.com/066masada/reysol-pocket/main/data`）。
 リポジトリ名を変えた場合はここを直してください。
 
+## 試合中のライブスコア
+
+試合時間中だけ、[TheSportsDB のライブスコア](https://www.thesportsdb.com/api/v1/json/3/livescore.php?s=Soccer)（無料・キー不要・CORS許可）を
+**10秒おき**に取得します（[src/hooks/useLiveScore.ts](src/hooks/useLiveScore.ts)）。
+
+- 柏を含む試合だけを拾うので、相手クラブの英語表記は不要
+- 画面が見えていない間は停止。失敗が3回続いたら60秒間隔に落とす
+- 試合終了（FT）を取得したら追跡をやめる。確定スコアは通常の同期が拾う
+
 ## データ更新（手動メンテが必要なもの）
 
 - 日程・結果: 自動更新されます（上記）。同梱データを直す場合は [src/data/schedule.ts](src/data/schedule.ts)

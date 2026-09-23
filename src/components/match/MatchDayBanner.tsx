@@ -8,6 +8,8 @@ import { isHome, kickoffDate, opponentId, outcome, scoreForKashiwa, ticketState 
 import { countdownTo, fmtTime, pad2 } from '../../utils/date';
 import { mapsDirectionsUrl, openExternal } from '../../utils/external';
 import { useWeather } from '../../hooks/useWeather';
+import { useData } from '../../data/store';
+import { STATUS_LABEL } from '../../utils/livescore';
 import { WeatherLine } from './WeatherLine';
 import { weatherTip } from '../../utils/weather';
 import { IconBoard, IconExternal, IconMap, IconPlay, IconTicket } from '../ui/Icons';
@@ -42,6 +44,8 @@ export const MatchDayBanner = ({ f, phase, now, onOpen }: {
   const bc = comp.broadcast[0] ? BROADCASTS[comp.broadcast[0]] : undefined;
   const tk = ticketState(f, now);
   const o = outcome(f);
+  const { live: ls } = useData();
+  const score = ls && ls.fixtureId === f.id ? ls : null;
 
   return (
     <section className={`mdb mdb-${phase}`} aria-label={HEAD[phase]}>
@@ -51,7 +55,7 @@ export const MatchDayBanner = ({ f, phase, now, onOpen }: {
           {HEAD[phase]}
         </span>
         <span className="mdb-when num">
-          {phase === 'live' ? `${elapsed}′` :
+          {phase === 'live' ? (score ? `${score.reysol}-${score.opponent}` : `${elapsed}′`) :
            phase === 'justFinished' ? (f.score ? (o === 'W' ? '勝利' : o === 'L' ? '敗戦' : '引き分け') : '結果を確認') :
            phase === 'soon' ? `あと ${pad2(cd.hours)}:${pad2(cd.minutes)}:${pad2(cd.seconds)}` :
            `${fmtTime(d)} キックオフ`}
@@ -65,6 +69,7 @@ export const MatchDayBanner = ({ f, phase, now, onOpen }: {
         </span>
         <span className="mdb-sub">
           {comp.short} {f.round} · {st?.short ?? '会場未定'}
+          {phase === 'live' && score ? ` · ${score.minute !== null ? `${score.minute}′ ` : ''}${STATUS_LABEL[score.status]}` : ''}
           {phase === 'justFinished' && f.score ? ` · ${scoreForKashiwa(f)}` : ''}
         </span>
       </button>
