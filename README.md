@@ -67,6 +67,7 @@ GitHub Actions が1日2回（JST 6:00 / 23:30）公式ページを取得し、�
 |---|---|---|
 | [柏レイソル公式 試合日程](https://www.reysol.co.jp/game/results/) | 全50試合の日時・会場・結果 | `data/fixtures.json` |
 | [Jリーグ公式 J1順位表](https://www.jleague.jp/standings/j1/) | 20クラブの順位・勝点 | `data/standings-j1.json` |
+| [Wikipedia ACLE 2026/27](https://ja.wikipedia.org/wiki/AFCチャンピオンズリーグエリート2026/27) | ACLE東地区16クラブの順位 | `data/standings-acle.json` |
 
 - **上書きされるもの**: キックオフ日時、時刻確定、会場、スコア、試合ステータス
 - **手入力のまま残るもの**: チケット販売日程（`ticketSales`）、スタメンURL（`lineupUrl`）、注記（`note`）
@@ -82,7 +83,8 @@ GitHub Actions が1日2回（JST 6:00 / 23:30）公式ページを取得し、�
 - スタメンのリンク: 同ファイルの `lineupUrl: sn('<スポーツナビの試合ID>')`。IDは https://soccer.yahoo.co.jp/jleague/team/132 の日程から取得
 - チケット販売日: 同ファイルの `ticketSales`（プレリク抽選・一次・二次・三次の4段階。出典: 公式「販売日程」）
 - 掲示板一覧: [src/data/boards.ts](src/data/boards.ts)（[docs/boards.tsv](docs/boards.tsv) から生成）
-- 順位表: J1は自動更新。ACLEは [src/data/standings.ts](src/data/standings.ts) を手動更新
+- 順位表: J1・ACLEとも自動更新
+- ACL特設の読み物（対戦相手・リーグ・遠征ガイド）: [src/data/acle.ts](src/data/acle.ts)
 
 ## ロードマップ
 

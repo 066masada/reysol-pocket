@@ -2,11 +2,13 @@ import { useEffect } from 'react';
 import { useNavigation } from '../../contexts/NavigationContext';
 import { useNow } from '../../hooks/useNow';
 import { useData } from '../../data/store';
-import { ACLE, ACLE_OPPONENTS, ACLE_WATCH, EAST_ZONE } from '../../data/acle';
+import {
+  ACLE, ACLE_OPPONENTS, ACLE_WATCH, EAST_ZONE, LEAGUE_GUIDES, OPPONENT_GUIDES,
+  TRAVEL_GUIDES, TRAVEL_NOTE,
+} from '../../data/acle';
 import { COMPETITIONS } from '../../data/competitions';
 import { getClub, KASHIWA_ID } from '../../data/clubs';
 import { STADIUMS } from '../../data/stadiums';
-import { findStandings } from '../../data/standings';
 import { fixturesFor, isHome, kickoffDate, opponentId, outcome, scoreForKashiwa } from '../../utils/fixtures';
 import { countdownTo, fmtDateJa, fmtTime } from '../../utils/date';
 import { openExternal } from '../../utils/external';
@@ -17,7 +19,7 @@ import { IconBack, IconExternal } from '../ui/Icons';
 export const AclePage = () => {
   const { navigate, openMatch } = useNavigation();
   const now = useNow(1000);
-  useData();
+  const { acleStandings } = useData();
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -30,7 +32,7 @@ export const AclePage = () => {
   const next = fixtures.find((f) => f.status !== 'ft');
   const cd = next ? countdownTo(kickoffDate(next), now) : null;
 
-  const table = findStandings('acle');
+  const table = acleStandings;
   const rows = table?.rows ?? [];
   const meIdx = rows.findIndex((r) => r.clubId === KASHIWA_ID);
   const me = meIdx >= 0 ? rows[meIdx] : null;
@@ -113,6 +115,88 @@ export const AclePage = () => {
             <p className="note">キックオフはすべて日本時間。現地時刻が異なる試合は行内に併記しています。</p>
           </section>
 
+          {/* ── 対戦相手ガイド ── */}
+          <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
+            <span className="eyebrow">対戦相手 8クラブ</span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
+              {OPPONENT_GUIDES.map((g) => {
+                const club = getClub(g.clubId);
+                const meta = ACLE_OPPONENTS[g.clubId];
+                const match = fixtures.find((f) => opponentId(f) === g.clubId);
+                return (
+                  <article key={g.clubId} className="card opp-card" style={{ borderTopColor: club.color }}>
+                    <button type="button" className="opp-head" onClick={() => match && openMatch(match.id)}>
+                      <Crest club={club} />
+                      <span className="opp-title">
+                        <b>{club.name}</b>
+                        <span className="opp-tag">{g.tagline}</span>
+                        <span className="opp-meta">{meta?.city} · {meta?.league}{match ? ` · ${match.round.replace('LS-', '')}` : ''}</span>
+                      </span>
+                    </button>
+                    <p className="opp-about">{g.about}</p>
+                    <dl className="opp-facts">
+                      <dt>直近</dt><dd>{g.form}</dd>
+                      {g.asia && (<><dt>アジア</dt><dd>{g.asia}</dd></>)}
+                    </dl>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* ── アウェイ遠征ガイド ── */}
+          <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
+            <span className="eyebrow">アウェイ遠征ガイド</span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
+              {TRAVEL_GUIDES.map((t) => {
+                const club = getClub(t.clubId);
+                const match = fixtures.find((f) => opponentId(f) === t.clubId);
+                return (
+                  <article key={t.clubId} className="card trip-card">
+                    <div className="trip-head">
+                      <span className="trip-city">{t.city}</span>
+                      <span className="trip-meta">
+                        {t.country} · {club.short}戦{match ? ` · ${fmtDateJa(kickoffDate(match))}` : ''}
+                      </span>
+                      <span className="trip-tz">{t.timeDiff}</span>
+                    </div>
+                    <dl className="trip-facts">
+                      <dt>行き方</dt>
+                      <dd><ul>{t.getting.map((g) => <li key={g}>{g}</li>)}</ul></dd>
+                      <dt>会場まで</dt><dd>{t.toStadium}</dd>
+                      <dt>入国</dt><dd>{t.entry}</dd>
+                      <dt>お金</dt><dd>{t.money}</dd>
+                      <dt>通信</dt><dd>{t.sim}</dd>
+                      <dt>現地では</dt>
+                      <dd><ul>{t.tips.map((x) => <li key={x}>{x}</li>)}</ul></dd>
+                    </dl>
+                    <button type="button" className="btn btn-line btn-sm btn-block" onClick={() => openExternal(t.mofaUrl)}>
+                      <IconExternal />外務省 海外安全情報（{t.country}）
+                    </button>
+                  </article>
+                );
+              })}
+            </div>
+            <p className="note">{TRAVEL_NOTE}</p>
+          </section>
+
+          {/* ── 相手国リーグ入門 ── */}
+          <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
+            <span className="eyebrow">相手国リーグ入門</span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
+              {LEAGUE_GUIDES.map((l) => (
+                <article key={l.key} className="card card-pad league-card">
+                  <div className="league-head">
+                    <b>{l.name}</b>
+                    <span className="note">{l.country} · {l.format}</span>
+                  </div>
+                  <p className="opp-about" style={{ padding: 0 }}>{l.about}</p>
+                  <p className="note">柏の相手: {l.opponents}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
           {/* ── 大会のしくみ ── */}
           <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
             <span className="eyebrow">大会のしくみ</span>
@@ -168,8 +252,8 @@ export const AclePage = () => {
           </section>
 
           <p className="note">
-            今後ここに、対戦相手8クラブのガイド／相手国リーグ入門（Kリーグ1・タイ・リーグ1・Aリーグ・Vリーグ1）／
-            アウェイ遠征ガイド（全州・ラーチャブリー・ゴスフォード・浦項）を追加していきます。
+            順位表の出典: Wikipedia 日本語版（CC BY-SA）。クラブ・リーグの情報は 2026年9月時点のものです。
+            アウェイ遠征ガイド（ラーチャブリー・ゴスフォード・浦項）は今後追加します。
           </p>
         </div>
       </div>

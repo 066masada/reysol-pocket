@@ -16,9 +16,9 @@ const CATS: CompetitionId[] = ['j1', 'acle', 'levain', 'emperor'];
 /** 順位・成績（カテゴリ別） */
 export const StandingsView = ({ initial = 'j1', onOpen }: { initial?: CompetitionId; onOpen: (id: string) => void }) => {
   const [cat, setCat] = useState<CompetitionId>(initial);
-  const { standings, history } = useData();
+  const { standings, acleStandings, history } = useData();
   const { navigate } = useNavigation();
-  const table = cat === 'j1' ? standings : findStandings(cat);
+  const table = cat === 'j1' ? standings : cat === 'acle' ? acleStandings : findStandings(cat);
   const comp = COMPETITIONS[cat];
   const move = cat === 'j1' ? rankMove(standings, history) : null;
 

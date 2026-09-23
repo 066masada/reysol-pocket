@@ -24,6 +24,9 @@ const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
 const SOURCES = {
   fixtures: 'https://www.reysol.co.jp/game/results/',
   standings: 'https://www.jleague.jp/standings/j1/',
+  /** ACLE東地区の順位表（Wikipedia 日本語版, CC BY-SA） */
+  acle: 'https://ja.wikipedia.org/w/api.php?action=parse&page=AFC%E3%83%81%E3%83%A3%E3%83%B3%E3%83%94%E3%82%AA%E3%83%B3%E3%82%BA%E3%83%AA%E3%83%BC%E3%82%B0%E3%82%A8%E3%83%AA%E3%83%BC%E3%83%882026%2F27&prop=text&format=json&formatversion=2',
+  aclePage: 'https://ja.wikipedia.org/wiki/AFCチャンピオンズリーグエリート2026/27',
 };
 
 /* ── 共通 ── */
@@ -33,6 +36,12 @@ const fetchText = async (url) => {
   if (!res.ok) throw new Error(`${url} → HTTP ${res.status}`);
   return res.text();
 };
+
+/** &#8722; のような文字参照を戻す */
+const decode = (s) =>
+  s.replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16)))
+    .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 
 /** タグを除いた行の配列にする */
 const toLines = (html) =>
@@ -193,6 +202,41 @@ const parseStandings = (html) => {
   return out;
 };
 
+/* ── ACLE 東地区の順位表 ── */
+
+const cells = (tr) =>
+  [...tr.matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/g)]
+    .map((m) => decode(m[1].replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim())
+    .filter(Boolean);
+
+/**
+ * 「順 / チーム / 試 / 勝 / 分 / 敗 / 得 / 失 / 差 / 点」の並びの表を探す。
+ * 柏レイソルを含む表だけを採る（西地区や他の表を拾わないため）。
+ */
+const parseAcleStandings = (html) => {
+  for (const t of html.match(/<table[\s\S]*?<\/table>/g) ?? []) {
+    if (!t.includes('柏レイソル') || !t.includes('勝点') && !t.includes('>点<')) continue;
+    const rows = t.match(/<tr[\s\S]*?<\/tr>/g) ?? [];
+    const out = [];
+    for (const tr of rows) {
+      const c = cells(tr);
+      const rank = Number(c[0]);
+      if (!Number.isFinite(rank) || c.length < 10) continue;
+      // 脚注や注記（[1] や （H））を落とす
+      const name = c[1].replace(/\[[^\]]*\]/g, '').replace(/（[^）]*）/g, '').trim();
+      // Wikipedia は「−1」に U+2212 を使うので ASCII に直してから数値化する
+      const n = (i) => Number((c[i] ?? '').replace(/[−–—]/g, '-').replace(/[＋+]/g, ''));
+      out.push({
+        rank, name,
+        played: n(2), won: n(3), drawn: n(4), lost: n(5),
+        gf: n(6), ga: n(7), gd: n(8), points: n(9),
+      });
+    }
+    if (out.length >= 12) return out;
+  }
+  return [];
+};
+
 /* ── 順位の履歴（順位推移グラフ用） ── */
 
 /**
@@ -261,24 +305,41 @@ const main = async () => {
     errors.push(`順位表: ${e.message}`);
   }
 
+  try {
+    const json = JSON.parse(await fetchText(SOURCES.acle));
+    const table = parseAcleStandings(json?.parse?.text ?? '');
+    if (table.length < 12) throw new Error(`解析結果が少なすぎます (${table.length}行)`);
+    const counts = new Map();
+    for (const r of table) counts.set(r.played, (counts.get(r.played) ?? 0) + 1);
+    const played = [...counts.entries()].sort((a, b) => b[1] - a[1] || b[0] - a[0])[0][0];
+    console.log(`ACLE東地区: ${table.length}クラブ（MD${played} 終了時点）`);
+    if (await writeJson('standings-acle.json', {
+      source: SOURCES.aclePage, license: 'Wikipedia 日本語版 (CC BY-SA 4.0)',
+      asOf: `MD${played} 終了時点`, table,
+    })) changed.push('standings-acle.json');
+  } catch (e) {
+    errors.push(`ACLE順位表: ${e.message}`);
+  }
+
   if (errors.length) {
     console.error('取得できなかったもの:');
     for (const e of errors) console.error(' -', e);
   }
 
   // 片方でも取れていれば取得時刻を更新する
-  if (errors.length < 2) {
+  if (errors.length < 3) {
     const prev = await readJson(join(OUT_DIR, 'meta.json'));
     await writeJson('meta.json', {
       updatedAt: new Date().toISOString(),
       fixturesOk: !errors.some((e) => e.startsWith('日程')),
       standingsOk: !errors.some((e) => e.startsWith('順位表')),
+      acleOk: !errors.some((e) => e.startsWith('ACLE')),
       previousUpdatedAt: prev?.updatedAt ?? null,
     });
   }
 
   console.log(changed.length ? `更新: ${changed.join(', ')}` : '変更なし');
-  if (errors.length === 2) process.exit(1); // 両方失敗したときだけ異常終了
+  if (errors.length === 3) process.exit(1); // すべて失敗したときだけ異常終了
 };
 
 await main();

@@ -2,7 +2,7 @@ import type { CompetitionId, Fixture, StandingRow, StandingsSnapshot, StandingsT
 import { CLUB_LIST, KASHIWA_ID } from './clubs';
 import { STADIUMS } from './stadiums';
 import { FIXTURES } from './schedule';
-import { J1_STANDINGS } from './standings';
+import { ACLE_STANDINGS, J1_STANDINGS } from './standings';
 
 /**
  * GitHub Actions が1日2回、公式ページから取得して data/*.json に書き出したものを読む。
@@ -37,6 +37,7 @@ interface RemoteStandings {
 export interface RemoteData {
   fixtures: Fixture[];
   standings: StandingsTable | null;
+  acleStandings: StandingsTable | null;
   history: StandingsSnapshot[];
   updatedAt: string | null;
 }
@@ -56,6 +57,14 @@ for (const [alias, id] of [
   ['大田ハナ・シチズン', 'daejeon'], ['ニューカッスル・ジェッツ', 'newcastle'],
   ['コンアン・ハノイ', 'conganhanoi'], ['ブリーラム・ユナイテッド', 'buriram'],
   ['ジェフユナイテッド千葉', 'chiba'], ['ジェフユナイテッド市原・千葉', 'chiba'],
+  // Wikipedia（ACLE順位表）の表記
+  ['北京国安', 'beijing'], ['上海海港', 'shanghaiport'],
+  ['ジョホール・ダルル・タクジム', 'jdt'], ['ジョホールDT', 'jdt'],
+  ['大田ハナシチズン', 'daejeon'], ['大田ハナ・シチズン', 'daejeon'],
+  ['全北現代モータース', 'jeonbuk'], ['全北現代', 'jeonbuk'],
+  ['浦項スティーラース', 'pohang'], ['浦項スティーラーズ', 'pohang'],
+  ['ポート', 'port'], ['ポートFC', 'port'],
+  ['ラーチャブリー', 'ratchaburi'], ['ラーチャブリーFC', 'ratchaburi'],
 ] as const) CLUB_BY_NAME.set(normalize(alias), id);
 
 const STADIUM_BY_NAME = new Map<string, string>();
@@ -143,6 +152,19 @@ export const mergeFixtures = (remote: RemoteFixture[], bundled: Fixture[] = FIXT
   return merged;
 };
 
+export const mergeAcleStandings = (remote: RemoteStandings): StandingsTable => ({
+  ...ACLE_STANDINGS,
+  asOf: remote.asOf,
+  updatedAt: new Date().toISOString().slice(0, 10),
+  sourceUrl: remote.source,
+  rows: remote.table.map((r) => ({
+    rank: r.rank,
+    clubId: clubId(r.name),
+    played: r.played, won: r.won, drawn: r.drawn, lost: r.lost,
+    gf: r.gf, ga: r.ga, points: r.points,
+  })),
+});
+
 export const mergeStandings = (remote: RemoteStandings): StandingsTable => ({
   ...J1_STANDINGS,
   asOf: remote.asOf,
@@ -169,15 +191,17 @@ const getJson = async <T>(name: string, signal: AbortSignal): Promise<T | null> 
 };
 
 export const fetchRemoteData = async (signal: AbortSignal): Promise<RemoteData> => {
-  const [fx, std, hist, meta] = await Promise.all([
+  const [fx, std, acle, hist, meta] = await Promise.all([
     getJson<{ fixtures: RemoteFixture[] }>('fixtures.json', signal),
     getJson<RemoteStandings>('standings-j1.json', signal),
+    getJson<RemoteStandings>('standings-acle.json', signal),
     getJson<{ snapshots: StandingsSnapshot[] }>('standings-history.json', signal),
     getJson<{ updatedAt: string }>('meta.json', signal),
   ]);
   return {
     fixtures: fx?.fixtures?.length ? mergeFixtures(fx.fixtures) : FIXTURES,
     standings: std?.table?.length ? mergeStandings(std) : null,
+    acleStandings: acle?.table?.length ? mergeAcleStandings(acle) : null,
     history: hist?.snapshots ?? [],
     updatedAt: meta?.updatedAt ?? null,
   };

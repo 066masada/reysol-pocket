@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from 'react';
 import type { Fixture, StandingsSnapshot, StandingsTable } from '../types';
 import { FIXTURES } from './schedule';
-import { J1_STANDINGS } from './standings';
+import { ACLE_STANDINGS, J1_STANDINGS } from './standings';
 
 /**
  * 日程・順位表の現在値。同梱データで起動し、取得できたら差し替える。
@@ -10,13 +10,14 @@ import { J1_STANDINGS } from './standings';
 interface DataState {
   fixtures: Fixture[];
   standings: StandingsTable;
+  acleStandings: StandingsTable;
   /** 順位推移用のスナップショット（古い順） */
   history: StandingsSnapshot[];
   /** 取得できた時刻（ISO）。null は同梱データのまま */
   updatedAt: string | null;
 }
 
-let state: DataState = { fixtures: FIXTURES, standings: J1_STANDINGS, history: [], updatedAt: null };
+let state: DataState = { fixtures: FIXTURES, standings: J1_STANDINGS, acleStandings: ACLE_STANDINGS, history: [], updatedAt: null };
 const listeners = new Set<() => void>();
 
 export const getData = () => state;

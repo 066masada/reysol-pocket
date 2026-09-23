@@ -6,6 +6,16 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    label: 'v0.10.0',
+    date: '2026-09-23',
+    items: [
+      'ACLE東地区の順位表を自動更新（Wikipedia 日本語版から1日48回の同期に相乗り）',
+      'ACL特設に「対戦相手 8クラブ」のガイドを追加',
+      '「相手国リーグ入門」を追加（Kリーグ1・タイ・リーグ1・Aリーグ・Vリーグ1）',
+      '「アウェイ遠征ガイド」を追加（ラーチャブリー・ゴスフォード・浦項の行き方／入国／お金／通信／見どころ）',
+    ],
+  },
+  {
     label: 'v0.9.0',
     date: '2026-09-23',
     items: [
