@@ -58,16 +58,34 @@ src/
     └── ui/ Icons / InstallBanner
 ```
 
-## データ更新
+## データ自動更新
 
-- 日程・結果: [src/data/schedule.ts](src/data/schedule.ts) を編集（出典: 柏レイソル公式サイト）。試合終了後は `status: 'ft'` と `score` を入れる
+GitHub Actions が1日2回（JST 6:00 / 23:30）公式ページを取得し、変化があれば `data/*.json` をコミットします。
+アプリは起動時にその JSON を読み、同梱データに上書きマージします。**デプロイは不要**です。
+
+| 取得元 | 内容 | 出力 |
+|---|---|---|
+| [柏レイソル公式 試合日程](https://www.reysol.co.jp/game/results/) | 全50試合の日時・会場・結果 | `data/fixtures.json` |
+| [Jリーグ公式 J1順位表](https://www.jleague.jp/standings/j1/) | 20クラブの順位・勝点 | `data/standings-j1.json` |
+
+- **上書きされるもの**: キックオフ日時、時刻確定、会場、スコア、試合ステータス
+- **手入力のまま残るもの**: チケット販売日程（`ticketSales`）、スタメンURL（`lineupUrl`）、注記（`note`）
+- 取得に失敗した場合は同梱データ（`src/data/schedule.ts`）で動作します
+- 手元で試す: `npm run sync`（`data/` に書き出し）。アプリ側の参照先は `VITE_DATA_BASE` で差し替え可能
+
+配信元は `src/data/remote.ts` の `BASE` 定数（既定: `raw.githubusercontent.com/066masada/reysol-pocket/main/data`）。
+リポジトリ名を変えた場合はここを直してください。
+
+## データ更新（手動メンテが必要なもの）
+
+- 日程・結果: 自動更新されます（上記）。同梱データを直す場合は [src/data/schedule.ts](src/data/schedule.ts)
 - スタメンのリンク: 同ファイルの `lineupUrl: sn('<スポーツナビの試合ID>')`。IDは https://soccer.yahoo.co.jp/jleague/team/132 の日程から取得
 - チケット販売日: 同ファイルの `ticketSales`（プレリク抽選・一次・二次・三次の4段階。出典: 公式「販売日程」）
 - 掲示板一覧: [src/data/boards.ts](src/data/boards.ts)（[docs/boards.tsv](docs/boards.tsv) から生成）
-- 順位表: [src/data/standings.ts](src/data/standings.ts)（節ごとに手動更新。Phase 2 で自動化）
+- 順位表: J1は自動更新。ACLEは [src/data/standings.ts](src/data/standings.ts) を手動更新
 
 ## ロードマップ
 
-- Phase 1（現在）: 静的データ＋PWA
-- Phase 2: API-Football + Cloud Functions で日程自動同期・全会場ライブスコア・順位表
-- Phase 3: プッシュ通知・公式ニュース・天気
+- ✅ 静的データ＋PWA
+- ✅ 日程・結果・J1順位表の自動更新（GitHub Actions、外部APIもシークレットも不要）
+- 次: 全会場ライブスコア、選手名鑑・スタメン予想、プッシュ通知
