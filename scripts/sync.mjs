@@ -240,6 +240,22 @@ const parseGoals = (html) => {
   return out;
 };
 
+/** 試合結果ページからスコアと状態を読む。日程一覧より早く反映される */
+const parseResultScore = (html, kashiwaIsHome) => {
+  const m = html.match(
+    />(試合終了|試合前|前半|後半|ハーフタイム|延長前半|延長後半|PK戦)<\/div>\s*<div[^>]*>\s*<span[^>]*>(\d+)<\/span>\s*<span[^>]*>-<\/span>\s*<span[^>]*>(\d+)<\/span>/);
+  if (!m) return null;
+  const [, label, a, b] = m;
+  const home = Number(a);
+  const away = Number(b);
+  return {
+    label,
+    finished: label === '試合終了',
+    reysol: kashiwaIsHome ? home : away,
+    opponent: kashiwaIsHome ? away : home,
+  };
+};
+
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 /**
@@ -254,13 +270,17 @@ const attachGoals = async (season, fixtures, previous) => {
     const key = `${f.competition}|${f.round}`;
     const prev = prevByKey.get(key);
     // 0-0 の試合は得点者が空なので、取得済みかどうかは goalsCheckedAt で判断する
-    if (prev?.goals && prev.goalsScore === `${f.score?.reysol ?? ''}-${f.score?.opponent ?? ''}`) {
+    const alreadyDone = prev?.goals && prev.goalsScore === `${f.score?.reysol ?? ''}-${f.score?.opponent ?? ''}` && f.status === 'ft';
+    if (alreadyDone) {
       f.goals = prev.goals;
       f.goalsScore = prev.goalsScore;
       f.resultUrl = prev.resultUrl;
       continue;
     }
-    if (f.status !== 'ft' || fetched >= 6) continue;
+    // 日程一覧の反映は遅いので、今日の試合は終了していなくても結果ページを見る
+    const today = new Date().toISOString().slice(0, 10);
+    const isToday = f.date === today;
+    if ((f.status !== 'ft' && !isToday) || fetched >= 6) continue;
 
     const url = resultUrl(season, f.date);
     try {
@@ -268,6 +288,14 @@ const attachGoals = async (season, fixtures, previous) => {
       const html = await fetchText(url);
       fetched += 1;
       const goals = parseGoals(html);
+
+      // 日程一覧にまだ結果が出ていなければ、結果ページの値を採る
+      const res = parseResultScore(html, f.home);
+      if (res && !f.score && (res.finished || res.reysol + res.opponent > 0)) {
+        f.score = { reysol: res.reysol, opponent: res.opponent };
+        if (res.finished) f.status = 'ft';
+        console.log(`  結果ページから: ${res.label} 柏${res.reysol}-${res.opponent}`);
+      }
       f.goals = goals;
       f.goalsScore = `${f.score?.reysol ?? ''}-${f.score?.opponent ?? ''}`;
       f.resultUrl = url;

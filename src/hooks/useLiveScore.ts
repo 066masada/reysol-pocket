@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { getData, setData } from '../data/store';
 import { fetchLiveScore } from '../utils/livescore';
-import { isInMatchWindow, sortedFixtures } from '../utils/fixtures';
+import { isInMatchWindow, kickoffDate, sortedFixtures } from '../utils/fixtures';
+import { isSameDay } from '../utils/date';
 
 /** 試合中の取得間隔 */
 const INTERVAL = 10_000;
@@ -21,12 +22,20 @@ export const useLiveScore = () => {
     let failures = 0;
     let stopped = false;
 
-    /** いま試合中か（終了直後の猶予を含む） */
+    /**
+     * 取得対象の試合。
+     * 試合中はもちろん、同期がまだ結果を反映していない「今日の終わった試合」も対象にする
+     * （終了後にアプリを開き直したときに結果が出ないため）。
+     */
     const activeFixture = () => {
       const now = new Date();
       return sortedFixtures().find((f) => {
+        if (f.timeTBD) return false;
         if (isInMatchWindow(f, now)) return true;
-        // 試合枠を抜けた直後も少しだけ見る
+        const d = kickoffDate(f);
+        if (d.getTime() > now.getTime()) return false;
+        // 当日の試合で、まだ確定スコアが入っていないもの
+        if (isSameDay(d, now) && !f.score) return true;
         const live = getData().live;
         return live?.fixtureId === f.id && Date.now() - live.fetchedAt < TAIL_MS;
       });
@@ -49,12 +58,14 @@ export const useLiveScore = () => {
       if (score) {
         failures = 0;
         setData({ live: { ...score, fixtureId: f.id } });
-        // 試合終了が取れたら、それ以上は追わない
+        // 終了後は頻繁に見に行く必要がない
         if (score.status === 'FT') { schedule(BACKOFF); return; }
       } else {
         failures += 1;
       }
-      schedule(failures >= 3 ? BACKOFF : INTERVAL);
+      // 試合中だけ10秒。それ以外（終了後の取りこぼし拾い）は控えめに
+      const base = isInMatchWindow(f, new Date()) ? INTERVAL : BACKOFF;
+      schedule(failures >= 3 ? BACKOFF : base);
     };
 
     const schedule = (ms: number) => {

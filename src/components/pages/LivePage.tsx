@@ -4,7 +4,7 @@ import { useData } from '../../data/store';
 import { COMPETITIONS } from '../../data/competitions';
 import { getClub } from '../../data/clubs';
 import { BOARD_BY_CLUB, boardUrl } from '../../data/boards';
-import { isInMatchWindow, kickoffDate, nextFixture, opponentId, sortedFixtures, isHome } from '../../utils/fixtures';
+import { isInMatchWindow, kickoffDate, nextFixture, opponentId, sortedFixtures, isHome, outcome, scoreForKashiwa, withLiveScore } from '../../utils/fixtures';
 import { countdownTo, fmtDateJa, fmtTime, isSameDay } from '../../utils/date';
 import { openExternal } from '../../utils/external';
 import { MatchHero } from '../match/MatchHero';
@@ -31,7 +31,7 @@ export const LivePage = () => {
   useData();
   const current: LiveView = view ?? 'today';
   const next = nextFixture(now);
-  const todays = sortedFixtures().filter((f) => isSameDay(kickoffDate(f), now));
+  const todays = sortedFixtures().filter((f) => isSameDay(kickoffDate(f), now)).map(withLiveScore);
   const live = todays.find((f) => isInMatchWindow(f, now));
   const cd = next ? countdownTo(kickoffDate(next), now) : null;
 
@@ -69,7 +69,9 @@ export const LivePage = () => {
                   <button type="button" key={f.id} className="row" onClick={() => openMatch(f.id)} style={{ padding: '8px 0' }}>
                     <CompetitionChip id={f.competition} />
                     <div className="m">{opp.name}<small>{COMPETITIONS[f.competition].short} {f.round} · {isHome(f) ? 'H' : 'A'}</small></div>
-                    <span className="sc">{f.timeTBD ? '--:--' : fmtTime(kickoffDate(f))}</span>
+                    <span className={`sc${f.score ? ` res-${outcome(f) ?? 'D'}` : ''}`}>
+                      {f.score ? scoreForKashiwa(f) : f.timeTBD ? '--:--' : fmtTime(kickoffDate(f))}
+                    </span>
                   </button>
                 );
               })}

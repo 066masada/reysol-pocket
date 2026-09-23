@@ -6,6 +6,16 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    label: 'v0.14.1',
+    date: '2026-09-23',
+    items: [
+      '試合当日は結果を一日じゅう表示（ホーム・LIVEとも）',
+      '終了後にアプリを開き直しても結果が出るように修正',
+      '公式の日程ページより先に、試合結果ページからスコアを取り込むように',
+      'LIVEタブの当日の試合にもスコアを表示',
+    ],
+  },
+  {
     label: 'v0.14.0',
     date: '2026-09-23',
     items: [

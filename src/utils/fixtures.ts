@@ -197,7 +197,8 @@ const HOURS = 60 * 60 * 1000;
 
 /**
  * 直近の試合が今どの局面かを返す。
- * today: 当日（キックオフ3時間以上前） / soon: 3時間前〜 / live: 試合中 / justFinished: 終了後3時間
+ * today: 当日（キックオフ3時間以上前） / soon: 3時間前〜 / live: 試合中 /
+ * justFinished: 終了後。試合当日のあいだは結果を出し続ける
  */
 export const matchPhase = (f: Fixture | undefined, now: Date): MatchPhase => {
   if (!f || f.timeTBD) return 'none';
@@ -206,7 +207,8 @@ export const matchPhase = (f: Fixture | undefined, now: Date): MatchPhase => {
   if (n < t) return isSameDay(kickoffDate(f), now) ? (t - n <= 3 * HOURS ? 'soon' : 'today') : 'none';
   // 試合枠の中でも、終了していれば「試合終了」に切り替える
   if (n <= t + MATCH_WINDOW_MS) return isFinished(f) ? 'justFinished' : 'live';
-  if (n <= t + MATCH_WINDOW_MS + 3 * HOURS) return 'justFinished';
+  // 試合当日は結果を出し続ける（日付をまたいだら3時間で引っ込める）
+  if (isSameDay(kickoffDate(f), now) || n <= t + MATCH_WINDOW_MS + 3 * HOURS) return 'justFinished';
   return 'none';
 };
 
@@ -215,8 +217,10 @@ export const focusFixture = (now: Date): Fixture | undefined => {
   const list = sortedFixtures();
   const recent = [...list].reverse().find((f) => {
     if (f.timeTBD) return false;
-    const t = kickoffDate(f).getTime();
-    return t <= now.getTime() && now.getTime() <= t + MATCH_WINDOW_MS + 3 * HOURS;
+    const d = kickoffDate(f);
+    const t = d.getTime();
+    if (t > now.getTime()) return false;
+    return isSameDay(d, now) || now.getTime() <= t + MATCH_WINDOW_MS + 3 * HOURS;
   });
   return recent ?? nextFixture(now);
 };

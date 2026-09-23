@@ -867,3 +867,6 @@ svg { display: inline-block; vertical-align: middle; flex: 0 0 auto; }
 .goals-dark .goals-row { border-color: #2A2A27; }
 .goals-dark .goals-row:first-of-type { border-color: #33322D; }
 .goals-dark .goals-l i, .goals-dark .goals-r i { color: var(--on-night-2); }
+.row .sc.res-W { color: var(--win); }
+.row .sc.res-L { color: var(--loss); }
+.row .sc.res-D { color: var(--draw); }

@@ -797,8 +797,34 @@
       "kickoffAt": "2026-09-23T17:00:00+09:00",
       "timeTBD": false,
       "dateLabel": null,
-      "status": "scheduled",
-      "score": null
+      "status": "ft",
+      "score": {
+        "reysol": 4,
+        "opponent": 0
+      },
+      "goals": {
+        "reysol": [
+          {
+            "minute": 37,
+            "player": "細谷 真大"
+          },
+          {
+            "minute": 44,
+            "player": "久保 藤次郎"
+          },
+          {
+            "minute": 53,
+            "player": "細谷 真大"
+          },
+          {
+            "minute": 85,
+            "player": "戸嶋 祥郎"
+          }
+        ],
+        "opponent": []
+      },
+      "goalsScore": "4-0",
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/0923.php"
     },
     {
       "competition": "acle",
