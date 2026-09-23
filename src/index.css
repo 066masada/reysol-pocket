@@ -826,3 +826,17 @@ svg { display: inline-block; vertical-align: middle; flex: 0 0 auto; }
 .map-detail-sub b { color: var(--ink); font-size: 13px; }
 .map-hint { padding: var(--s-3); border-top: 1px solid var(--rule); line-height: 1.7; }
 .map-hint b { color: var(--ink); }
+
+/* LIVE の掲示板導線 */
+.bb-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-2); }
+.bb-btn {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
+  background: var(--paper); border: 1px solid var(--rule); border-top-width: 4px;
+  border-radius: var(--r-2); padding: var(--s-3); min-width: 0; text-align: left;
+}
+.bb-dot {
+  width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+  font-family: var(--font-num); font-weight: 700; font-size: 11px; margin-bottom: 4px;
+}
+.bb-name { font-size: 13.5px; font-weight: 700; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bb-sub { font-size: 10.5px; color: var(--ink-3); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

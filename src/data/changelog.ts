@@ -6,6 +6,15 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    label: 'v0.11.1',
+    date: '2026-09-23',
+    items: [
+      'LIVE に両チームの掲示板への導線を追加（試合中は「実況を見る」として表示）',
+      '対象は「試合中 → 今日の試合 → 次の試合」の順に自動で切り替え',
+      'ACLEなど相手の掲示板がない場合はJ1総合掲示板を表示',
+    ],
+  },
+  {
     label: 'v0.11.0',
     date: '2026-09-23',
     items: [

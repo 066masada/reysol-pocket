@@ -3,6 +3,7 @@ import { useNow } from '../../hooks/useNow';
 import { useData } from '../../data/store';
 import { COMPETITIONS } from '../../data/competitions';
 import { getClub } from '../../data/clubs';
+import { BOARD_BY_CLUB, boardUrl } from '../../data/boards';
 import { isInMatchWindow, kickoffDate, nextFixture, opponentId, sortedFixtures, isHome } from '../../utils/fixtures';
 import { countdownTo, fmtDateJa, fmtTime, isSameDay } from '../../utils/date';
 import { openExternal } from '../../utils/external';
@@ -33,6 +34,12 @@ export const LivePage = () => {
   const todays = sortedFixtures().filter((f) => isSameDay(kickoffDate(f), now));
   const live = todays.find((f) => isInMatchWindow(f, now));
   const cd = next ? countdownTo(kickoffDate(next), now) : null;
+
+  // 掲示板の導線は「試合中 → 今日の試合 → 次の試合」の順に対象を選ぶ
+  const focus = live ?? todays[0] ?? next;
+  const opp = focus ? getClub(opponentId(focus)) : null;
+  const oppBoard = opp ? BOARD_BY_CLUB[opp.id] : undefined;
+  const kashiwa = getClub('kashiwa');
 
   return (
     <div className="page">
@@ -82,6 +89,42 @@ export const LivePage = () => {
                 <p className="empty">今シーズンの試合はすべて終了しました</p>
               )}
             </div>
+          )}
+
+          {focus && (
+            <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
+              <span className="eyebrow">{live ? '実況を見る' : '掲示板'}</span>
+              <div className="bb-pair">
+                <button type="button" className="bb-btn" style={{ borderTopColor: kashiwa.color }}
+                  onClick={() => openExternal(boardUrl('reysol'))}>
+                  <span className="bb-dot" style={{ background: kashiwa.color, color: kashiwa.textOnColor ?? '#fff' }}>柏</span>
+                  <span className="bb-name">柏レイソル</span>
+                  <span className="bb-sub">超柏レイソル掲示板</span>
+                </button>
+                {oppBoard && opp ? (
+                  <button type="button" className="bb-btn" style={{ borderTopColor: opp.color }}
+                    onClick={() => openExternal(boardUrl(oppBoard.slug))}>
+                    <span className="bb-dot" style={{ background: opp.color, color: opp.textOnColor ?? '#fff' }}>
+                      {opp.short.slice(0, 2)}
+                    </span>
+                    <span className="bb-name">{opp.short}</span>
+                    <span className="bb-sub">相手サポの掲示板</span>
+                  </button>
+                ) : (
+                  <button type="button" className="bb-btn" style={{ borderTopColor: 'var(--night)' }}
+                    onClick={() => openExternal(boardUrl('j1'))}>
+                    <span className="bb-dot" style={{ background: 'var(--night)', color: 'var(--sun)' }}>J1</span>
+                    <span className="bb-name">J1総合</span>
+                    <span className="bb-sub">{opp?.country ? '相手の掲示板はなし' : 'リーグ全体の話題'}</span>
+                  </button>
+                )}
+              </div>
+              <p className="note">
+                {live
+                  ? `${opp?.name ?? ''}戦の実況。ゴールの瞬間は掲示板がいちばん速いことも。`
+                  : `${opp?.name ?? ''}戦に向けた話題を見る。`}
+              </p>
+            </section>
           )}
 
           <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
