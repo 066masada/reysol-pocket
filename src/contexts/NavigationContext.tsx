@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 
 export type Screen = 'home' | 'schedule' | 'live' | 'boards' | 'more';
 
-export type LiveView = 'today' | 'standings';
+export type LiveView = 'today' | 'standings' | 'acle';
 
 interface NavState {
   screen: Screen;
@@ -22,7 +22,7 @@ const NavigationContext = createContext<NavigationContextType | null>(null);
 
 const SCREENS: Screen[] = ['home', 'schedule', 'live', 'boards', 'more'];
 
-const VIEWS: LiveView[] = ['today', 'standings'];
+const VIEWS: LiveView[] = ['today', 'standings', 'acle'];
 
 /** #/screen[/view][/matchId]  — 試合IDは必ず西暦で始まる（例 2026-10-14-acle-md2） */
 const parseHash = (): NavState => {

@@ -8,6 +8,7 @@ import { StandingsTable } from './StandingsTable';
 import { RecordCard } from './RecordCard';
 import { CupPath } from './CupPath';
 import { RankChart } from './RankChart';
+import { useNavigation } from '../../contexts/NavigationContext';
 import { rankMove } from '../../utils/standings';
 
 const CATS: CompetitionId[] = ['j1', 'acle', 'levain', 'emperor'];
@@ -16,6 +17,7 @@ const CATS: CompetitionId[] = ['j1', 'acle', 'levain', 'emperor'];
 export const StandingsView = ({ initial = 'j1', onOpen }: { initial?: CompetitionId; onOpen: (id: string) => void }) => {
   const [cat, setCat] = useState<CompetitionId>(initial);
   const { standings, history } = useData();
+  const { navigate } = useNavigation();
   const table = cat === 'j1' ? standings : findStandings(cat);
   const comp = COMPETITIONS[cat];
   const move = cat === 'j1' ? rankMove(standings, history) : null;
@@ -36,6 +38,11 @@ export const StandingsView = ({ initial = 'j1', onOpen }: { initial?: Competitio
       {table ? (
         <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
           <span className="eyebrow">順位表</span>
+          {cat === 'acle' && (
+            <button type="button" className="btn btn-line btn-block btn-sm" onClick={() => navigate('more', 'acle')}>
+              ACL特設ページを見る →
+            </button>
+          )}
           {cat === 'j1' && move && (
             <div className="card rank-move">
               <div className="rm-now">

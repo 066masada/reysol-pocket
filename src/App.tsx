@@ -6,6 +6,7 @@ import { LivePage } from './components/pages/LivePage';
 import { BoardsPage } from './components/pages/BoardsPage';
 import { MorePage } from './components/pages/MorePage';
 import { MatchDetailPage } from './components/pages/MatchDetailPage';
+import { AclePage } from './components/pages/AclePage';
 import { IconBoard, IconCalendar, IconHome, IconLive, IconMore } from './components/ui/Icons';
 import { SEASON } from './data/schedule';
 import { useRemoteData } from './hooks/useRemoteData';
@@ -20,7 +21,7 @@ const NAV_TABS: { id: Screen; label: string; Icon: () => React.JSX.Element }[] =
 ];
 
 const AppContent = () => {
-  const { screen, matchId, navigate } = useNavigation();
+  const { screen, view, matchId, navigate } = useNavigation();
   useRemoteData();
 
   return (
@@ -40,6 +41,7 @@ const AppContent = () => {
         {screen === 'more'     && <MorePage />}
       </main>
 
+      {view === 'acle' && !matchId && <AclePage />}
       {matchId && <MatchDetailPage id={matchId} />}
 
       <nav className="bottom-nav" aria-label="メインナビゲーション">

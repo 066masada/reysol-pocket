@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import type { ExternalLink } from '../../types';
 import { useSettings, type ThemeMode } from '../../contexts/SettingsContext';
+import { useNavigation } from '../../contexts/NavigationContext';
+import { ACLE } from '../../data/acle';
 import { LINK_GROUPS, linksByGroup } from '../../data/links';
 import { HOME_STADIUM } from '../../data/stadiums';
 import { CHANGELOG } from '../../data/changelog';
@@ -26,6 +28,7 @@ const THEMES: { id: ThemeMode; label: string }[] = [
 export const MorePage = () => {
   const { theme, setTheme } = useSettings();
   const { updatedAt } = useData();
+  const { navigate } = useNavigation();
   const [showLog, setShowLog] = useState(false);
 
   return (
@@ -34,6 +37,12 @@ export const MorePage = () => {
         <h1 className="page-title">もっと</h1>
         <span className="eyebrow">v{__APP_VERSION__}</span>
       </div>
+
+      <button type="button" className="acle-card" onClick={() => navigate('more', 'acle')}>
+        <span className="acle-card-badge">ACL ELITE</span>
+        <span className="acle-card-title">AFCチャンピオンズリーグ Elite {ACLE.season}</span>
+        <span className="acle-card-sub">大会のしくみ・8試合の道のり・突破ラインまでの距離 →</span>
+      </button>
 
       {LINK_GROUPS.map((g) => (
         <section key={g.id} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>

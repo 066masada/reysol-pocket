@@ -6,6 +6,16 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    label: 'v0.9.0',
+    date: '2026-09-23',
+    items: [
+      'ACL特設ページを追加（「もっと」または順位・成績のACLEから）',
+      '東地区の順位と突破ライン（上位8位）までの勝点差、残り試合数',
+      '8試合の道のりを一覧に。現地時刻と日本時刻を併記',
+      '大会のしくみ（32クラブ・東西16・上位8進出・サウジ集中開催の決勝・優勝特典）と東地区16クラブの国別内訳',
+    ],
+  },
+  {
     label: 'v0.8.1',
     date: '2026-09-23',
     items: [
