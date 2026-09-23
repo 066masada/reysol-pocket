@@ -6,6 +6,16 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    label: 'v0.11.0',
+    date: '2026-09-23',
+    items: [
+      'ACL特設に世界地図を追加。対戦相手8クラブのホームタウンを一目で',
+      '都市をタップすると、クラブ名・リーグ・節・柏からの距離を表示',
+      '対戦相手のいる国（日本・韓国・タイ・ベトナム・豪）を塗り分け',
+      '地図はアプリに内蔵（通信不要・オフラインでも表示）',
+    ],
+  },
+  {
     label: 'v0.10.0',
     date: '2026-09-23',
     items: [

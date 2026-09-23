@@ -772,3 +772,57 @@ svg { display: inline-block; vertical-align: middle; flex: 0 0 auto; }
 .trip-facts dd { margin: 0; color: var(--ink-2); min-width: 0; }
 .trip-facts ul { margin: 0; padding-left: 16px; display: flex; flex-direction: column; gap: 3px; }
 .trip-card .btn { margin: 0 var(--s-3) var(--s-3); width: auto; }
+
+/* ============================================================
+   ACL 世界地図
+   ============================================================ */
+:root {
+  --map-sea:     #EFECE1;
+  --map-land:    #DCD7C6;
+  --map-land-on: #C9C2A8;
+  --map-line:    #B9B2A0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --map-sea:     #17171A;
+    --map-land:    #2E2E2A;
+    --map-land-on: #45443C;
+    --map-line:    #4A493F;
+  }
+}
+:root[data-theme="dark"] {
+  --map-sea:     #17171A;
+  --map-land:    #2E2E2A;
+  --map-land-on: #45443C;
+  --map-line:    #4A493F;
+}
+
+.map { margin: 0; display: flex; flex-direction: column; }
+.map figcaption {
+  display: flex; align-items: baseline; gap: var(--s-2);
+  font-family: var(--font-num); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-3); padding: var(--s-3) var(--s-3) var(--s-2);
+}
+.map figcaption .note { text-transform: none; letter-spacing: 0; font-family: var(--font-jp); margin-left: auto; }
+.map svg { display: block; width: 100%; height: auto; background: var(--map-sea); }
+.map-country { fill: var(--map-land); stroke: var(--map-sea); stroke-width: 1; }
+.map-country.on { fill: var(--map-land-on); }
+.map-line { stroke: var(--map-line); stroke-width: 2; stroke-dasharray: 6 6; }
+.map-line.on { stroke: var(--sun-deep); stroke-width: 3.5; stroke-dasharray: none; }
+.map-hit { fill: transparent; }
+.map-pin { cursor: pointer; }
+.map-pin:focus-visible { outline: 2px solid var(--sun); }
+.map-dot { fill: #1B4F9C; stroke: var(--map-sea); stroke-width: 3; transition: r 160ms; }
+.map-pin.on .map-dot { fill: var(--sun); stroke: var(--ink); }
+.map-home-dot { fill: var(--sun); stroke: var(--ink); stroke-width: 3.5; }
+.map-label { font-family: var(--font-jp); font-size: 21px; font-weight: 700; fill: var(--ink-2); paint-order: stroke; stroke: var(--map-sea); stroke-width: 5; stroke-linejoin: round; }
+.map-pin.on .map-label { fill: var(--ink); }
+.map-label.home { fill: var(--ink); font-size: 26px; }
+
+.map-detail { display: flex; flex-direction: column; gap: 2px; padding: var(--s-3); border-top: 1px solid var(--rule); width: 100%; text-align: left; }
+.map-detail-head { display: flex; align-items: center; gap: var(--s-2); }
+.map-detail-head b { font-size: 15px; }
+.map-detail-sub { font-size: 11.5px; color: var(--ink-3); }
+.map-detail-sub b { color: var(--ink); font-size: 13px; }
+.map-hint { padding: var(--s-3); border-top: 1px solid var(--rule); line-height: 1.7; }
+.map-hint b { color: var(--ink); }

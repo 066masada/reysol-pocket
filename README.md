@@ -84,7 +84,8 @@ GitHub Actions が1日2回（JST 6:00 / 23:30）公式ページを取得し、�
 - チケット販売日: 同ファイルの `ticketSales`（プレリク抽選・一次・二次・三次の4段階。出典: 公式「販売日程」）
 - 掲示板一覧: [src/data/boards.ts](src/data/boards.ts)（[docs/boards.tsv](docs/boards.tsv) から生成）
 - 順位表: J1・ACLEとも自動更新
-- ACL特設の読み物（対戦相手・リーグ・遠征ガイド）: [src/data/acle.ts](src/data/acle.ts)
+- ACL特設の読み物（対戦相手・リーグ・遠征ガイド・地図の座標）: [src/data/acle.ts](src/data/acle.ts)
+- ACL特設の地図: `node scripts/build-map.mjs` で [src/data/acle-map.ts](src/data/acle-map.ts) を再生成（出典: Natural Earth 110m、パブリックドメイン）
 
 ## ロードマップ
 

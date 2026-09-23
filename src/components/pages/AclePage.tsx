@@ -13,6 +13,7 @@ import { fixturesFor, isHome, kickoffDate, opponentId, outcome, scoreForKashiwa 
 import { countdownTo, fmtDateJa, fmtTime } from '../../utils/date';
 import { openExternal } from '../../utils/external';
 import { Crest } from '../match/Parts';
+import { AcleMap } from '../acle/AcleMap';
 import { IconBack, IconExternal } from '../ui/Icons';
 
 /** ACL特設ページ。大会の全体像・8試合の道のり・突破ラインまでの距離をまとめる */
@@ -76,6 +77,14 @@ export const AclePage = () => {
                 <b className="num">{cd.days > 0 ? `あと${cd.days}日` : `${String(cd.hours).padStart(2, '0')}:${String(cd.minutes).padStart(2, '0')}`}</b>
               </button>
             )}
+          </section>
+
+          {/* ── 世界地図 ── */}
+          <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
+            <span className="eyebrow">どこと戦うのか</span>
+            <div className="card">
+              <AcleMap fixtures={fixtures} onOpen={openMatch} />
+            </div>
           </section>
 
           {/* ── 8試合の道のり ── */}

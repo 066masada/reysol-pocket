@@ -44,18 +44,28 @@ export interface AcleOpponent {
   league: string;
   /** 自国リーグの通称（相手国リーグ入門へのキー） */
   leagueKey: 'k1' | 'thai1' | 'aleague' | 'vleague';
+  /** 地図に置くホームタウンの座標 */
+  lat: number;
+  lng: number;
+  /** 地図のラベル */
+  short: string;
+  /** ラベルの置き方（近接する都市どうしが重ならないよう手で指定） */
+  label?: { dx: number; dy: number; anchor: 'start' | 'middle' | 'end' };
 }
 
 export const ACLE_OPPONENTS: Record<string, AcleOpponent> = {
-  jeonbuk:     { clubId: 'jeonbuk',     city: '全州（韓国）',           league: 'Kリーグ1',      leagueKey: 'k1' },
-  port:        { clubId: 'port',        city: 'バンコク（タイ）',       league: 'タイ・リーグ1', leagueKey: 'thai1' },
-  ratchaburi:  { clubId: 'ratchaburi',  city: 'ラーチャブリー（タイ）', league: 'タイ・リーグ1', leagueKey: 'thai1' },
-  daejeon:     { clubId: 'daejeon',     city: '大田（韓国）',           league: 'Kリーグ1',      leagueKey: 'k1' },
-  newcastle:   { clubId: 'newcastle',   city: 'ニューカッスル（豪）',   league: 'Aリーグ',       leagueKey: 'aleague' },
-  conganhanoi: { clubId: 'conganhanoi', city: 'ハノイ（ベトナム）',     league: 'Vリーグ1',      leagueKey: 'vleague' },
-  buriram:     { clubId: 'buriram',     city: 'ブリーラム（タイ）',     league: 'タイ・リーグ1', leagueKey: 'thai1' },
-  pohang:      { clubId: 'pohang',      city: '浦項（韓国）',           league: 'Kリーグ1',      leagueKey: 'k1' },
+  jeonbuk:     { clubId: 'jeonbuk',     city: '全州（韓国）',           league: 'Kリーグ1',      leagueKey: 'k1',      lat: 35.824, lng: 127.148, short: '全州',  label: { dx: -12, dy: 22, anchor: 'end' } },
+  port:        { clubId: 'port',        city: 'バンコク（タイ）',       league: 'タイ・リーグ1', leagueKey: 'thai1',   lat: 13.706, lng: 100.566, short: 'バンコク',  label: { dx: 14, dy: 7, anchor: 'start' } },
+  ratchaburi:  { clubId: 'ratchaburi',  city: 'ラーチャブリー（タイ）', league: 'タイ・リーグ1', leagueKey: 'thai1',   lat: 13.528, lng: 99.814,  short: 'ラーチャブリー',  label: { dx: 26, dy: 36, anchor: 'middle' } },
+  daejeon:     { clubId: 'daejeon',     city: '大田（韓国）',           league: 'Kリーグ1',      leagueKey: 'k1',      lat: 36.351, lng: 127.385, short: '大田',  label: { dx: -12, dy: -6, anchor: 'end' } },
+  newcastle:   { clubId: 'newcastle',   city: 'ニューカッスル（豪）',   league: 'Aリーグ',       leagueKey: 'aleague', lat: -32.927, lng: 151.776, short: 'ニューカッスル',  label: { dx: -13, dy: 7, anchor: 'end' } },
+  conganhanoi: { clubId: 'conganhanoi', city: 'ハノイ（ベトナム）',     league: 'Vリーグ1',      leagueKey: 'vleague', lat: 21.028, lng: 105.854, short: 'ハノイ',  label: { dx: 13, dy: 6, anchor: 'start' } },
+  buriram:     { clubId: 'buriram',     city: 'ブリーラム（タイ）',     league: 'タイ・リーグ1', leagueKey: 'thai1',   lat: 14.994, lng: 103.104, short: 'ブリーラム',  label: { dx: 14, dy: -10, anchor: 'start' } },
+  pohang:      { clubId: 'pohang',      city: '浦項（韓国）',           league: 'Kリーグ1',      leagueKey: 'k1',      lat: 36.019, lng: 129.343, short: '浦項',  label: { dx: 13, dy: 7, anchor: 'start' } },
 };
+
+/** 柏（日立台）の座標 */
+export const KASHIWA_POINT = { lat: 35.8489, lng: 139.9754, short: '柏' };
 
 /** 観る導線 */
 export const ACLE_WATCH = [
