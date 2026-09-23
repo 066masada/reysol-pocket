@@ -6,6 +6,16 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    label: 'v0.15.0',
+    date: '2026-09-23',
+    items: [
+      '横スワイプでタブを切り替えられるように（掲示板のカードや月セレクタの上では働きません）',
+      'タブ切り替えに軽いアニメーションを追加',
+      'ヘッダーのロゴを3秒長押しで更新履歴を表示（隠しコマンド）',
+      '「もっと」から更新履歴のリンクを削除',
+    ],
+  },
+  {
     label: 'v0.14.1',
     date: '2026-09-23',
     items: [

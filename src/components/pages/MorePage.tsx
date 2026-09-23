@@ -1,11 +1,9 @@
-import { useState } from 'react';
 import type { ExternalLink } from '../../types';
 import { useSettings, type ThemeMode } from '../../contexts/SettingsContext';
 import { useNavigation } from '../../contexts/NavigationContext';
 import { ACLE } from '../../data/acle';
 import { LINK_GROUPS, linksByGroup } from '../../data/links';
 import { HOME_STADIUM } from '../../data/stadiums';
-import { CHANGELOG } from '../../data/changelog';
 import { useData } from '../../data/store';
 import { openExternal } from '../../utils/external';
 import { StadiumMap } from '../stadium/StadiumMap';
@@ -29,7 +27,6 @@ export const MorePage = () => {
   const { theme, setTheme } = useSettings();
   const { updatedAt } = useData();
   const { navigate } = useNavigation();
-  const [showLog, setShowLog] = useState(false);
 
   return (
     <div className="page">
@@ -89,10 +86,7 @@ export const MorePage = () => {
       </section>
 
       <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
-        <div className="sec-head">
-          <span className="eyebrow">About</span>
-          <button type="button" className="link" onClick={() => setShowLog(true)}>更新履歴 →</button>
-        </div>
+        <span className="eyebrow">About</span>
         <p className="note">
           Reysol Pocket は柏レイソルサポーターによる非公式のファンアプリです。
           日程・結果は柏レイソル公式サイト、順位表はJリーグ公式サイトから1日2回取り込んでいます。
@@ -105,27 +99,6 @@ export const MorePage = () => {
         </p>
       </section>
 
-      {showLog && (
-        <div className="sheet-bg" onClick={() => setShowLog(false)}>
-          <div className="sheet" onClick={(e) => e.stopPropagation()}>
-            <div className="sec-head" style={{ marginBottom: 'var(--s-4)' }}>
-              <h2 className="page-title">更新履歴</h2>
-              <button type="button" onClick={() => setShowLog(false)} aria-label="閉じる" style={{ fontSize: 20, minWidth: 44, minHeight: 44 }}>✕</button>
-            </div>
-            {CHANGELOG.map((c) => (
-              <div key={c.label} style={{ marginBottom: 'var(--s-4)' }}>
-                <div style={{ display: 'flex', gap: 8, alignItems: 'baseline' }}>
-                  <span className="num" style={{ fontWeight: 700 }}>{c.label}</span>
-                  <span className="note">{c.date}</span>
-                </div>
-                <ul style={{ margin: '6px 0 0', paddingLeft: 18, fontSize: 13, color: 'var(--ink-2)' }}>
-                  {c.items.map((i) => <li key={i}>{i}</li>)}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

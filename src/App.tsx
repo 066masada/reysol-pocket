@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { NavigationProvider, useNavigation, type Screen } from './contexts/NavigationContext';
 import { SettingsProvider } from './contexts/SettingsContext';
 import { HomePage } from './components/pages/HomePage';
@@ -11,6 +12,9 @@ import { IconBoard, IconCalendar, IconHome, IconLive, IconMore } from './compone
 import { SEASON } from './data/schedule';
 import { useRemoteData } from './hooks/useRemoteData';
 import { useLiveScore } from './hooks/useLiveScore';
+import { useSwipeTabs } from './hooks/useSwipeTabs';
+import { useLongPress } from './hooks/useLongPress';
+import { ChangelogSheet } from './components/ui/ChangelogSheet';
 import './index.css';
 
 const NAV_TABS: { id: Screen; label: string; Icon: () => React.JSX.Element }[] = [
@@ -21,27 +25,42 @@ const NAV_TABS: { id: Screen; label: string; Icon: () => React.JSX.Element }[] =
   { id: 'more',     label: 'もっと', Icon: IconMore },
 ];
 
+const TAB_ORDER = NAV_TABS.map((t) => t.id);
+
 const AppContent = () => {
   const { screen, view, matchId, navigate } = useNavigation();
+  const [showLog, setShowLog] = useState(false);
   useRemoteData();
   useLiveScore();
+
+  // 全画面の上に何か出ているときはスワイプ切替を止める
+  const overlayOpen = Boolean(matchId) || view === 'acle' || showLog;
+  useSwipeTabs(TAB_ORDER, screen, navigate, !overlayOpen);
+
+  const longPress = useLongPress(() => setShowLog(true));
 
   return (
     <div className="app">
       <header className="app-header">
         <div className="app-header-inner">
-          <div className="brand"><span className="brand-mark" aria-hidden>R</span>REYSOL POCKET</div>
+          <div className="brand" {...longPress} style={{ userSelect: 'none', WebkitUserSelect: 'none', cursor: 'default' }}>
+            <span className="brand-mark" aria-hidden>R</span>REYSOL POCKET
+          </div>
           <span className="brand-sub">{SEASON}</span>
         </div>
       </header>
 
       <main className="app-main">
-        {screen === 'home'     && <HomePage />}
-        {screen === 'schedule' && <SchedulePage />}
-        {screen === 'live'     && <LivePage />}
-        {screen === 'boards'   && <BoardsPage />}
-        {screen === 'more'     && <MorePage />}
+        <div className="tab-view" key={screen}>
+          {screen === 'home'     && <HomePage />}
+          {screen === 'schedule' && <SchedulePage />}
+          {screen === 'live'     && <LivePage />}
+          {screen === 'boards'   && <BoardsPage />}
+          {screen === 'more'     && <MorePage />}
+        </div>
       </main>
+
+      {showLog && <ChangelogSheet onClose={() => setShowLog(false)} />}
 
       {view === 'acle' && !matchId && <AclePage />}
       {matchId && <MatchDetailPage id={matchId} />}

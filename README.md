@@ -39,6 +39,12 @@ npx firebase use reysol-pocket   # .firebaserc のプロジェクトID
 npx firebase deploy --only hosting
 ```
 
+## 操作
+
+- **横スワイプ**でタブを切り替え（ホーム → 日程 → LIVE → 掲示板 → もっと）。
+  掲示板のクラブカードや月セレクタなど横スクロールする部品の上では働きません。
+- **ヘッダーのロゴを3秒長押し**で更新履歴（隠しコマンド）。
+
 ## 構成
 
 ```

@@ -870,3 +870,8 @@ svg { display: inline-block; vertical-align: middle; flex: 0 0 auto; }
 .row .sc.res-W { color: var(--win); }
 .row .sc.res-L { color: var(--loss); }
 .row .sc.res-D { color: var(--draw); }
+
+/* タブ切り替えの動き */
+.tab-view { animation: tab-in 220ms var(--ease-out) both; }
+@keyframes tab-in { from { opacity: 0; transform: translateY(6px); } }
+@media (prefers-reduced-motion: reduce) { .tab-view { animation: none; } }
