@@ -2,6 +2,7 @@ import type { Fixture } from '../../types';
 import { COMPETITIONS } from '../../data/competitions';
 import { getClub } from '../../data/clubs';
 import { BOARD_BY_CLUB, boardUrl } from '../../data/boards';
+import { HIGHLIGHT, highlightUrl } from '../../data/links';
 import { useData } from '../../data/store';
 import { isHome, nextFixture, opponentId, outcome, postMatchNotes, scoreForKashiwa, kickoffDate } from '../../utils/fixtures';
 import { rankMove } from '../../utils/standings';
@@ -9,8 +10,6 @@ import { fmtMonthDay, weekdayJa } from '../../utils/date';
 import { openExternal } from '../../utils/external';
 import { IconBoard, IconExternal, IconPlay } from '../ui/Icons';
 
-const HIGHLIGHT_YT = 'https://www.youtube.com/@kashiwareysol/videos';
-const DAZN = 'https://www.dazn.com/ja-JP/home';
 const X_SEARCH = 'https://x.com/search?q=%23%E6%9F%8F%E3%83%AC%E3%82%A4%E3%82%BD%E3%83%AB&f=live';
 
 const DELTA = (d: number | null) => (d === null ? '' : d > 0 ? `↑${d}` : d < 0 ? `↓${-d}` : '±0');
@@ -69,10 +68,10 @@ export const PostMatchSummary = ({ f, now, onOpen }: { f: Fixture; now: Date; on
           <IconBoard />掲示板で感想を見る
         </button>
         <div className="pms-grid">
-          <button type="button" className="btn btn-ghost btn-sm" onClick={() => openExternal(HIGHLIGHT_YT)}>
+          <button type="button" className="btn btn-ghost btn-sm" onClick={() => openExternal(highlightUrl(f.competition))}>
             <IconPlay />ハイライト
           </button>
-          <button type="button" className="btn btn-ghost btn-sm" onClick={() => openExternal(f.lineupUrl ?? DAZN)}>
+          <button type="button" className="btn btn-ghost btn-sm" onClick={() => openExternal(f.lineupUrl ?? HIGHLIGHT.dazn)}>
             <IconExternal />{f.lineupUrl ? 'スタッツ' : 'DAZN'}
           </button>
           <button type="button" className="btn btn-ghost btn-sm" onClick={() => openExternal(X_SEARCH)}>

@@ -6,6 +6,15 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    label: 'v0.8.1',
+    date: '2026-09-23',
+    items: [
+      'ハイライトの参照先を公式チャンネルに統一（J1・ルヴァンはJリーグ公式、天皇杯・ACLEはKASHIWA REYSOL CHANNEL）',
+      'リンク切れを修正: YouTube・スタジアムガイド・ACL特設ページ・ファンクラブ・グッズ',
+      '配信に「Jリーグ公式チャンネル」を追加',
+    ],
+  },
+  {
     label: 'v0.8.0',
     date: '2026-09-23',
     items: [

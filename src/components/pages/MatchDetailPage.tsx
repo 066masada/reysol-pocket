@@ -7,6 +7,7 @@ import { getClub } from '../../data/clubs';
 import { BOARD_BY_CLUB, boardUrl } from '../../data/boards';
 import { STADIUMS } from '../../data/stadiums';
 import { TICKET_LINKS } from '../../data/schedule';
+import { highlightUrl } from '../../data/links';
 import { useData } from '../../data/store';
 import { isHome, isInMatchWindow, kickoffDate, opponentId, outcome, ticketState, SALE_COLOR, SALE_LABEL } from '../../utils/fixtures';
 import { fmtDateFull, fmtTime, fmtMonthDay } from '../../utils/date';
@@ -21,7 +22,6 @@ import { IconBack, IconBoard, IconCalendarAdd, IconExternal, IconPlay, IconTicke
 const SPORTSNAVI_TEAM = 'https://soccer.yahoo.co.jp/jleague/team/132';
 const JLEAGUE_MATCH = 'https://www.jleague.jp/match/';
 const REYSOL_X = 'https://x.com/REYSOL_Official';
-const HIGHLIGHT_YT = 'https://www.youtube.com/@kashiwareysol/videos';
 const OFFICIAL_NEWS = 'https://www.reysol.co.jp/news/topteam/';
 const X_SEARCH = 'https://x.com/search?q=%23%E6%9F%8F%E3%83%AC%E3%82%A4%E3%82%BD%E3%83%AB&f=live';
 
@@ -168,7 +168,7 @@ export const MatchDetailPage = ({ id }: { id: string }) => {
                 <button type="button" className="btn btn-sun" onClick={() => openExternal(boardUrl('reysol'))}>
                   <IconBoard />掲示板
                 </button>
-                <button type="button" className="btn btn-line" onClick={() => openExternal(HIGHLIGHT_YT)}>
+                <button type="button" className="btn btn-line" onClick={() => openExternal(highlightUrl(f.competition))}>
                   <IconPlay />ハイライト
                 </button>
                 <button type="button" className="btn btn-line" onClick={() => openExternal(X_SEARCH)}>
