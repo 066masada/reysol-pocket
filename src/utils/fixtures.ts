@@ -1,6 +1,6 @@
 import type { Fixture, TicketSale, TicketSaleType } from '../types';
 import { KASHIWA_ID } from '../data/clubs';
-import { getFixtures } from '../data/store';
+import { getData, getFixtures } from '../data/store';
 import { isSameDay, MATCH_WINDOW_MS, parseKickoff } from '../utils/date';
 
 export type HomeAway = 'H' | 'A';
@@ -33,11 +33,35 @@ export const kickoffDate = (f: Fixture) => parseKickoff(f.kickoffAt);
 export const sortedFixtures = (): Fixture[] =>
   [...getFixtures()].sort((a, b) => kickoffDate(a).getTime() - kickoffDate(b).getTime());
 
-/** 現在時刻を基準に「試合中」かどうか（Phase 1 は時刻ベースの推定） */
+/** この試合のライブ情報（あれば） */
+export const liveFor = (f: Fixture) => {
+  const l = getData().live;
+  return l && l.fixtureId === f.id ? l : null;
+};
+
+/**
+ * 終了しているか。
+ * 同期でスコアが入る前でも、ライブ側が FT を返していれば終了とみなす。
+ */
+export const isFinished = (f: Fixture) => f.status === 'ft' || liveFor(f)?.status === 'FT';
+
+/** 現在時刻を基準に「試合中」かどうか */
 export const isInMatchWindow = (f: Fixture, now: Date) => {
-  if (f.timeTBD || f.status === 'ft' || f.status === 'postponed') return false;
+  if (f.timeTBD || f.status === 'postponed' || isFinished(f)) return false;
   const t = kickoffDate(f).getTime();
   return now.getTime() >= t && now.getTime() <= t + MATCH_WINDOW_MS;
+};
+
+/** 同期が追いつくまで、ライブのスコアで補う */
+export const withLiveScore = (f: Fixture): Fixture => {
+  const l = liveFor(f);
+  if (!l || f.score) return f;
+  const home = isHome(f);
+  return {
+    ...f,
+    status: l.status === 'FT' ? 'ft' : f.status,
+    score: { home: home ? l.reysol : l.opponent, away: home ? l.opponent : l.reysol },
+  };
 };
 
 /** 次の試合（試合中を含む） */
@@ -180,7 +204,8 @@ export const matchPhase = (f: Fixture | undefined, now: Date): MatchPhase => {
   const t = kickoffDate(f).getTime();
   const n = now.getTime();
   if (n < t) return isSameDay(kickoffDate(f), now) ? (t - n <= 3 * HOURS ? 'soon' : 'today') : 'none';
-  if (n <= t + MATCH_WINDOW_MS) return 'live';
+  // 試合枠の中でも、終了していれば「試合終了」に切り替える
+  if (n <= t + MATCH_WINDOW_MS) return isFinished(f) ? 'justFinished' : 'live';
   if (n <= t + MATCH_WINDOW_MS + 3 * HOURS) return 'justFinished';
   return 'none';
 };

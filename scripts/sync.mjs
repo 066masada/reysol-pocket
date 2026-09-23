@@ -18,6 +18,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = join(ROOT, 'data');
 const DRY = process.argv.includes('--dry');
+const WATCH = process.argv.includes('--watch');
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36';
 
@@ -351,6 +352,56 @@ const writeJson = async (name, value) => {
   return true;
 };
 
+/** 試合中（キックオフ10分前〜終了想定の150分後）の試合を返す */
+const liveFixture = (fixtures) => {
+  const now = Date.now();
+  return fixtures.find((f) => {
+    if (f.timeTBD || !f.kickoffAt.includes('T')) return false;
+    const t = new Date(f.kickoffAt).getTime();
+    return now >= t - 10 * 60 * 1000 && now <= t + 150 * 60 * 1000;
+  });
+};
+
+/**
+ * 試合中は公式の試合結果ページを1分おきに見て、得点者が増えたら書き出す。
+ * 公式ページは試合中もリアルタイムに更新されるので、これで1〜2分遅れで追える。
+ */
+const watchGoals = async (season, fixtures) => {
+  const target = liveFixture(fixtures);
+  if (!target) { console.log('試合中の試合なし。監視しない'); return false; }
+
+  const url = resultUrl(season, target.date);
+  console.log(`監視開始: ${target.date} ${target.round} → ${url}`);
+  const endAt = new Date(target.kickoffAt).getTime() + 150 * 60 * 1000;
+  let last = JSON.stringify(target.goals ?? null);
+  let changed = false;
+
+  while (Date.now() < endAt) {
+    try {
+      const goals = parseGoals(await fetchText(url));
+      const json = JSON.stringify(goals);
+      if (json !== last && (goals.reysol.length || goals.opponent.length)) {
+        last = json;
+        target.goals = goals;
+        target.resultUrl = url;
+        const data = await readJson(join(OUT_DIR, 'fixtures.json'));
+        if (data) {
+          const i = data.fixtures.findIndex((f) => f.competition === target.competition && f.round === target.round);
+          if (i >= 0) { data.fixtures[i].goals = goals; data.fixtures[i].resultUrl = url; }
+          await writeJson('fixtures.json', data);
+          changed = true;
+          console.log(`  得点者が更新: 柏${goals.reysol.length} - 相手${goals.opponent.length}`);
+          return true; // 呼び出し側でコミットし、次の実行で監視を続ける
+        }
+      }
+    } catch (e) {
+      console.log(`  取得できず: ${e.message}`);
+    }
+    await sleep(60_000);
+  }
+  return changed;
+};
+
 const main = async () => {
   if (!DRY) await mkdir(OUT_DIR, { recursive: true });
   const changed = [];
@@ -414,6 +465,11 @@ const main = async () => {
       acleOk: !errors.some((e) => e.startsWith('ACLE')),
       previousUpdatedAt: prev?.updatedAt ?? null,
     });
+  }
+
+  if (WATCH) {
+    const data = await readJson(join(OUT_DIR, 'fixtures.json'));
+    if (data && await watchGoals(data.season, data.fixtures)) changed.push('fixtures.json（得点者）');
   }
 
   console.log(changed.length ? `更新: ${changed.join(', ')}` : '変更なし');

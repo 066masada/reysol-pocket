@@ -8,7 +8,7 @@ import { TICKET_LINKS, SEASON } from '../../data/schedule';
 import { useData } from '../../data/store';
 import {
   focusFixture, isHome, j1Record, matchPhase, nextFixture, opponentId,
-  recentResults, scoreForKashiwa, kickoffDate,
+  recentResults, scoreForKashiwa, kickoffDate, withLiveScore,
 } from '../../utils/fixtures';
 import { fmtMonthDay } from '../../utils/date';
 import { mapsDirectionsUrl, openExternal } from '../../utils/external';
@@ -25,7 +25,8 @@ export const HomePage = () => {
   const { standings: J1_STANDINGS } = useData();
 
   // 試合当日は当日モードの帯を最上段に出し、ヒーローは次の試合を示す
-  const focus = focusFixture(now);
+  const raw = focusFixture(now);
+  const focus = raw ? withLiveScore(raw) : undefined;
   const phase = matchPhase(focus, now);
   const next = nextFixture(now);
   const hero = phase === 'none' ? next : (next && next.id !== focus?.id ? next : undefined);

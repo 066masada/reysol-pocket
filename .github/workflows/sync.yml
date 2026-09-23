@@ -14,7 +14,8 @@ permissions:
 
 concurrency:
   group: sync
-  cancel-in-progress: false
+  # 試合中は長く動くので、次の実行で置き換える
+  cancel-in-progress: true
 
 jobs:
   sync:
@@ -26,8 +27,9 @@ jobs:
         with:
           node-version: 22
 
-      - name: 公式ページから取得
-        run: node scripts/sync.mjs
+      - name: 公式ページから取得（試合中は得点者を追う）
+        run: node scripts/sync.mjs --watch
+        timeout-minutes: 25
 
       - name: 変化があればコミット
         run: |

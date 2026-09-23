@@ -6,6 +6,15 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    label: 'v0.14.0',
+    date: '2026-09-23',
+    items: [
+      '試合終了後もLIVE表示が続く不具合を修正。終了を検知したら即座に試合後サマリーへ',
+      '同期を待たずに、ライブのスコアで結果を表示',
+      '試合中は得点者も追いかけるように（公式ページを1分おきに確認）',
+    ],
+  },
+  {
     label: 'v0.13.0',
     date: '2026-09-23',
     items: [
