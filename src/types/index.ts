@@ -86,6 +86,13 @@ export interface TicketSale {
   note?: string;
 }
 
+/** 順位表のスナップショット（順位推移用） */
+export interface StandingsSnapshot {
+  asOf: string;
+  date: string;
+  table: { rank: number; name: string; points: number; played: number }[];
+}
+
 export interface Board {
   slug: string;
   name: string;      // クラブ名 / 総合名

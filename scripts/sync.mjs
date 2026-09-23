@@ -193,6 +193,28 @@ const parseStandings = (html) => {
   return out;
 };
 
+/* ── 順位の履歴（順位推移グラフ用） ── */
+
+/**
+ * 節が進んだとき、または順位・勝点が動いたときだけ1件追加する。
+ * 1件あたり順位・勝点・試合数だけ持つので、1シーズン38節でも数十KBに収まる。
+ */
+const appendHistory = async (asOf, table) => {
+  const path = join(OUT_DIR, 'standings-history.json');
+  const prev = (await readJson(path)) ?? { snapshots: [] };
+  const snapshot = {
+    asOf,
+    date: new Date().toISOString().slice(0, 10),
+    table: table.map((r) => ({ rank: r.rank, name: r.name, points: r.points, played: r.played })),
+  };
+  const last = prev.snapshots[prev.snapshots.length - 1];
+  const same = last && JSON.stringify(last.table) === JSON.stringify(snapshot.table);
+  if (same) return false;
+  // 同じ節の中で動いた場合は最後の1件を差し替える（1節1件に保つ）
+  const snapshots = last && last.asOf === asOf ? prev.snapshots.slice(0, -1) : prev.snapshots;
+  return writeJson('standings-history.json', { snapshots: [...snapshots, snapshot] });
+};
+
 /* ── main ── */
 
 const readJson = async (path) => {
@@ -232,7 +254,9 @@ const main = async () => {
     for (const r of table) counts.set(r.played, (counts.get(r.played) ?? 0) + 1);
     const played = [...counts.entries()].sort((a, b) => b[1] - a[1] || b[0] - a[0])[0][0];
     console.log(`順位表: ${table.length}クラブ（第${played}節終了時点）`);
-    if (await writeJson('standings-j1.json', { source: SOURCES.standings, asOf: `第${played}節終了時点`, table })) changed.push('standings-j1.json');
+    const asOf = `第${played}節終了時点`;
+    if (await writeJson('standings-j1.json', { source: SOURCES.standings, asOf, table })) changed.push('standings-j1.json');
+    if (await appendHistory(asOf, table)) changed.push('standings-history.json');
   } catch (e) {
     errors.push(`順位表: ${e.message}`);
   }

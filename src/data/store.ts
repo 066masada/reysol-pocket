@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react';
-import type { Fixture, StandingsTable } from '../types';
+import type { Fixture, StandingsSnapshot, StandingsTable } from '../types';
 import { FIXTURES } from './schedule';
 import { J1_STANDINGS } from './standings';
 
@@ -10,11 +10,13 @@ import { J1_STANDINGS } from './standings';
 interface DataState {
   fixtures: Fixture[];
   standings: StandingsTable;
+  /** 順位推移用のスナップショット（古い順） */
+  history: StandingsSnapshot[];
   /** 取得できた時刻（ISO）。null は同梱データのまま */
   updatedAt: string | null;
 }
 
-let state: DataState = { fixtures: FIXTURES, standings: J1_STANDINGS, updatedAt: null };
+let state: DataState = { fixtures: FIXTURES, standings: J1_STANDINGS, history: [], updatedAt: null };
 const listeners = new Set<() => void>();
 
 export const getData = () => state;

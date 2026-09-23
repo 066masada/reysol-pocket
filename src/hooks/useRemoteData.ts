@@ -15,9 +15,9 @@ export const useRemoteData = () => {
       // 復帰のたびに叩かないよう10分は間隔を空ける
       if (Date.now() - last < 10 * 60 * 1000) return;
       last = Date.now();
-      fetchRemoteData(ctrl.signal).then(({ fixtures, standings, updatedAt }) => {
+      fetchRemoteData(ctrl.signal).then(({ fixtures, standings, history, updatedAt }) => {
         if (ctrl.signal.aborted) return;
-        setData({ fixtures, updatedAt, ...(standings ? { standings } : {}) });
+        setData({ fixtures, history, updatedAt, ...(standings ? { standings } : {}) });
       });
     };
 

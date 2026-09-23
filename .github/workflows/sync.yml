@@ -4,9 +4,9 @@ name: データ同期
 # アプリは data/*.json を実行時に読むので、デプロイは不要。
 on:
   schedule:
-    # JST 06:00 と 23:30（UTC 21:00 / 14:30）
-    - cron: '0 21 * * *'
-    - cron: '30 14 * * *'
+    # 30分おき。試合終了からおよそ30分でアプリに結果が反映される。
+    # Public リポジトリなので Actions の実行時間は無料。
+    - cron: '*/30 * * * *'
   workflow_dispatch:
 
 permissions:

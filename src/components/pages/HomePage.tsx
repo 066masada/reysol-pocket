@@ -14,6 +14,7 @@ import { fmtMonthDay } from '../../utils/date';
 import { mapsDirectionsUrl, openExternal } from '../../utils/external';
 import { MatchHero } from '../match/MatchHero';
 import { MatchDayBanner } from '../match/MatchDayBanner';
+import { PostMatchSummary } from '../match/PostMatchSummary';
 import { ResultDot } from '../match/Parts';
 import { InstallBanner } from '../ui/InstallBanner';
 import { IconBoard, IconMap, IconPlay, IconTicket } from '../ui/Icons';
@@ -38,7 +39,10 @@ export const HomePage = () => {
 
   return (
     <div className="page">
-      {focus && phase !== 'none' && (
+      {focus && phase === 'justFinished' && focus.score && (
+        <PostMatchSummary f={focus} now={now} onOpen={openMatch} />
+      )}
+      {focus && phase !== 'none' && !(phase === 'justFinished' && focus.score) && (
         <MatchDayBanner f={focus} phase={phase} now={now} onOpen={openMatch} />
       )}
 

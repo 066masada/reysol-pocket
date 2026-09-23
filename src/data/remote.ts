@@ -1,4 +1,4 @@
-import type { CompetitionId, Fixture, StandingRow, StandingsTable } from '../types';
+import type { CompetitionId, Fixture, StandingRow, StandingsSnapshot, StandingsTable } from '../types';
 import { CLUB_LIST, KASHIWA_ID } from './clubs';
 import { STADIUMS } from './stadiums';
 import { FIXTURES } from './schedule';
@@ -37,6 +37,7 @@ interface RemoteStandings {
 export interface RemoteData {
   fixtures: Fixture[];
   standings: StandingsTable | null;
+  history: StandingsSnapshot[];
   updatedAt: string | null;
 }
 
@@ -168,14 +169,16 @@ const getJson = async <T>(name: string, signal: AbortSignal): Promise<T | null> 
 };
 
 export const fetchRemoteData = async (signal: AbortSignal): Promise<RemoteData> => {
-  const [fx, std, meta] = await Promise.all([
+  const [fx, std, hist, meta] = await Promise.all([
     getJson<{ fixtures: RemoteFixture[] }>('fixtures.json', signal),
     getJson<RemoteStandings>('standings-j1.json', signal),
+    getJson<{ snapshots: StandingsSnapshot[] }>('standings-history.json', signal),
     getJson<{ updatedAt: string }>('meta.json', signal),
   ]);
   return {
     fixtures: fx?.fixtures?.length ? mergeFixtures(fx.fixtures) : FIXTURES,
     standings: std?.table?.length ? mergeStandings(std) : null,
+    history: hist?.snapshots ?? [],
     updatedAt: meta?.updatedAt ?? null,
   };
 };

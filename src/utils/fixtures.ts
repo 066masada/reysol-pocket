@@ -195,3 +195,66 @@ export const focusFixture = (now: Date): Fixture | undefined => {
   });
   return recent ?? nextFixture(now);
 };
+
+/* ── 連勝・連敗などの記録 ── */
+export interface Streak {
+  /** 現在の連続記録 */
+  kind: Outcome | null;
+  count: number;
+  /** 無敗（勝ち＋引き分け）の連続 */
+  unbeaten: number;
+  /** ホーム戦の連勝 */
+  homeWins: number;
+  /** 連続無失点 */
+  cleanSheets: number;
+}
+
+/** 大会をまたいだ直近からの連続記録（新しい順に遡る） */
+export const currentStreak = (): Streak => {
+  const done = sortedFixtures().filter((f) => f.status === 'ft').reverse();
+  const res = done.map((f) => ({ f, o: outcome(f) }));
+  const first = res[0]?.o ?? null;
+
+  let count = 0;
+  for (const r of res) { if (r.o !== first) break; count++; }
+
+  let unbeaten = 0;
+  for (const r of res) { if (r.o === 'L') break; unbeaten++; }
+
+  let homeWins = 0;
+  for (const r of res.filter((x) => isHome(x.f))) { if (x_isWin(r.o)) homeWins++; else break; }
+
+  let cleanSheets = 0;
+  for (const r of res) {
+    const conceded = r.f.score ? (isHome(r.f) ? r.f.score.away : r.f.score.home) : 1;
+    if (conceded > 0) break;
+    cleanSheets++;
+  }
+
+  return { kind: first, count, unbeaten, homeWins, cleanSheets };
+};
+
+const x_isWin = (o: Outcome | null) => o === 'W';
+
+/** 試合後に出す一言（連勝・勝ち上がりなど） */
+export const postMatchNotes = (f: Fixture): string[] => {
+  const notes: string[] = [];
+  const o = outcome(f);
+  if (!o) return notes;
+
+  const s = currentStreak();
+  if (o === 'W') {
+    if (f.competition === 'emperor' || f.competition === 'levain') notes.push(`${f.round}突破`);
+    if (s.kind === 'W' && s.count >= 2) notes.push(`${s.count}連勝`);
+    if (isHome(f) && s.homeWins >= 2) notes.push(`ホーム${s.homeWins}連勝`);
+  } else if (o === 'L') {
+    if (s.kind === 'L' && s.count >= 2) notes.push(`${s.count}連敗`);
+  } else if (s.unbeaten >= 3) {
+    notes.push(`${s.unbeaten}試合無敗`);
+  }
+  if (s.cleanSheets >= 2) notes.push(`${s.cleanSheets}試合連続無失点`);
+  if (o !== 'L' && s.unbeaten >= 4 && !notes.some((n) => n.includes('無敗'))) {
+    notes.push(`${s.unbeaten}試合無敗`);
+  }
+  return notes.slice(0, 3);
+};

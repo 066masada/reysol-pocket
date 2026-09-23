@@ -21,6 +21,9 @@ import { IconBack, IconBoard, IconCalendarAdd, IconExternal, IconPlay, IconTicke
 const SPORTSNAVI_TEAM = 'https://soccer.yahoo.co.jp/jleague/team/132';
 const JLEAGUE_MATCH = 'https://www.jleague.jp/match/';
 const REYSOL_X = 'https://x.com/REYSOL_Official';
+const HIGHLIGHT_YT = 'https://www.youtube.com/@kashiwareysol/videos';
+const OFFICIAL_NEWS = 'https://www.reysol.co.jp/news/topteam/';
+const X_SEARCH = 'https://x.com/search?q=%23%E6%9F%8F%E3%83%AC%E3%82%A4%E3%82%BD%E3%83%AB&f=live';
 
 export const MatchDetailPage = ({ id }: { id: string }) => {
   const { closeMatch } = useNavigation();
@@ -159,16 +162,31 @@ export const MatchDetailPage = ({ id }: { id: string }) => {
             </div>
           )}
           {f.status === 'ft' && (
-            <div className="cta-grid">
-              <button type="button" className="btn btn-line" onClick={() => openExternal('https://www.reysol.co.jp/game/results/')}>
-                <IconExternal />公式の試合結果
-              </button>
-              {board && (
-                <button type="button" className="btn btn-line" onClick={() => openExternal(boardUrl(board.slug))}>
-                  <IconBoard />{opp.short}の掲示板
+            <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
+              <span className="eyebrow">After the match</span>
+              <div className="cta-grid">
+                <button type="button" className="btn btn-sun" onClick={() => openExternal(boardUrl('reysol'))}>
+                  <IconBoard />掲示板
                 </button>
-              )}
-            </div>
+                <button type="button" className="btn btn-line" onClick={() => openExternal(HIGHLIGHT_YT)}>
+                  <IconPlay />ハイライト
+                </button>
+                <button type="button" className="btn btn-line" onClick={() => openExternal(X_SEARCH)}>
+                  <IconExternal />X の反応
+                </button>
+                <button type="button" className="btn btn-line" onClick={() => openExternal(OFFICIAL_NEWS)}>
+                  <IconExternal />公式ニュース
+                </button>
+                {board && (
+                  <button type="button" className="btn btn-line" onClick={() => openExternal(boardUrl(board.slug))}>
+                    <IconBoard />{opp.short}サポの掲示板
+                  </button>
+                )}
+                <button type="button" className="btn btn-line" onClick={() => openExternal(f.lineupUrl ?? 'https://soccer.yahoo.co.jp/jleague/team/132')}>
+                  <IconExternal />スタッツ
+                </button>
+              </div>
+            </section>
           )}
 
           <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
