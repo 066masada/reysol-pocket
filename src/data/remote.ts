@@ -26,6 +26,8 @@ export interface RemoteFixture {
   status: 'scheduled' | 'ft';
   /** 公式ページの並びに合わせ、柏のスコアが reysol */
   score: { reysol: number; opponent: number; note?: string } | null;
+  goals?: { reysol: { minute: number; player: string }[]; opponent: { minute: number; player: string }[] };
+  resultUrl?: string;
 }
 
 interface RemoteStandings {
@@ -142,6 +144,8 @@ export const mergeFixtures = (remote: RemoteFixture[], bundled: Fixture[] = FIXT
       stadiumId: st,
       status: r.status,
       score,
+      goals: r.goals,
+      resultUrl: r.resultUrl,
     });
   }
 

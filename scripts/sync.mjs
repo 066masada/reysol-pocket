@@ -202,6 +202,83 @@ const parseStandings = (html) => {
   return out;
 };
 
+/* ── 得点者（公式の試合結果ページ） ── */
+
+const resultUrl = (season, date) =>
+  `https://www.reysol.co.jp/game/results/${season.replace('-', '')}/${date.slice(5, 7)}${date.slice(8, 10)}.php`;
+
+/**
+ * 「得点者」の見出しごとに、直前のチームロゴでどちらのチームかを判定する。
+ * ページは試合中も更新されるので、途中経過でもそのまま使える。
+ */
+const parseGoals = (html) => {
+  const out = { reysol: [], opponent: [] };
+  const marker = /得点者/g;
+  let m;
+  while ((m = marker.exec(html)) !== null) {
+    const start = m.index;
+    // 直前のチームロゴを探す
+    const before = html.slice(Math.max(0, start - 1200), start);
+    const logos = [...before.matchAll(/teams\/n\/([a-z0-9_-]+)\.png/gi)];
+    const side = logos.length && /reysol/i.test(logos[logos.length - 1][1]) ? 'reysol' : 'opponent';
+
+    // 次の区切りまでを見る
+    const rest = html.slice(start, start + 2000);
+    const end = rest.search(/得点者|警告|退場|交代|メンバー|スターティング/g, 1);
+    const seg = rest.slice(6, end > 6 ? end : 2000);
+
+    for (const g of seg.matchAll(/<span[^>]*>\s*(\d+)分\s*<\/span>\s*<span[^>]*>\s*([^<]+?)\s*<\/span>/g)) {
+      const minute = Number(g[1]);
+      const player = decode(g[2]).replace(/\s+/g, ' ').trim();
+      if (!player || out[side].some((x) => x.minute === minute && x.player === player)) continue;
+      out[side].push({ minute, player });
+    }
+  }
+  out.reysol.sort((a, b) => a.minute - b.minute);
+  out.opponent.sort((a, b) => a.minute - b.minute);
+  return out;
+};
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * 終了した試合のうち、まだ得点者を取っていないものだけ取りに行く。
+ * 1回の実行で取得する数を絞り、間隔を空けてアクセスする。
+ */
+const attachGoals = async (season, fixtures, previous) => {
+  const prevByKey = new Map((previous?.fixtures ?? []).map((f) => [`${f.competition}|${f.round}`, f]));
+  let fetched = 0;
+
+  for (const f of fixtures) {
+    const key = `${f.competition}|${f.round}`;
+    const prev = prevByKey.get(key);
+    // 0-0 の試合は得点者が空なので、取得済みかどうかは goalsCheckedAt で判断する
+    if (prev?.goals && prev.goalsScore === `${f.score?.reysol ?? ''}-${f.score?.opponent ?? ''}`) {
+      f.goals = prev.goals;
+      f.goalsScore = prev.goalsScore;
+      f.resultUrl = prev.resultUrl;
+      continue;
+    }
+    if (f.status !== 'ft' || fetched >= 6) continue;
+
+    const url = resultUrl(season, f.date);
+    try {
+      if (fetched > 0) await sleep(500);
+      const html = await fetchText(url);
+      fetched += 1;
+      const goals = parseGoals(html);
+      f.goals = goals;
+      f.goalsScore = `${f.score?.reysol ?? ''}-${f.score?.opponent ?? ''}`;
+      f.resultUrl = url;
+      const total = goals.reysol.length + goals.opponent.length;
+      const expected = (f.score?.reysol ?? 0) + (f.score?.opponent ?? 0);
+      console.log(`  得点者 ${f.date} ${f.round}: ${total}件${total === expected ? '' : `（スコアは${expected}点）`}`);
+    } catch (e) {
+      console.log(`  得点者 ${f.date} ${f.round}: 取得できず（${e.message}）`);
+    }
+  }
+};
+
 /* ── ACLE 東地区の順位表 ── */
 
 const cells = (tr) =>
@@ -284,6 +361,7 @@ const main = async () => {
     const { season, fixtures } = parseFixtures(html);
     if (fixtures.length < 20) throw new Error(`解析結果が少なすぎます (${fixtures.length}件)`);
     console.log(`日程: ${fixtures.length}件 (season ${season})`);
+    await attachGoals(season, fixtures, await readJson(join(OUT_DIR, 'fixtures.json')));
     if (await writeJson('fixtures.json', { season, source: SOURCES.fixtures, fixtures })) changed.push('fixtures.json');
   } catch (e) {
     errors.push(`日程: ${e.message}`);

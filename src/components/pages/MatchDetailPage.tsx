@@ -15,6 +15,7 @@ import { openExternal } from '../../utils/external';
 import { downloadIcs, downloadSaleIcs } from '../../utils/ics';
 import { CompetitionChip, Crest, HABadge } from '../match/Parts';
 import { StadiumMap } from '../stadium/StadiumMap';
+import { GoalList } from '../match/GoalList';
 import { WeatherLine } from '../match/WeatherLine';
 import { weatherTip } from '../../utils/weather';
 import { IconBack, IconBoard, IconCalendarAdd, IconExternal, IconPlay, IconTicket } from '../ui/Icons';
@@ -91,6 +92,13 @@ export const MatchDetailPage = ({ id }: { id: string }) => {
             {f.score?.note && <p className="hero-venue">{f.score.note}</p>}
             {o && <p className="hero-venue">柏レイソル {o === 'W' ? '勝利' : o === 'D' ? '引き分け' : '敗戦'}</p>}
           </section>
+
+          {f.goals && (f.goals.reysol.length > 0 || f.goals.opponent.length > 0) && (
+            <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
+              <span className="eyebrow">得点者</span>
+              <div className="card"><GoalList f={f} /></div>
+            </section>
+          )}
 
           <dl className="kv card card-pad">
             <dt>大会</dt><dd>{comp.name}</dd>

@@ -6,6 +6,14 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    label: 'v0.13.0',
+    date: '2026-09-23',
+    items: [
+      '得点者を表示（試合後サマリーと試合詳細）。今季の全試合分を収録',
+      '公式の試合結果ページから同期時に取り込み（得点時間つき、両チーム分）',
+    ],
+  },
+  {
     label: 'v0.12.0',
     date: '2026-09-23',
     items: [

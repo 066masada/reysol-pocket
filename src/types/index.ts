@@ -51,6 +51,8 @@ export type MatchStatus = 'scheduled' | 'live' | 'ft' | 'postponed';
 
 export interface Score { home: number; away: number; note?: string }
 
+export interface Goal { minute: number; player: string }
+
 export interface Fixture {
   id: string;
   competition: CompetitionId;
@@ -72,6 +74,10 @@ export interface Fixture {
   officialUrl?: string;
   /** スポーツナビの試合ページ（スタメン・スタッツ）。未設定ならチームページへ */
   lineupUrl?: string;
+  /** 得点者（公式の試合結果ページ由来） */
+  goals?: { reysol: Goal[]; opponent: Goal[] };
+  /** 公式の試合結果ページ */
+  resultUrl?: string;
 }
 
 /* ── チケット販売 ── */

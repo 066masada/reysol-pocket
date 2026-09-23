@@ -17,7 +17,27 @@
       "score": {
         "reysol": 2,
         "opponent": 1
-      }
+      },
+      "goals": {
+        "reysol": [
+          {
+            "minute": 5,
+            "player": "垣田 裕暉"
+          },
+          {
+            "minute": 36,
+            "player": "小泉 佳穂"
+          }
+        ],
+        "opponent": [
+          {
+            "minute": 68,
+            "player": "内野 航太郎"
+          }
+        ]
+      },
+      "goalsScore": "2-1",
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/0808.php"
     },
     {
       "competition": "j1",
@@ -34,7 +54,31 @@
       "score": {
         "reysol": 3,
         "opponent": 1
-      }
+      },
+      "goals": {
+        "reysol": [
+          {
+            "minute": 11,
+            "player": "遠藤 渓太"
+          },
+          {
+            "minute": 65,
+            "player": "瀬川 祐輔"
+          },
+          {
+            "minute": 82,
+            "player": "久保 藤次郎"
+          }
+        ],
+        "opponent": [
+          {
+            "minute": 2,
+            "player": "林 尚輝"
+          }
+        ]
+      },
+      "goalsScore": "3-1",
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/0814.php"
     },
     {
       "competition": "j1",
@@ -51,7 +95,39 @@
       "score": {
         "reysol": 4,
         "opponent": 2
-      }
+      },
+      "goals": {
+        "reysol": [
+          {
+            "minute": 6,
+            "player": "垣田 裕暉"
+          },
+          {
+            "minute": 63,
+            "player": "小泉 佳穂"
+          },
+          {
+            "minute": 77,
+            "player": "瀬川 祐輔"
+          },
+          {
+            "minute": 83,
+            "player": "弓場 堅真"
+          }
+        ],
+        "opponent": [
+          {
+            "minute": 51,
+            "player": "松本 天夢"
+          },
+          {
+            "minute": 56,
+            "player": "岩崎 悠人"
+          }
+        ]
+      },
+      "goalsScore": "4-2",
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/0821.php"
     },
     {
       "competition": "j1",
@@ -68,7 +144,18 @@
       "score": {
         "reysol": 1,
         "opponent": 0
-      }
+      },
+      "goals": {
+        "reysol": [
+          {
+            "minute": 71,
+            "player": "瀬川 祐輔"
+          }
+        ],
+        "opponent": []
+      },
+      "goalsScore": "1-0",
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/0829.php"
     },
     {
       "competition": "j1",
@@ -85,7 +172,22 @@
       "score": {
         "reysol": 0,
         "opponent": 2
-      }
+      },
+      "goals": {
+        "reysol": [],
+        "opponent": [
+          {
+            "minute": 20,
+            "player": "櫻川 ソロモン"
+          },
+          {
+            "minute": 66,
+            "player": "櫻川 ソロモン"
+          }
+        ]
+      },
+      "goalsScore": "0-2",
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/0902.php"
     },
     {
       "competition": "j1",
@@ -102,7 +204,22 @@
       "score": {
         "reysol": 0,
         "opponent": 2
-      }
+      },
+      "goals": {
+        "reysol": [],
+        "opponent": [
+          {
+            "minute": 19,
+            "player": "宮市 亮"
+          },
+          {
+            "minute": 48,
+            "player": "二田 理央"
+          }
+        ]
+      },
+      "goalsScore": "0-2",
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/0906.php"
     },
     {
       "competition": "j1",
@@ -119,7 +236,35 @@
       "score": {
         "reysol": 3,
         "opponent": 2
-      }
+      },
+      "goals": {
+        "reysol": [
+          {
+            "minute": 59,
+            "player": "久保 藤次郎"
+          },
+          {
+            "minute": 67,
+            "player": "瀬川 祐輔"
+          },
+          {
+            "minute": 71,
+            "player": "瀬川 祐輔"
+          }
+        ],
+        "opponent": [
+          {
+            "minute": 3,
+            "player": "ラファエル エリアス"
+          },
+          {
+            "minute": 33,
+            "player": "ラファエル エリアス"
+          }
+        ]
+      },
+      "goalsScore": "3-2",
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/0911.php"
     },
     {
       "competition": "j1",
@@ -136,7 +281,39 @@
       "score": {
         "reysol": 4,
         "opponent": 2
-      }
+      },
+      "goals": {
+        "reysol": [
+          {
+            "minute": 53,
+            "player": "瀬川 祐輔"
+          },
+          {
+            "minute": 58,
+            "player": "遠藤 渓太"
+          },
+          {
+            "minute": 65,
+            "player": "小泉 佳穂"
+          },
+          {
+            "minute": 88,
+            "player": "瀬川 祐輔"
+          }
+        ],
+        "opponent": [
+          {
+            "minute": 38,
+            "player": "相馬 勇紀"
+          },
+          {
+            "minute": 92,
+            "player": "小川 航基"
+          }
+        ]
+      },
+      "goalsScore": "4-2",
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/0920.php"
     },
     {
       "competition": "j1",
@@ -587,7 +764,27 @@
       "score": {
         "reysol": 2,
         "opponent": 1
-      }
+      },
+      "goals": {
+        "reysol": [
+          {
+            "minute": 33,
+            "player": "瀬川 祐輔"
+          },
+          {
+            "minute": 46,
+            "player": "長南 開史"
+          }
+        ],
+        "opponent": [
+          {
+            "minute": 52,
+            "player": "岡田 海人"
+          }
+        ]
+      },
+      "goalsScore": "2-1",
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/0826.php"
     },
     {
       "competition": "emperor",
@@ -618,7 +815,27 @@
       "score": {
         "reysol": 1,
         "opponent": 2
-      }
+      },
+      "goals": {
+        "reysol": [
+          {
+            "minute": 30,
+            "player": "弓場 堅真"
+          }
+        ],
+        "opponent": [
+          {
+            "minute": 48,
+            "player": "チアゴ ダシウバ"
+          },
+          {
+            "minute": 69,
+            "player": "イタロ ダローザ"
+          }
+        ]
+      },
+      "goalsScore": "1-2",
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/0916.php"
     },
     {
       "competition": "acle",
@@ -734,7 +951,13 @@
         "reysol": 0,
         "opponent": 0,
         "note": "PK 5-4"
-      }
+      },
+      "goals": {
+        "reysol": [],
+        "opponent": []
+      },
+      "goalsScore": "0-0",
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/0801.php"
     }
   ]
 }

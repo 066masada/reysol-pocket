@@ -66,6 +66,7 @@ GitHub Actions が1日2回（JST 6:00 / 23:30）公式ページを取得し、�
 | 取得元 | 内容 | 出力 |
 |---|---|---|
 | [柏レイソル公式 試合日程](https://www.reysol.co.jp/game/results/) | 全50試合の日時・会場・結果 | `data/fixtures.json` |
+| 柏レイソル公式 試合結果ページ（`/game/results/202627/MMDD.php`） | 得点者（両チーム・時間つき） | 同上（`goals`） |
 | [Jリーグ公式 J1順位表](https://www.jleague.jp/standings/j1/) | 20クラブの順位・勝点 | `data/standings-j1.json` |
 | [Wikipedia ACLE 2026/27](https://ja.wikipedia.org/wiki/AFCチャンピオンズリーグエリート2026/27) | ACLE東地区16クラブの順位 | `data/standings-acle.json` |
 

@@ -8,6 +8,7 @@ import { isHome, nextFixture, opponentId, outcome, postMatchNotes, scoreForKashi
 import { rankMove } from '../../utils/standings';
 import { fmtMonthDay, weekdayJa } from '../../utils/date';
 import { openExternal } from '../../utils/external';
+import { GoalList } from './GoalList';
 import { IconBoard, IconExternal, IconPlay } from '../ui/Icons';
 
 const X_SEARCH = 'https://x.com/search?q=%23%E6%9F%8F%E3%83%AC%E3%82%A4%E3%82%BD%E3%83%AB&f=live';
@@ -42,6 +43,8 @@ export const PostMatchSummary = ({ f, now, onOpen }: { f: Fixture; now: Date; on
         <span className="pms-nums num">{f.score ? scoreForKashiwa(f) : '–'}</span>
         <span className="pms-opp">{isHome(f) ? 'vs' : '@'} {opp.name}</span>
       </button>
+
+      <GoalList f={f} onDark />
 
       {notes.length > 0 && (
         <ul className="pms-notes">
