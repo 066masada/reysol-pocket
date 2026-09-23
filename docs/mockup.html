@@ -1,0 +1,411 @@
+<title>Reysol Pocket</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --sun: #FFE100; --sun-deep: #E5C700;
+    --night: #111111; --night-2: #1E1E1C; --night-3: #2A2A27;
+    --ground: #FAF8F0; --paper: #FFFFFF; --paper-2: #F1EEE3;
+    --ink: #161616; --ink-2: #4A4A46; --ink-3: #807F78; --rule: #E2DECF;
+    --live: #E4002B;
+    --c-j1: #111111; --c-levain: #0F7A4A; --c-emperor: #5C2D91; --c-acle: #1B4F9C;
+    --w: #1C8A4E; --d: #807F78; --l: #C0392B;
+    /* page (outside phones) */
+    --pg-bg: #F3F0E6; --pg-fg: #161616; --pg-fg-2: #5A5950; --pg-rule: #DDD8C6; --pg-card: #FFFFFF;
+    --font-jp: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+    --font-num: 'Oswald', 'Arial Narrow', sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --pg-bg: #141412; --pg-fg: #F2EFE4; --pg-fg-2: #A5A398; --pg-rule: #2E2D28; --pg-card: #1E1E1C; }
+  }
+  :root[data-theme="dark"] { --pg-bg: #141412; --pg-fg: #F2EFE4; --pg-fg-2: #A5A398; --pg-rule: #2E2D28; --pg-card: #1E1E1C; }
+
+  body { background: var(--pg-bg); color: var(--pg-fg); font-family: var(--font-jp); margin: 0; padding-block: 28px 48px; padding-inline: 20px; line-height: 1.6; }
+  .wrap { max-width: 1240px; margin: 0 auto; }
+  .eyebrow { font-family: var(--font-num); text-transform: uppercase; letter-spacing: .14em; font-size: 12px; color: var(--pg-fg-2); margin: 0 0 6px; }
+  h1 { font-family: var(--font-num); font-weight: 700; font-size: clamp(34px, 6vw, 56px); line-height: 1; letter-spacing: .01em; margin: 0; text-wrap: balance; }
+  h1 .sun { background: var(--sun); color: #111; padding: 0 .18em; }
+  .lead { max-width: 62ch; color: var(--pg-fg-2); font-size: 14.5px; margin: 14px 0 0; }
+  h2 { font-family: var(--font-num); font-weight: 600; font-size: 20px; letter-spacing: .04em; text-transform: uppercase; margin: 44px 0 14px; padding-top: 14px; border-top: 2px solid var(--pg-fg); }
+
+  /* phones row */
+  .phones { display: flex; gap: 28px; overflow-x: auto; padding: 8px 4px 20px; scroll-snap-type: x proximity; }
+  .phones > figure { margin: 0; flex: 0 0 auto; scroll-snap-align: start; }
+  figcaption { font-size: 12.5px; color: var(--pg-fg-2); margin-top: 10px; max-width: 340px; }
+  figcaption b { color: var(--pg-fg); font-weight: 700; }
+  .phone { width: 340px; height: 712px; background: #000; border-radius: 40px; padding: 10px; box-shadow: 0 20px 40px rgba(0,0,0,.28), inset 0 0 0 2px #2b2b2b; }
+  .screen { width: 100%; height: 100%; border-radius: 31px; overflow: hidden; background: var(--ground); color: var(--ink); display: flex; flex-direction: column; font-size: 13px; position: relative; }
+  .screen.dark { background: var(--night); color: #F2EFE4; }
+
+  /* app bar */
+  .bar { background: var(--night); color: var(--sun); padding: 14px 16px 10px; display: flex; align-items: center; justify-content: space-between; flex: 0 0 auto; }
+  .brand { font-family: var(--font-num); font-weight: 700; font-size: 15px; letter-spacing: .08em; display: flex; align-items: center; gap: 8px; }
+  .brand i { display: inline-block; width: 14px; height: 14px; background: var(--sun); clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+  .bar small { font-family: var(--font-num); color: #CFC9A8; font-size: 11px; letter-spacing: .08em; }
+  .bar.light { background: transparent; color: var(--ink); padding-bottom: 6px; }
+  .bar.light .brand { font-size: 20px; letter-spacing: .04em; }
+
+  .body { flex: 1 1 auto; overflow: hidden; padding: 0 12px; display: flex; flex-direction: column; gap: 10px; }
+  .dark .body { color: #F2EFE4; }
+
+  /* bottom nav */
+  .nav { flex: 0 0 auto; background: var(--night); display: grid; grid-template-columns: repeat(5, 1fr); padding: 8px 6px 14px; }
+  .nav div { text-align: center; color: #8E8C80; font-size: 10px; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .nav div svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .nav div.on { color: var(--sun); font-weight: 700; }
+  .nav div.on svg { stroke-width: 2.2; }
+
+  /* chips */
+  .chip { display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-num); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; color: #fff; font-weight: 500; line-height: 1.5; }
+  .chip.j1 { background: var(--c-j1); color: var(--sun); }
+  .chip.levain { background: var(--c-levain); }
+  .chip.emperor { background: var(--c-emperor); }
+  .chip.acle { background: var(--c-acle); }
+  .chip.live { background: var(--live); animation: blink 1.2s ease-in-out infinite; }
+  @keyframes blink { 50% { opacity: .45; } }
+  @media (prefers-reduced-motion: reduce) { .chip.live { animation: none; } }
+
+  /* hero */
+  .hero { background: var(--night); color: #F2EFE4; border-radius: 12px; padding: 14px 14px 12px; margin-top: 8px; position: relative; overflow: hidden; }
+  .hero::after { content: ""; position: absolute; right: -40px; top: -60px; width: 170px; height: 170px; border-radius: 50%; background: var(--sun); opacity: .10; }
+  .hero .meta { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-num); font-size: 11px; letter-spacing: .08em; color: #B8B5A4; }
+  .teams { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; margin: 12px 0 8px; }
+  .team { text-align: center; }
+  .crest { width: 44px; height: 44px; border-radius: 50%; margin: 0 auto 6px; display: grid; place-items: center; font-family: var(--font-num); font-weight: 700; font-size: 13px; }
+  .crest.ksw { background: var(--sun); color: #111; }
+  .crest.opp { background: #F2EFE4; color: #111; }
+  .team b { display: block; font-size: 13px; font-weight: 700; }
+  .team span { font-size: 10.5px; color: #B8B5A4; }
+  .ko { text-align: center; font-family: var(--font-num); }
+  .ko .t { font-size: 30px; font-weight: 600; line-height: 1; color: var(--sun); }
+  .ko .d { font-size: 11px; letter-spacing: .1em; color: #B8B5A4; }
+  .count { display: flex; justify-content: center; gap: 14px; font-family: var(--font-num); margin: 6px 0 12px; }
+  .count div { text-align: center; }
+  .count .n { font-size: 26px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+  .count .u { font-size: 9.5px; letter-spacing: .14em; color: #B8B5A4; text-transform: uppercase; }
+  .ctas { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+  .btn { font-family: var(--font-jp); font-weight: 700; font-size: 11.5px; text-align: center; padding: 8px 4px; border-radius: 6px; border: 1px solid transparent; }
+  .btn.sun { background: var(--sun); color: #111; }
+  .btn.ghost { border-color: #4B4A44; color: #F2EFE4; }
+  .venue { font-size: 11px; color: #B8B5A4; text-align: center; margin-top: 8px; }
+
+  .sec { display: flex; justify-content: space-between; align-items: baseline; }
+  .sec h3 { font-family: var(--font-num); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; margin: 0; color: var(--ink-3); }
+  .dark .sec h3 { color: #A5A398; }
+  .sec a { font-size: 11px; color: var(--ink-2); text-decoration: none; }
+  .card { background: var(--paper); border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+  .dark .card { background: var(--night-2); border-color: #33322D; }
+  .row { display: grid; grid-template-columns: 26px 1fr auto; align-items: center; gap: 10px; padding: 9px 10px; border-top: 1px solid var(--rule); }
+  .dark .row { border-color: #33322D; }
+  .row:first-child { border-top: 0; }
+  .dot { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-family: var(--font-num); font-weight: 700; font-size: 11px; color: #fff; }
+  .dot.w { background: var(--w); } .dot.d { background: var(--d); } .dot.l { background: var(--l); }
+  .row .m { font-size: 12px; font-weight: 500; }
+  .row .m small { display: block; font-size: 10px; color: var(--ink-3); font-weight: 400; }
+  .row .sc { font-family: var(--font-num); font-weight: 600; font-size: 16px; font-variant-numeric: tabular-nums; }
+  .std { display: grid; grid-template-columns: 22px 1fr 32px 32px; gap: 6px; padding: 6px 10px; font-size: 12px; align-items: center; border-top: 1px solid var(--rule); font-variant-numeric: tabular-nums; }
+  .std:first-child { border-top: 0; }
+  .std.me { background: #FFF7B8; font-weight: 700; }
+  .std .r, .std .p { font-family: var(--font-num); font-weight: 600; text-align: right; }
+  .std .r { text-align: left; color: var(--ink-3); }
+  .std.me .r { color: var(--ink); }
+
+  /* schedule */
+  .months { display: flex; gap: 6px; font-family: var(--font-num); font-size: 12px; letter-spacing: .06em; overflow: hidden; }
+  .months span { padding: 4px 10px; border-radius: 999px; border: 1px solid var(--rule); color: var(--ink-2); white-space: nowrap; }
+  .months span.on { background: var(--night); color: var(--sun); border-color: var(--night); font-weight: 600; }
+  .filters { display: flex; gap: 5px; flex-wrap: wrap; }
+  .filters .chip { opacity: .95; }
+  .filters .chip.off { background: transparent; color: var(--ink-3); border: 1px solid var(--rule); }
+  .match { display: grid; grid-template-columns: 44px 3px 1fr auto; gap: 10px; align-items: stretch; border-top: 1px solid var(--rule); padding: 8px 10px 8px 8px; }
+  .match:first-child { border-top: 0; }
+  .match .date { font-family: var(--font-num); text-align: center; line-height: 1; padding-top: 2px; }
+  .match .date b { display: block; font-size: 20px; font-weight: 600; }
+  .match .date span { font-size: 10px; letter-spacing: .1em; color: var(--ink-3); }
+  .match .date span.sun { color: var(--l); } .match .date span.sat { color: var(--c-acle); }
+  .stripe { border-radius: 2px; }
+  .stripe.j1 { background: var(--c-j1); } .stripe.levain { background: var(--c-levain); } .stripe.emperor { background: var(--c-emperor); } .stripe.acle { background: var(--c-acle); }
+  .match .info { min-width: 0; }
+  .match .info .top { display: flex; gap: 6px; align-items: center; font-size: 10.5px; color: var(--ink-3); }
+  .match .info .ha { font-family: var(--font-num); font-weight: 700; font-size: 10px; padding: 0 5px; border-radius: 3px; background: var(--sun); color: #111; }
+  .match .info .ha.a { background: var(--paper-2); color: var(--ink-2); }
+  .match .info .opp { font-size: 13.5px; font-weight: 700; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .match .info .vn { font-size: 10.5px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .match .right { text-align: right; font-family: var(--font-num); align-self: center; }
+  .match .right .ko { font-size: 17px; font-weight: 600; }
+  .match .right .tk { display: inline-block; font-family: var(--font-jp); font-size: 9.5px; font-weight: 700; padding: 1px 6px; border-radius: 3px; background: var(--sun); color: #111; margin-top: 2px; }
+  .match .right .tk.pre { background: var(--paper-2); color: var(--ink-3); }
+  .match .right .res { font-size: 17px; font-weight: 600; }
+  .match .right .res.w { color: var(--w); } .match .right .res.l { color: var(--l); }
+
+  /* live */
+  .lhero { background: var(--night-2); border: 1px solid #33322D; border-radius: 12px; padding: 12px 14px; }
+  .lhero .meta { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-num); font-size: 11px; letter-spacing: .08em; color: #A5A398; }
+  .score { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; margin: 10px 0 6px; }
+  .score .big { font-family: var(--font-num); font-size: 46px; font-weight: 700; line-height: 1; letter-spacing: .04em; color: var(--sun); font-variant-numeric: tabular-nums; }
+  .score .min { font-family: var(--font-num); font-size: 12px; color: var(--live); font-weight: 600; text-align: center; margin-top: 4px; }
+  .ev { font-size: 11px; color: #C9C6B6; display: grid; grid-template-columns: 1fr 1fr; gap: 2px 10px; margin-top: 6px; }
+  .ev .h { text-align: left; } .ev .a { text-align: right; }
+  .ev .n { font-family: var(--font-num); color: #A5A398; margin-right: 4px; }
+  .vrow { display: grid; grid-template-columns: 1fr 44px 1fr 30px; align-items: center; gap: 6px; padding: 8px 10px; border-top: 1px solid #33322D; font-size: 12px; }
+  .vrow:first-child { border-top: 0; }
+  .vrow .home { text-align: right; } .vrow .away { text-align: left; }
+  .vrow .s { font-family: var(--font-num); font-weight: 600; font-size: 16px; text-align: center; font-variant-numeric: tabular-nums; }
+  .vrow .st { font-family: var(--font-num); font-size: 10.5px; text-align: right; color: #A5A398; }
+  .vrow .st.on { color: var(--live); font-weight: 600; }
+  .vrow.goal { animation: flash 2.4s ease-out 1; }
+  @keyframes flash { 0% { background: rgba(255,225,0,.35); } 100% { background: transparent; } }
+  @media (prefers-reduced-motion: reduce) { .vrow.goal { animation: none; } }
+  .subtabs { display: flex; gap: 14px; font-family: var(--font-num); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; border-bottom: 1px solid #33322D; }
+  .subtabs span { padding: 4px 0 6px; color: #A5A398; }
+  .subtabs span.on { color: var(--sun); border-bottom: 2px solid var(--sun); font-weight: 600; }
+
+  /* boards */
+  .clubs { display: flex; gap: 8px; overflow: hidden; padding-bottom: 2px; }
+  .clubs div { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10px; color: var(--ink-3); width: 50px; }
+  .clubs .cc { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-family: var(--font-num); font-weight: 700; font-size: 11px; color: #fff; border: 2px solid transparent; }
+  .clubs div.on { color: var(--ink); font-weight: 700; }
+  .clubs div.on .cc { border-color: var(--ink); box-shadow: 0 0 0 2px var(--sun); }
+  .deck { flex: 1 1 auto; display: flex; gap: 10px; overflow: hidden; align-items: stretch; }
+  .bcard { flex: 0 0 auto; width: 100%; background: var(--paper); border: 1px solid var(--rule); border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; }
+  .bcard.main { border-top: 4px solid var(--sun); }
+  .bcard.peek { width: 200px; opacity: .55; border-top: 4px solid #E60012; }
+  .bhead { display: flex; justify-content: space-between; align-items: flex-start; padding: 12px 12px 8px; }
+  .bname { font-size: 14px; font-weight: 700; }
+  .burl { font-family: var(--font-num); font-size: 10px; letter-spacing: .04em; color: var(--ink-3); }
+  .ikioi { text-align: right; font-family: var(--font-num); line-height: 1; }
+  .ikioi b { display: block; font-size: 22px; font-weight: 600; }
+  .ikioi span { font-size: 9px; letter-spacing: .1em; color: var(--ink-3); font-family: var(--font-jp); }
+  .posts { flex: 1 1 auto; overflow: hidden; }
+  .post { display: grid; grid-template-columns: 38px 1fr; gap: 6px; padding: 8px 12px; border-top: 1px solid var(--rule); font-size: 12px; align-items: start; }
+  .post .pt { font-family: var(--font-num); font-size: 11px; color: var(--ink-3); padding-top: 2px; }
+  .post p { margin: 0; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .bfoot { display: grid; grid-template-columns: 1.4fr 1fr; gap: 6px; padding: 10px 12px 12px; border-top: 1px solid var(--rule); }
+  .bfoot .btn.line { border-color: var(--rule); color: var(--ink-2); }
+  .swipe { position: absolute; left: 0; right: 0; bottom: 78px; text-align: center; font-size: 10px; color: var(--ink-3); letter-spacing: .1em; font-family: var(--font-num); }
+
+  /* tokens strip */
+  .tokens { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
+  .tk { background: var(--pg-card); border: 1px solid var(--pg-rule); border-radius: 8px; overflow: hidden; }
+  .tk .sw { height: 54px; }
+  .tk p { margin: 0; padding: 7px 10px; font-size: 11.5px; line-height: 1.4; }
+  .tk p b { font-family: var(--font-num); font-weight: 600; letter-spacing: .04em; display: block; font-size: 12.5px; }
+  .tk p span { color: var(--pg-fg-2); font-family: var(--font-num); }
+
+  .why { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+  .why div { background: var(--pg-card); border: 1px solid var(--pg-rule); border-radius: 8px; padding: 14px 16px; font-size: 13px; }
+  .why div b { display: block; font-family: var(--font-num); font-size: 14px; letter-spacing: .04em; margin-bottom: 4px; }
+  .why div p { margin: 0; color: var(--pg-fg-2); }
+  .note { font-size: 12px; color: var(--pg-fg-2); margin-top: 12px; }
+  @media (max-width: 480px) { .phones { flex-direction: column; overflow: visible; align-items: center; } .phone { width: min(340px, 100%); } }
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">Design mockup · 2026-27</p>
+  <h1>REYSOL <span class="sun">POCKET</span></h1>
+  <p class="lead">コンセプトは「日立台ナイター」。黒のバーとヒーローにサンイエローを一点で効かせ、コンテンツ面は暖色寄りのオフホワイト。数字は Oswald でスコアボードの読みやすさ、本文は Noto Sans JP。5タブ構成のうち 4 画面を示します（LIVE はダークモード表示）。</p>
+
+  <h2>Screens</h2>
+  <div class="phones">
+
+    <!-- ── HOME ── -->
+    <figure>
+      <div class="phone"><div class="screen">
+        <div class="bar"><div class="brand"><i></i>REYSOL POCKET</div><small>2026-27</small></div>
+        <div class="body">
+          <div class="hero">
+            <div class="meta"><span class="chip acle">ACLE · MD2</span><span>HOME</span></div>
+            <div class="teams">
+              <div class="team"><div class="crest ksw">柏</div><b>柏レイソル</b><span>KASHIWA</span></div>
+              <div class="ko"><div class="t">19:00</div><div class="d">10.14 WED</div></div>
+              <div class="team"><div class="crest opp">POR</div><b>ポートFC</b><span>THAILAND</span></div>
+            </div>
+            <div class="count">
+              <div><div class="n">22</div><div class="u">days</div></div>
+              <div><div class="n">03</div><div class="u">hrs</div></div>
+              <div><div class="n">41</div><div class="u">min</div></div>
+            </div>
+            <div class="ctas"><div class="btn sun">チケット</div><div class="btn ghost">DAZNで観る</div><div class="btn ghost">行き方</div></div>
+            <div class="venue">三協フロンテア柏スタジアム · 発売中</div>
+          </div>
+
+          <div class="sec"><h3>Recent</h3><a>すべて →</a></div>
+          <div class="card">
+            <div class="row"><div class="dot w">W</div><div class="m">町田 <small>J1 第7節 · H · 9.20</small></div><div class="sc">2–1</div></div>
+            <div class="row"><div class="dot d">D</div><div class="m">全北現代 <small>ACLE MD1 · A · 9.16</small></div><div class="sc">1–1</div></div>
+            <div class="row"><div class="dot l">L</div><div class="m">鹿島 <small>J1 第6節 · A · 9.13</small></div><div class="sc">0–1</div></div>
+          </div>
+
+          <div class="sec"><h3>J1 Standings</h3><a>順位表 →</a></div>
+          <div class="card">
+            <div class="std"><span class="r">2</span><span>鹿島アントラーズ</span><span class="p">17</span><span class="p">+9</span></div>
+            <div class="std me"><span class="r">3</span><span>柏レイソル</span><span class="p">15</span><span class="p">+7</span></div>
+            <div class="std"><span class="r">4</span><span>ヴィッセル神戸</span><span class="p">14</span><span class="p">+5</span></div>
+          </div>
+        </div>
+        <div class="nav">
+          <div class="on"><svg viewBox="0 0 24 24"><path d="M3 11L12 3l9 8v10h-6v-6H9v6H3z"/></svg>ホーム</div>
+          <div><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>日程</div>
+          <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>LIVE</div>
+          <div><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg>掲示板</div>
+          <div><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>もっと</div>
+        </div>
+      </div></div>
+      <figcaption><b>ホーム</b> — 次の試合をヒーローに。大会チップ・カウントダウン・チケット／配信／経路の3導線。試合中はここがライブスコアに切り替わる。</figcaption>
+    </figure>
+
+    <!-- ── SCHEDULE ── -->
+    <figure>
+      <div class="phone"><div class="screen">
+        <div class="bar light"><div class="brand">日程</div><small style="color:var(--ink-3)">2026-27</small></div>
+        <div class="body">
+          <div class="months"><span>9月</span><span class="on">10月</span><span>11月</span><span>12月</span><span>1月</span><span>2月</span></div>
+          <div class="filters"><span class="chip j1">J1</span><span class="chip levain">ルヴァン</span><span class="chip emperor off">天皇杯</span><span class="chip acle">ACLE</span></div>
+          <div class="card">
+            <div class="match">
+              <div class="date"><b>3</b><span class="sat">SAT</span></div><div class="stripe j1"></div>
+              <div class="info"><div class="top"><span class="ha a">A</span><span>J1 第8節</span></div><div class="opp">横浜F・マリノス</div><div class="vn">日産スタジアム</div></div>
+              <div class="right"><div class="ko">15:00</div><div class="tk">発売中</div></div>
+            </div>
+            <div class="match">
+              <div class="date"><b>8</b><span>THU</span></div><div class="stripe levain"></div>
+              <div class="info"><div class="top"><span class="ha">H</span><span>ルヴァン杯 準決勝 第1戦</span></div><div class="opp">サンフレッチェ広島</div><div class="vn">三協フロンテア柏スタジアム</div></div>
+              <div class="right"><div class="ko">19:00</div><div class="tk pre">10/1 発売</div></div>
+            </div>
+            <div class="match">
+              <div class="date"><b>14</b><span>WED</span></div><div class="stripe acle"></div>
+              <div class="info"><div class="top"><span class="ha">H</span><span>ACLE リーグステージ MD2</span></div><div class="opp">ポートFC</div><div class="vn">三協フロンテア柏スタジアム</div></div>
+              <div class="right"><div class="ko">19:00</div><div class="tk">発売中</div></div>
+            </div>
+            <div class="match">
+              <div class="date"><b>18</b><span class="sun">SUN</span></div><div class="stripe j1"></div>
+              <div class="info"><div class="top"><span class="ha">H</span><span>J1 第9節</span></div><div class="opp">浦和レッズ</div><div class="vn">三協フロンテア柏スタジアム</div></div>
+              <div class="right"><div class="ko">14:00</div><div class="tk pre">10/4 発売</div></div>
+            </div>
+            <div class="match">
+              <div class="date"><b>27</b><span>TUE</span></div><div class="stripe acle"></div>
+              <div class="info"><div class="top"><span class="ha a">A</span><span>ACLE リーグステージ MD3</span></div><div class="opp">ラーチャブリーFC</div><div class="vn">ラーチャブリー（タイ）· 現地19:15</div></div>
+              <div class="right"><div class="ko">21:15</div></div>
+            </div>
+            <div class="match">
+              <div class="date"><b>31</b><span class="sat">SAT</span></div><div class="stripe j1"></div>
+              <div class="info"><div class="top"><span class="ha a">A</span><span>J1 第10節</span></div><div class="opp">FC東京</div><div class="vn">味の素スタジアム</div></div>
+              <div class="right"><div class="ko">15:00</div><div class="tk pre">未定</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="nav">
+          <div><svg viewBox="0 0 24 24"><path d="M3 11L12 3l9 8v10h-6v-6H9v6H3z"/></svg>ホーム</div>
+          <div class="on"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>日程</div>
+          <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>LIVE</div>
+          <div><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg>掲示板</div>
+          <div><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>もっと</div>
+        </div>
+      </div></div>
+      <figcaption><b>日程</b> — 月セレクタ＋大会フィルタ。左ストライプと日付の曜日色で一目で分かる。右端はキックオフ時刻とチケット状態（発売中／発売日）。タップで試合詳細（地図・配信・相手掲示板）。</figcaption>
+    </figure>
+
+    <!-- ── LIVE (dark) ── -->
+    <figure>
+      <div class="phone"><div class="screen dark">
+        <div class="bar"><div class="brand"><i></i>LIVE</div><small>SAT 9.20 · J1 第7節</small></div>
+        <div class="body">
+          <div class="subtabs"><span class="on">今日</span><span>順位表</span></div>
+          <div class="lhero">
+            <div class="meta"><span class="chip live">● LIVE</span><span>三協フロンテア柏スタジアム</span></div>
+            <div class="score">
+              <div class="team"><div class="crest ksw">柏</div><b>柏</b></div>
+              <div><div class="big">2–1</div><div class="min">78'</div></div>
+              <div class="team"><div class="crest opp">MCD</div><b>町田</b></div>
+            </div>
+            <div class="ev">
+              <div class="h"><span class="n">23'</span>小屋松</div><div class="a"><span class="n">41'</span>オ・セフン</div>
+              <div class="h"><span class="n">67'</span>細谷</div><div class="a"></div>
+              <div class="h"><span class="n">70'</span>▲ 仲間 → 山田</div><div class="a"></div>
+            </div>
+          </div>
+          <div class="sec"><h3>All venues</h3><a style="color:#A5A398">全9試合</a></div>
+          <div class="card">
+            <div class="vrow goal"><div class="home">鹿島</div><div class="s">3–1</div><div class="away">神戸</div><div class="st on">80'</div></div>
+            <div class="vrow"><div class="home">浦和</div><div class="s">0–0</div><div class="away">FC東京</div><div class="st on">79'</div></div>
+            <div class="vrow"><div class="home">横浜FM</div><div class="s">1–2</div><div class="away">広島</div><div class="st on">77'</div></div>
+            <div class="vrow"><div class="home">川崎F</div><div class="s">2–2</div><div class="away">G大阪</div><div class="st on">78'</div></div>
+            <div class="vrow"><div class="home">名古屋</div><div class="s">1–0</div><div class="away">京都</div><div class="st">FT</div></div>
+            <div class="vrow"><div class="home">湘南</div><div class="s">0–1</div><div class="away">C大阪</div><div class="st">FT</div></div>
+            <div class="vrow"><div class="home">福岡</div><div class="s">–</div><div class="away">新潟</div><div class="st">19:00</div></div>
+            <div class="vrow"><div class="home">清水</div><div class="s">–</div><div class="away">東京V</div><div class="st">19:00</div></div>
+          </div>
+        </div>
+        <div class="nav">
+          <div><svg viewBox="0 0 24 24"><path d="M3 11L12 3l9 8v10h-6v-6H9v6H3z"/></svg>ホーム</div>
+          <div><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>日程</div>
+          <div class="on"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>LIVE</div>
+          <div><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg>掲示板</div>
+          <div><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>もっと</div>
+        </div>
+      </div></div>
+      <figcaption><b>LIVE（ダークモード）</b> — 柏の試合を大きく、下に同節の全会場。ゴールが入った行は黄色にフラッシュ。RTDB を購読するので全員が同時に更新される。</figcaption>
+    </figure>
+
+    <!-- ── BOARDS ── -->
+    <figure>
+      <div class="phone"><div class="screen">
+        <div class="bar light"><div class="brand">掲示板</div><small style="color:var(--ink-3)">J1 · 20 CLUBS</small></div>
+        <div class="body">
+          <div class="clubs">
+            <div class="on"><div class="cc" style="background:#FFE100;color:#111">柏</div>柏</div>
+            <div><div class="cc" style="background:#E60012">浦和</div>浦和</div>
+            <div><div class="cc" style="background:#9B1B30">鹿島</div>鹿島</div>
+            <div><div class="cc" style="background:#1B4F9C">FC東京</div>FC東京</div>
+            <div><div class="cc" style="background:#0B2C6A">横浜FM</div>横浜FM</div>
+            <div><div class="cc" style="background:#7A1F5C">神戸</div>神戸</div>
+            <div><div class="cc" style="background:#00A0E9">川崎F</div>川崎F</div>
+          </div>
+          <div class="deck">
+            <div class="bcard main">
+              <div class="bhead">
+                <div><div class="bname">超柏レイソル掲示板</div><div class="burl">bm.best-hit.tv/reysol</div></div>
+                <div class="ikioi"><b>14</b><span>投稿/時</span></div>
+              </div>
+              <div class="posts">
+                <div class="post"><span class="pt">18:57</span><p>&gt;&gt;889673 地道にブロックか。今週は見ないかだね</p></div>
+                <div class="post"><span class="pt">18:56</span><p>&gt;&gt;889658 村松さんの登板か？</p></div>
+                <div class="post"><span class="pt">18:38</span><p>熊坂の背番号30か</p></div>
+                <div class="post"><span class="pt">18:21</span><p>ACLE ポート戦のチケット、バック自由まだ残ってる</p></div>
+                <div class="post"><span class="pt">17:55</span><p>町田戦の細谷のゴール、何回見てもいい</p></div>
+              </div>
+              <div class="bfoot"><div class="btn sun">掲示板を開く ↗</div><div class="btn line">書き込む</div></div>
+            </div>
+            <div class="bcard peek"><div class="bhead"><div><div class="bname">超浦和レッズ掲示板</div><div class="burl">bm.best-hit.tv/reds</div></div><div class="ikioi"><b>9</b><span>投稿/時</span></div></div></div>
+          </div>
+        <div class="swipe">← SWIPE TO SWITCH CLUB →</div>
+        <div class="nav">
+          <div><svg viewBox="0 0 24 24"><path d="M3 11L12 3l9 8v10h-6v-6H9v6H3z"/></svg>ホーム</div>
+          <div><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>日程</div>
+          <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>LIVE</div>
+          <div class="on"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg>掲示板</div>
+          <div><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>もっと</div>
+        </div>
+      </div></div>
+      <figcaption><b>掲示板</b> — 超サッカー掲示板（bm.best-hit.tv）は iframe 不可のため、クラブごとの<b>カード</b>を横スワイプ。カードには RSS 由来の最新投稿と勢い（投稿/時）を出し、読む・書くはワンタップで本家へ。</figcaption>
+    </figure>
+  </div>
+  <p class="note">※ ACLE の対戦カード・日時は公式発表どおり。掲示板の上3件は 9/22 の RSS 実データ、それ以外の J1 対戦相手・スコア・順位・投稿はデザイン確認用のサンプルです。</p>
+
+  <h2>Tokens</h2>
+  <div class="tokens">
+    <div class="tk"><div class="sw" style="background:#FFE100"></div><p><b>--sun</b><span>#FFE100</span> CTA・アクティブ・強調数字</p></div>
+    <div class="tk"><div class="sw" style="background:#111111"></div><p><b>--night</b><span>#111111</span> バー・ヒーロー・ダーク地</p></div>
+    <div class="tk"><div class="sw" style="background:#1E1E1C"></div><p><b>--night-2</b><span>#1E1E1C</span> 黒地の上のカード</p></div>
+    <div class="tk"><div class="sw" style="background:#FAF8F0;border-bottom:1px solid #E2DECF"></div><p><b>--ground</b><span>#FAF8F0</span> ライト地（暖色オフホワイト）</p></div>
+    <div class="tk"><div class="sw" style="background:#E4002B"></div><p><b>--live</b><span>#E4002B</span> LIVE・ゴール</p></div>
+    <div class="tk"><div class="sw" style="background:linear-gradient(90deg,#111 0 25%,#0F7A4A 25% 50%,#5C2D91 50% 75%,#1B4F9C 75%)"></div><p><b>競技色</b><span>J1 / ルヴァン / 天皇杯 / ACLE</span></p></div>
+  </div>
+
+  <h2>Why this direction</h2>
+  <div class="why">
+    <div><b>黄は面ではなく点で使う</b><p>サンイエローを全面に敷くと長時間の閲覧に耐えない。黒の上に黄を「押すところ・見るところ」だけに置くと、スタジアムの電光掲示板と同じ視線誘導になる。</p></div>
+    <div><b>数字が主役の書体選び</b><p>キックオフ時刻・スコア・カウントダウン・順位は Oswald（コンデンスド）。狭い幅でも桁が揃い、tabular-nums で縦に並ぶ。日本語本文は Noto Sans JP で可読性を確保。</p></div>
+    <div><b>大会は色で覚えさせる</b><p>J1＝黒×黄、ルヴァン＝緑、天皇杯＝紫、ACLE＝青。チップ・フィルタ・カードの左ストライプで同じ色を繰り返し、文字を読まなくても分かる。</p></div>
+    <div><b>ダークモードが本命</b><p>ナイターの現地でスマホを見る場面が最多。黒地＋黄はそのままダークモードになるため、ライト／ダークで印象が変わらない。</p></div>
+  </div>
+</div>
