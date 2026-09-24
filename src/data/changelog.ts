@@ -6,6 +6,15 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    label: 'v0.16.0',
+    date: '2026-09-24',
+    items: [
+      'LIVEタブを整理。試合中でないときは「いまは試合中ではありません」と次の試合だけを表示',
+      '試合当日は「本日◯時キックオフ」「本日の試合は終了 ◯-◯」に切り替え',
+      '詳しい情報はホームに集約（LIVEから「ホームで詳しく見る」）',
+    ],
+  },
+  {
     label: 'v0.15.0',
     date: '2026-09-23',
     items: [

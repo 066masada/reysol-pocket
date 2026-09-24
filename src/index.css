@@ -676,8 +676,23 @@ svg { display: inline-block; vertical-align: middle; flex: 0 0 auto; }
 /* ============================================================
    LIVE
    ============================================================ */
-.live-empty { display: flex; flex-direction: column; align-items: center; gap: var(--s-3); padding: var(--s-6) var(--s-4); text-align: center; }
-.live-empty .big { font-family: var(--font-num); font-size: 40px; font-weight: 600; line-height: 1; }
+.nolive {
+  display: flex; flex-direction: column; align-items: center; gap: var(--s-3);
+  background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-3);
+  padding: var(--s-6) var(--s-4); text-align: center;
+}
+/* 消灯したランプ */
+.nolive-mark {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--ink-4); box-shadow: 0 0 0 5px var(--paper-2);
+}
+.nolive-title { font-size: 15px; font-weight: 700; color: var(--ink-2); }
+.nolive-line { font-size: 13px; color: var(--ink-2); line-height: 1.7; max-width: 30ch; }
+.nolive-line b { color: var(--ink); font-weight: 700; }
+.nolive-line span { color: var(--ink-3); }
+.nolive-line.static { color: var(--ink-3); }
+.nolive-line .res-W { color: var(--win); } .nolive-line .res-L { color: var(--loss); } .nolive-line .res-D { color: var(--draw); }
+.nolive-btn { margin-top: var(--s-1); }
 
 @media (prefers-reduced-motion: reduce) {
   .chip-live { animation: none; }
