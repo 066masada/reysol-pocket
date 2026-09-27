@@ -14,6 +14,7 @@ import { useRemoteData } from './hooks/useRemoteData';
 import { useLiveScore } from './hooks/useLiveScore';
 import { useSwipeTabs } from './hooks/useSwipeTabs';
 import { useLongPress } from './hooks/useLongPress';
+import { usePageTracking } from './hooks/usePageTracking';
 import { ChangelogSheet } from './components/ui/ChangelogSheet';
 import './index.css';
 
@@ -32,6 +33,7 @@ const AppContent = () => {
   const [showLog, setShowLog] = useState(false);
   useRemoteData();
   useLiveScore();
+  usePageTracking();
 
   // 全画面の上に何か出ているときはスワイプ切替を止める
   const overlayOpen = Boolean(matchId) || view === 'acle' || showLog;

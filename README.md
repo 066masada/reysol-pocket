@@ -27,8 +27,26 @@ npm run lint
 | 変数 | 内容 |
 |---|---|
 | `VITE_GOOGLE_MAPS_EMBED_KEY` | Google Maps Embed API キー。未設定ならキー不要の簡易埋め込みにフォールバック |
+| `VITE_DATA_BASE` | `data/*.json` の配信元。未設定なら GitHub の main ブランチ |
+| `VITE_GA_MEASUREMENT_ID` | Google Analytics 4 の測定ID（`G-XXXXXXXXXX`）。未設定なら計測タグを読み込まない |
 
 天気は Open-Meteo（APIキー不要）を直接呼ぶため設定は不要です。
+
+### アクセス解析（Google Analytics 4）
+
+`.env` に測定IDを入れてビルドすると gtag.js を読み込みます。**未設定なら一切読み込みません。**
+
+```bash
+# .env
+VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+```
+
+- 測定IDは [GA4 管理画面](https://analytics.google.com/) →「管理」→「データストリーム」→ ウェブ で発行（`G-` で始まる文字列）
+- **本番ビルドのみ**有効（`npm run dev` では送信しない）。動作確認は `npm run build && npm run preview` で
+- ハッシュルーティングなので自動の `page_view` は切り、タブ・サブビュー・試合詳細の切り替えごとに
+  仮想パス（`/live/standings`、`/match/2026-10-14-acle-md2` など）で送信します
+  （[src/utils/analytics.ts](src/utils/analytics.ts) / [src/hooks/usePageTracking.ts](src/hooks/usePageTracking.ts)）
+- 測定IDはビルド成果物に埋め込まれます（公開情報なので秘密にする必要はありません）
 
 ## デプロイ（Firebase Hosting）
 
@@ -53,8 +71,8 @@ src/
 ├── types/index.ts
 ├── contexts/  NavigationContext（ハッシュルーティング・試合詳細）/ SettingsContext（テーマ）
 ├── data/      competitions / clubs / stadiums / schedule（2026-27 全日程）/ standings / boards / links / changelog
-├── hooks/     useNow / useWeather / useInstallPrompt
-├── utils/     date / fixtures（成績・当日モード判定）/ external / weather（Open-Meteo）/ ics
+├── hooks/     useNow / useWeather / useInstallPrompt / usePageTracking（GA4）
+├── utils/     date / fixtures（成績・当日モード判定）/ external / weather（Open-Meteo）/ ics / analytics（GA4）
 └── components/
     ├── pages/ Home / Schedule / Live / Boards / More / MatchDetail
     ├── match/ MatchHero / MatchDayBanner / MatchRow / CalendarGrid / MatchCalendar
