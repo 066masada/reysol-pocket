@@ -1,11 +1,18 @@
 /**
  * Google Analytics 4（gtag.js）。
  *
- * `VITE_GA_MEASUREMENT_ID` が設定された本番ビルドのときだけ読み込む。
- * 未設定なら何もしないので、開発中やフォーク先で勝手に計測されることはない。
+ * 測定IDはページソースに出る公開情報なので、既定値をここに持たせておく。
+ * こうしておかないと `.env` のない環境でビルドしたときに計測が黙って止まる。
+ *
+ * - `.env` 未設定          → 既定値で計測する（本番ビルドのみ）
+ * - `VITE_GA_MEASUREMENT_ID=G-XXXX` → その測定IDで計測する（フォーク先など）
+ * - `VITE_GA_MEASUREMENT_ID=`（空）  → 計測しない（タグ自体を読み込まない）
  */
+const DEFAULT_MEASUREMENT_ID = 'G-4LGK0JD4ML';
 
-const measurementId = (import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined)?.trim();
+const override = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined;
+
+const measurementId = (override ?? DEFAULT_MEASUREMENT_ID).trim();
 
 const enabled = Boolean(measurementId) && import.meta.env.PROD;
 
@@ -22,7 +29,7 @@ export const initAnalytics = () => {
 
   const script = document.createElement('script');
   script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId!)}`;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
   document.head.appendChild(script);
 
   window.dataLayer = window.dataLayer ?? [];
@@ -34,7 +41,7 @@ export const initAnalytics = () => {
 
   window.gtag('js', new Date());
   // ハッシュルーティングなので自動の page_view は使わず、画面遷移ごとに自前で送る
-  window.gtag('config', measurementId!, { send_page_view: false });
+  window.gtag('config', measurementId, { send_page_view: false });
 };
 
 /**

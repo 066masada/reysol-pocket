@@ -28,25 +28,27 @@ npm run lint
 |---|---|
 | `VITE_GOOGLE_MAPS_EMBED_KEY` | Google Maps Embed API キー。未設定ならキー不要の簡易埋め込みにフォールバック |
 | `VITE_DATA_BASE` | `data/*.json` の配信元。未設定なら GitHub の main ブランチ |
-| `VITE_GA_MEASUREMENT_ID` | Google Analytics 4 の測定ID（`G-XXXXXXXXXX`）。未設定なら計測タグを読み込まない |
+| `VITE_GA_MEASUREMENT_ID` | Google Analytics 4 の測定ID。未設定なら既定のIDで計測、空文字なら計測しない |
 
 天気は Open-Meteo（APIキー不要）を直接呼ぶため設定は不要です。
 
 ### アクセス解析（Google Analytics 4）
 
-`.env` に測定IDを入れてビルドすると gtag.js を読み込みます。**未設定なら一切読み込みません。**
+測定ID（`G-` で始まる公開情報）は [src/utils/analytics.ts](src/utils/analytics.ts) の
+`DEFAULT_MEASUREMENT_ID` に持たせてあるので、**`.env` なしでビルドしても計測されます。**
+`.env` で上書き・無効化できます。
 
-```bash
-# .env
-VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX
-```
+| `.env` の書き方 | 動作 |
+|---|---|
+| 書かない | 既定の測定IDで計測（通常はこれ） |
+| `VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX` | そのIDで計測（フォーク先で自分のGAに送る場合） |
+| `VITE_GA_MEASUREMENT_ID=`（空） | 計測しない（gtag.js 自体を読み込まない） |
 
-- 測定IDは [GA4 管理画面](https://analytics.google.com/) →「管理」→「データストリーム」→ ウェブ で発行（`G-` で始まる文字列）
 - **本番ビルドのみ**有効（`npm run dev` では送信しない）。動作確認は `npm run build && npm run preview` で
 - ハッシュルーティングなので自動の `page_view` は切り、タブ・サブビュー・試合詳細の切り替えごとに
   仮想パス（`/live/standings`、`/match/2026-10-14-acle-md2` など）で送信します
-  （[src/utils/analytics.ts](src/utils/analytics.ts) / [src/hooks/usePageTracking.ts](src/hooks/usePageTracking.ts)）
-- 測定IDはビルド成果物に埋め込まれます（公開情報なので秘密にする必要はありません）
+  （[src/hooks/usePageTracking.ts](src/hooks/usePageTracking.ts)）
+- 新しい測定IDは [GA4 管理画面](https://analytics.google.com/) →「管理」→「データストリーム」→ ウェブ で発行
 
 ## デプロイ（Firebase Hosting）
 
