@@ -327,7 +327,13 @@
       "timeTBD": false,
       "dateLabel": null,
       "status": "scheduled",
-      "score": null
+      "score": null,
+      "goals": {
+        "reysol": [],
+        "opponent": []
+      },
+      "goalsScore": "-",
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/1009.php"
     },
     {
       "competition": "j1",
