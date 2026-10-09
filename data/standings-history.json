@@ -2,19 +2,19 @@
   "snapshots": [
     {
       "asOf": "第8節終了時点",
-      "date": "2026-09-23",
+      "date": "2026-10-09",
       "table": [
         {
           "rank": 1,
-          "name": "ヴィッセル神戸",
-          "points": 19,
-          "played": 8
+          "name": "柏レイソル",
+          "points": 21,
+          "played": 9
         },
         {
           "rank": 2,
-          "name": "柏レイソル",
-          "points": 18,
-          "played": 8
+          "name": "ヴィッセル神戸",
+          "points": 19,
+          "played": 9
         },
         {
           "rank": 3,
@@ -36,19 +36,19 @@
         },
         {
           "rank": 6,
+          "name": "鹿島アントラーズ",
+          "points": 16,
+          "played": 9
+        },
+        {
+          "rank": 7,
           "name": "横浜Ｆ・マリノス",
           "points": 14,
           "played": 8
         },
         {
-          "rank": 7,
-          "name": "川崎フロンターレ",
-          "points": 13,
-          "played": 8
-        },
-        {
           "rank": 8,
-          "name": "鹿島アントラーズ",
+          "name": "川崎フロンターレ",
           "points": 13,
           "played": 8
         },
@@ -96,15 +96,15 @@
         },
         {
           "rank": 16,
-          "name": "ガンバ大阪",
+          "name": "名古屋グランパス",
           "points": 6,
           "played": 8
         },
         {
           "rank": 17,
-          "name": "名古屋グランパス",
+          "name": "ガンバ大阪",
           "points": 6,
-          "played": 8
+          "played": 9
         },
         {
           "rank": 18,
