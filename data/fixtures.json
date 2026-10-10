@@ -327,39 +327,7 @@
       "timeTBD": false,
       "dateLabel": null,
       "status": "scheduled",
-      "score": null,
-      "goals": {
-        "reysol": [
-          {
-            "minute": 27,
-            "player": "藤尾 翔太"
-          },
-          {
-            "minute": 53,
-            "player": "山内 日向汰"
-          },
-          {
-            "minute": 64,
-            "player": "久保 藤次郎"
-          },
-          {
-            "minute": 84,
-            "player": "瀬川 祐輔"
-          }
-        ],
-        "opponent": [
-          {
-            "minute": 81,
-            "player": "小松 蓮"
-          },
-          {
-            "minute": 89,
-            "player": "ジエゴ"
-          }
-        ]
-      },
-      "goalsScore": "-",
-      "resultUrl": "https://www.reysol.co.jp/game/results/202627/1009.php"
+      "score": null
     },
     {
       "competition": "j1",
