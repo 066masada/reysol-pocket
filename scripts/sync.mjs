@@ -240,20 +240,36 @@ const parseGoals = (html) => {
   return out;
 };
 
-/** 試合結果ページからスコアと状態を読む。日程一覧より早く反映される */
-const parseResultScore = (html, kashiwaIsHome) => {
+/** キックオフからこれだけ経てば終了とみなす（延長・PKを含めても収まる長さ） */
+const FINISHED_AFTER_MS = 150 * 60 * 1000;
+
+/**
+ * 試合結果ページからスコアと状態を読む。日程一覧より早く反映される。
+ * 状態の表記は「後半開始」のまま更新されないことがあるので、
+ * キックオフから十分経っていれば表記にかかわらず終了とみなす。
+ */
+const parseResultScore = (html, kashiwaIsHome, kickoffAt) => {
+  const label = html.match(/game-info-result-status"[^>]*>\s*([^<]*?)\s*</)?.[1] ?? '';
   const m = html.match(
-    />(試合終了|試合前|前半|後半|ハーフタイム|延長前半|延長後半|PK戦)<\/div>\s*<div[^>]*>\s*<span[^>]*>(\d+)<\/span>\s*<span[^>]*>-<\/span>\s*<span[^>]*>(\d+)<\/span>/);
+    /game-info-result-total"[^>]*>\s*<span[^>]*>(\d+)<\/span>\s*<span[^>]*>-<\/span>\s*<span[^>]*>(\d+)<\/span>/);
   if (!m) return null;
-  const [, label, a, b] = m;
+  const [, a, b] = m;
   const home = Number(a);
   const away = Number(b);
+  const kickoff = kickoffAt.includes('T') ? new Date(kickoffAt).getTime() : NaN;
   return {
     label,
-    finished: label === '試合終了',
+    finished: label === '試合終了' || Date.now() > kickoff + FINISHED_AFTER_MS,
     reysol: kashiwaIsHome ? home : away,
     opponent: kashiwaIsHome ? away : home,
   };
+};
+
+/** キックオフ済みで3日以内の試合（日程一覧に結果が出るまでの間をつなぐ） */
+const isRecent = (f) => {
+  const kickoff = new Date(f.kickoffAt.includes('T') ? f.kickoffAt : `${f.date}T00:00:00+09:00`).getTime();
+  const now = Date.now();
+  return kickoff <= now && now - kickoff < 3 * 24 * 60 * 60 * 1000;
 };
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -269,18 +285,22 @@ const attachGoals = async (season, fixtures, previous) => {
   for (const f of fixtures) {
     const key = `${f.competition}|${f.round}`;
     const prev = prevByKey.get(key);
-    // 0-0 の試合は得点者が空なので、取得済みかどうかは goalsCheckedAt で判断する
-    const alreadyDone = prev?.goals && prev.goalsScore === `${f.score?.reysol ?? ''}-${f.score?.opponent ?? ''}` && f.status === 'ft';
-    if (alreadyDone) {
+    // 日程一覧にまだ結果がなくても、前回までに結果ページから取れた結果は残す
+    if (!f.score && prev?.score && prev.status === 'ft') {
+      f.score = prev.score;
+      f.status = 'ft';
+    }
+    // 取りに行かなかった試合も、前回までに取れた得点者は残す
+    if (prev?.goals) {
       f.goals = prev.goals;
       f.goalsScore = prev.goalsScore;
       f.resultUrl = prev.resultUrl;
-      continue;
     }
-    // 日程一覧の反映は遅いので、今日の試合は終了していなくても結果ページを見る
-    const today = new Date().toISOString().slice(0, 10);
-    const isToday = f.date === today;
-    if ((f.status !== 'ft' && !isToday) || fetched >= 6) continue;
+    // 0-0 の試合は得点者が空なので、取得済みかどうかは goalsScore で判断する
+    const alreadyDone = prev?.goals && prev.goalsScore === `${f.score?.reysol ?? ''}-${f.score?.opponent ?? ''}` && f.status === 'ft';
+    if (alreadyDone) continue;
+    // 日程一覧の反映は遅いので、ここ数日の未確定の試合は結果ページを見る
+    if ((f.status !== 'ft' && !isRecent(f)) || fetched >= 6) continue;
 
     const url = resultUrl(season, f.date);
     try {
@@ -290,7 +310,7 @@ const attachGoals = async (season, fixtures, previous) => {
       const goals = parseGoals(html);
 
       // 日程一覧にまだ結果が出ていなければ、結果ページの値を採る
-      const res = parseResultScore(html, f.home);
+      const res = parseResultScore(html, f.home, f.kickoffAt);
       if (res && !f.score && (res.finished || res.reysol + res.opponent > 0)) {
         f.score = { reysol: res.reysol, opponent: res.opponent };
         if (res.finished) f.status = 'ft';

@@ -5,7 +5,7 @@ import { FIXTURES } from './schedule';
 import { ACLE_STANDINGS, J1_STANDINGS } from './standings';
 
 /**
- * GitHub Actions が1日2回、公式ページから取得して data/*.json に書き出したものを読む。
+ * GitHub Actions が定期的に公式ページから取得して data/*.json に書き出したものを読む。
  * 取得できないときは同梱データ（schedule.ts / standings.ts）のまま動く。
  */
 const BASE =
