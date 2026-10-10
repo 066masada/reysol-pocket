@@ -1,6 +1,6 @@
 {
   "source": "https://www.jleague.jp/standings/j1/",
-  "asOf": "第8節終了時点",
+  "asOf": "第9節終了時点",
   "table": [
     {
       "rank": 1,
@@ -17,6 +17,32 @@
     },
     {
       "rank": 2,
+      "name": "ＦＣ町田ゼルビア",
+      "points": 20,
+      "played": 9,
+      "won": 6,
+      "drawn": 2,
+      "lost": 1,
+      "gf": 22,
+      "ga": 10,
+      "gd": 12,
+      "form": "WWDLW"
+    },
+    {
+      "rank": 3,
+      "name": "ＦＣ東京",
+      "points": 20,
+      "played": 9,
+      "won": 6,
+      "drawn": 2,
+      "lost": 1,
+      "gf": 17,
+      "ga": 8,
+      "gd": 9,
+      "form": "DWWWW"
+    },
+    {
+      "rank": 4,
       "name": "ヴィッセル神戸",
       "points": 19,
       "played": 9,
@@ -29,7 +55,7 @@
       "form": "WWWWL"
     },
     {
-      "rank": 3,
+      "rank": 5,
       "name": "サンフレッチェ広島",
       "points": 17,
       "played": 8,
@@ -40,32 +66,6 @@
       "ga": 6,
       "gd": 14,
       "form": "DWLWW"
-    },
-    {
-      "rank": 4,
-      "name": "ＦＣ町田ゼルビア",
-      "points": 17,
-      "played": 8,
-      "won": 5,
-      "drawn": 2,
-      "lost": 1,
-      "gf": 21,
-      "ga": 10,
-      "gd": 11,
-      "form": "DWWDL"
-    },
-    {
-      "rank": 5,
-      "name": "ＦＣ東京",
-      "points": 17,
-      "played": 8,
-      "won": 5,
-      "drawn": 2,
-      "lost": 1,
-      "gf": 14,
-      "ga": 8,
-      "gd": 6,
-      "form": "WDWWW"
     },
     {
       "rank": 6,
@@ -91,7 +91,7 @@
       "gf": 13,
       "ga": 9,
       "gd": 4,
-      "form": "LDWDW"
+      "form": "DWDWD"
     },
     {
       "rank": 8,
@@ -110,27 +110,27 @@
       "rank": 9,
       "name": "ファジアーノ岡山",
       "points": 13,
-      "played": 8,
+      "played": 9,
       "won": 4,
       "drawn": 1,
-      "lost": 3,
-      "gf": 11,
-      "ga": 10,
-      "gd": 1,
-      "form": "LWWWL"
+      "lost": 4,
+      "gf": 12,
+      "ga": 12,
+      "gd": 0,
+      "form": "WWWLL"
     },
     {
       "rank": 10,
       "name": "浦和レッズ",
       "points": 12,
-      "played": 8,
+      "played": 9,
       "won": 4,
       "drawn": 0,
-      "lost": 4,
+      "lost": 5,
       "gf": 16,
-      "ga": 18,
-      "gd": -2,
-      "form": "WWWLW"
+      "ga": 21,
+      "gd": -5,
+      "form": "WWLWL"
     },
     {
       "rank": 11,
@@ -143,7 +143,7 @@
       "gf": 7,
       "ga": 12,
       "gd": -5,
-      "form": "LWDLD"
+      "form": "WDLDD"
     },
     {
       "rank": 12,
@@ -175,14 +175,14 @@
       "rank": 14,
       "name": "京都サンガF.C.",
       "points": 8,
-      "played": 8,
+      "played": 9,
       "won": 2,
       "drawn": 2,
-      "lost": 4,
+      "lost": 5,
       "gf": 11,
-      "ga": 15,
-      "gd": -4,
-      "form": "WDLLW"
+      "ga": 16,
+      "gd": -5,
+      "form": "DLLWL"
     },
     {
       "rank": 15,
@@ -199,6 +199,19 @@
     },
     {
       "rank": 16,
+      "name": "アビスパ福岡",
+      "points": 7,
+      "played": 9,
+      "won": 2,
+      "drawn": 1,
+      "lost": 6,
+      "gf": 11,
+      "ga": 13,
+      "gd": -2,
+      "form": "LDLLW"
+    },
+    {
+      "rank": 17,
       "name": "名古屋グランパス",
       "points": 6,
       "played": 8,
@@ -211,7 +224,7 @@
       "form": "WLLLL"
     },
     {
-      "rank": 17,
+      "rank": 18,
       "name": "ガンバ大阪",
       "points": 6,
       "played": 9,
@@ -222,19 +235,6 @@
       "ga": 16,
       "gd": -8,
       "form": "DLLLL"
-    },
-    {
-      "rank": 18,
-      "name": "アビスパ福岡",
-      "points": 4,
-      "played": 8,
-      "won": 1,
-      "drawn": 1,
-      "lost": 6,
-      "gf": 9,
-      "ga": 12,
-      "gd": -3,
-      "form": "LLDLL"
     },
     {
       "rank": 19,
