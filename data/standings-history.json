@@ -2,7 +2,7 @@
   "snapshots": [
     {
       "asOf": "第8節終了時点",
-      "date": "2026-10-09",
+      "date": "2026-10-10",
       "table": [
         {
           "rank": 1,
@@ -43,8 +43,8 @@
         {
           "rank": 7,
           "name": "横浜Ｆ・マリノス",
-          "points": 14,
-          "played": 8
+          "points": 15,
+          "played": 9
         },
         {
           "rank": 8,
@@ -67,8 +67,8 @@
         {
           "rank": 11,
           "name": "セレッソ大阪",
-          "points": 11,
-          "played": 8
+          "points": 12,
+          "played": 9
         },
         {
           "rank": 12,
