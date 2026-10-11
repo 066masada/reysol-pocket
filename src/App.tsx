@@ -8,6 +8,7 @@ import { BoardsPage } from './components/pages/BoardsPage';
 import { MorePage } from './components/pages/MorePage';
 import { MatchDetailPage } from './components/pages/MatchDetailPage';
 import { AclePage } from './components/pages/AclePage';
+import { SquadPage } from './components/pages/SquadPage';
 import { IconBoard, IconCalendar, IconHome, IconLive, IconMore } from './components/ui/Icons';
 import { SEASON } from './data/schedule';
 import { useRemoteData } from './hooks/useRemoteData';
@@ -36,7 +37,7 @@ const AppContent = () => {
   usePageTracking();
 
   // 全画面の上に何か出ているときはスワイプ切替を止める
-  const overlayOpen = Boolean(matchId) || view === 'acle' || showLog;
+  const overlayOpen = Boolean(matchId) || view === 'acle' || view === 'squad' || showLog;
   useSwipeTabs(TAB_ORDER, screen, navigate, !overlayOpen);
 
   const longPress = useLongPress(() => setShowLog(true));
@@ -65,6 +66,7 @@ const AppContent = () => {
       {showLog && <ChangelogSheet onClose={() => setShowLog(false)} />}
 
       {view === 'acle' && !matchId && <AclePage />}
+      {view === 'squad' && !matchId && <SquadPage />}
       {matchId && <MatchDetailPage id={matchId} />}
 
       <nav className="bottom-nav" aria-label="メインナビゲーション">

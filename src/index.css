@@ -32,6 +32,9 @@
   --hero-rule:  transparent;
   --chart-line: var(--ink);
   --chart-ring: var(--ink);
+  --career-school: #F6DCD5;
+  --career-univ:   #D9D8D2;
+  --career-text:   #2A2A27;
 
   /* Semantic */
   --win:  #1C8A4E;
@@ -75,6 +78,9 @@
     --hero-rule: #33322D;
     --chart-line: var(--sun);
     --chart-ring: var(--paper);
+    --career-school: #4A3833;
+    --career-univ:   #3F3E39;
+    --career-text:   #E6E3D6;
   }
 }
 :root[data-theme="dark"] {
@@ -92,6 +98,9 @@
   --hero-rule: #33322D;
   --chart-line: var(--sun);
   --chart-ring: var(--paper);
+  --career-school: #4A3833;
+  --career-univ:   #3F3E39;
+  --career-text:   #E6E3D6;
 }
 
 /* ============================================================
@@ -890,3 +899,92 @@ svg { display: inline-block; vertical-align: middle; flex: 0 0 auto; }
 .tab-view { animation: tab-in 220ms var(--ease-out) both; }
 @keyframes tab-in { from { opacity: 0; transform: translateY(6px); } }
 @media (prefers-reduced-motion: reduce) { .tab-view { animation: none; } }
+
+/* ============================================================
+   選手の経歴マップ
+   ============================================================ */
+.squad-card { border-left-color: var(--sun); }
+.squad-card .acle-card-badge { color: var(--sun); }
+
+.squad-controls { display: flex; align-items: center; justify-content: space-between; gap: var(--s-2); flex-wrap: wrap; }
+.squad-jy { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-2); min-height: 30px; }
+.squad-jy input { accent-color: var(--sun-deep); width: 16px; height: 16px; }
+
+/* 縦横どちらにもスクロールし、名前列と年の見出しは固定 */
+.tl {
+  --name-w: 108px; --row-h: 40px;
+  overflow: auto; max-height: calc(100dvh - var(--header-h) - 140px);
+  background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-2);
+  overscroll-behavior: contain;
+}
+.squad.has-sheet .tl { max-height: calc(54dvh - var(--header-h)); }
+.tl-head, .tl-row { display: flex; width: max-content; min-width: 100%; }
+.tl-head { position: sticky; top: 0; z-index: 3; background: var(--paper-2); border-bottom: 1px solid var(--rule); height: 26px; }
+.tl-row { height: var(--row-h); border-bottom: 1px solid var(--rule-soft); transition: opacity var(--dur-fast); }
+.tl-row.dim .tl-name > * { opacity: .4; }
+.tl-name {
+  position: sticky; left: 0; z-index: 2; flex: 0 0 var(--name-w); width: var(--name-w);
+  display: flex; align-items: center; gap: 6px; padding: 0 6px;
+  background: var(--paper); border-right: 1px solid var(--rule);
+}
+.tl-corner { background: var(--paper-2); font-size: 10.5px; color: var(--ink-3); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tl-no { flex: 0 0 20px; text-align: right; font-size: 14px; font-weight: 600; color: var(--ink-3); }
+.tl-who { display: flex; flex-direction: column; min-width: 0; line-height: 1.2; }
+.tl-who b { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tl-who small { font-size: 10px; color: var(--ink-3); white-space: nowrap; }
+.tl-who em { font-style: normal; font-weight: 700; color: var(--night); background: var(--sun); border-radius: 3px; padding: 0 3px; margin-left: 4px; }
+
+.tl-track {
+  position: relative; flex: 0 0 auto;
+  background-image: repeating-linear-gradient(to right, var(--rule-soft) 0 1px, transparent 1px 36px);
+}
+.tl-year { position: absolute; top: 5px; padding-left: 3px; font-size: 11px; color: var(--ink-3); }
+.tl-now { position: absolute; top: 0; bottom: 0; width: 0; border-left: 2px solid var(--live); opacity: .6; pointer-events: none; }
+
+.tl-cell {
+  position: absolute; top: 4px; bottom: 4px; border-radius: 3px;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+  font-size: 10.5px; font-weight: 700; line-height: 1.05; white-space: nowrap; padding: 0 2px;
+  transition: opacity var(--dur-fast), box-shadow var(--dur-fast);
+}
+.tl-cell span { overflow: hidden; text-overflow: clip; }
+.tl-cell.narrow span { writing-mode: vertical-rl; font-size: 9px; letter-spacing: -1px; }
+.tl-cell.c-school, .c-school { background: var(--career-school); color: var(--career-text); }
+.tl-cell.c-univ, .c-univ { background: var(--career-univ); color: var(--career-text); }
+.tl-cell.loan::after, .loan-swatch {
+  background-image: repeating-linear-gradient(135deg, rgba(255,255,255,.28) 0 3px, transparent 3px 7px);
+}
+.tl-cell.loan::after { content: ''; position: absolute; inset: 0; pointer-events: none; }
+.tl-cell.off { opacity: .14; }
+.tl-cell.hit { box-shadow: 0 0 0 2px var(--ink); z-index: 1; }
+
+.squad-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 11px; color: var(--ink-3); }
+.squad-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.squad-legend i { display: inline-block; width: 14px; height: 10px; border-radius: 2px; }
+.loan-swatch { background-color: var(--ink-3); }
+.now-swatch { width: 0 !important; border-left: 2px solid var(--live); }
+
+.squad-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-2); }
+.squad-stats > div { background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-2); padding: var(--s-2) var(--s-3); display: flex; flex-direction: column; }
+.squad-stats b { font-size: 24px; font-weight: 600; }
+.squad-stats small { font-size: 10.5px; color: var(--ink-3); line-height: 1.4; }
+
+/* タップした所属の詳細（下から） */
+.squad-sheet {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 4;
+  max-width: var(--max-w); margin: 0 auto; max-height: 42dvh; overflow-y: auto;
+  background: var(--paper); border-top: 3px solid var(--sun); border-radius: var(--r-3) var(--r-3) 0 0;
+  box-shadow: 0 -8px 24px rgba(0,0,0,.25);
+  padding: var(--s-3) var(--s-4) calc(env(safe-area-inset-bottom, 0px) + var(--s-4));
+  display: flex; flex-direction: column; gap: var(--s-2);
+}
+.squad.has-sheet .detail-inner { padding-bottom: 44dvh; }
+.squad-sheet-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s-2); }
+.squad-sheet-head h2 { margin: 0; font-size: 17px; }
+.squad-who, .squad-pairs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.squad-who li { display: grid; grid-template-columns: 24px auto 1fr; align-items: baseline; gap: 6px; padding: 5px 0; border-bottom: 1px solid var(--rule-soft); font-size: 13px; }
+.squad-who li > .num { text-align: right; color: var(--ink-3); }
+.squad-who .spans { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 2px 8px; font-size: 12px; color: var(--ink-2); font-family: var(--font-num); }
+.squad-who em, .squad-pairs em { font-style: normal; font-family: var(--font-jp); font-size: 10px; color: var(--ink-3); border: 1px solid var(--rule); border-radius: 3px; padding: 0 3px; margin: 0 3px; }
+.squad-pairs li { display: flex; align-items: baseline; gap: 4px; padding: 4px 0; font-size: 13px; }
+.squad-pairs .num { margin-left: auto; color: var(--ink-2); font-size: 12px; }

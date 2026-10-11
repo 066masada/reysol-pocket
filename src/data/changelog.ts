@@ -6,6 +6,15 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    label: 'v0.17.0',
+    date: '2026-10-11',
+    items: [
+      '「もっと」に「選手の経歴マップ」を追加。ユース・大学・移籍の道のりを年表で表示',
+      'クラブや大学をタップすると、そこにいた選手と「同じ時期にいた」組み合わせを表示',
+      '順位・成績が最新に更新されず、アプリ同梱のデータのままだった問題を修正',
+    ],
+  },
+  {
     label: 'v0.16.0',
     date: '2026-09-24',
     items: [

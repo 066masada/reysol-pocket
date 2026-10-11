@@ -41,6 +41,12 @@ export const MorePage = () => {
         <span className="acle-card-sub">大会のしくみ・8試合の道のり・突破ラインまでの距離 →</span>
       </button>
 
+      <button type="button" className="acle-card squad-card" onClick={() => navigate('more', 'squad')}>
+        <span className="acle-card-badge">SQUAD CAREER</span>
+        <span className="acle-card-title">選手の経歴マップ</span>
+        <span className="acle-card-sub">ユース・大学・移籍の道のりを年表で。クラブをタップすると「◯◯組」が分かる →</span>
+      </button>
+
       {LINK_GROUPS.map((g) => (
         <section key={g.id} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
           <span className="eyebrow">{g.label}</span>
