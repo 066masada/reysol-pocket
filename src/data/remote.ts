@@ -8,8 +8,9 @@ import { ACLE_STANDINGS, J1_STANDINGS } from './standings';
  * GitHub Actions が定期的に公式ページから取得して data/*.json に書き出したものを読む。
  * 取得できないときは同梱データ（schedule.ts / standings.ts）のまま動く。
  */
+// .env の `VITE_DATA_BASE=` は空文字になるので、?? ではなく || で既定に倒す
 const BASE =
-  (import.meta.env.VITE_DATA_BASE as string | undefined)?.replace(/\/$/, '') ??
+  (import.meta.env.VITE_DATA_BASE as string | undefined)?.replace(/\/$/, '') ||
   'https://raw.githubusercontent.com/066masada/reysol-pocket/main/data';
 
 export interface RemoteFixture {
