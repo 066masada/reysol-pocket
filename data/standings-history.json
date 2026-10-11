@@ -128,7 +128,7 @@
     },
     {
       "asOf": "第9節終了時点",
-      "date": "2026-10-10",
+      "date": "2026-10-11",
       "table": [
         {
           "rank": 1,
@@ -210,15 +210,15 @@
         },
         {
           "rank": 14,
-          "name": "京都サンガF.C.",
-          "points": 8,
+          "name": "Ｖ・ファーレン長崎",
+          "points": 9,
           "played": 9
         },
         {
           "rank": 15,
-          "name": "Ｖ・ファーレン長崎",
+          "name": "京都サンガF.C.",
           "points": 8,
-          "played": 8
+          "played": 9
         },
         {
           "rank": 16,
@@ -240,13 +240,13 @@
         },
         {
           "rank": 19,
-          "name": "東京ヴェルディ",
-          "points": 4,
-          "played": 8
+          "name": "ジェフユナイテッド千葉",
+          "points": 5,
+          "played": 9
         },
         {
           "rank": 20,
-          "name": "ジェフユナイテッド千葉",
+          "name": "東京ヴェルディ",
           "points": 4,
           "played": 8
         }
