@@ -948,8 +948,43 @@
       "kickoffAt": "2026-10-14T19:00:00+09:00",
       "timeTBD": false,
       "dateLabel": null,
-      "status": "scheduled",
-      "score": null
+      "status": "ft",
+      "score": {
+        "reysol": 5,
+        "opponent": 1
+      },
+      "goals": {
+        "reysol": [
+          {
+            "minute": 3,
+            "player": "久保 藤次郎"
+          },
+          {
+            "minute": 10,
+            "player": "垣田 裕暉"
+          },
+          {
+            "minute": 15,
+            "player": "原川 力"
+          },
+          {
+            "minute": 26,
+            "player": "汰木 康也"
+          },
+          {
+            "minute": 28,
+            "player": "山内 日向汰"
+          }
+        ],
+        "opponent": [
+          {
+            "minute": 64,
+            "player": "マヌエル ビール"
+          }
+        ]
+      },
+      "goalsScore": "5-1",
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/1014.php"
     },
     {
       "competition": "acle",
