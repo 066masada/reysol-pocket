@@ -901,6 +901,20 @@
       "resultUrl": "https://www.reysol.co.jp/game/results/202627/0923.php"
     },
     {
+      "competition": "emperor",
+      "round": "ラウンド16",
+      "home": true,
+      "opponent": "ファジアーノ岡山",
+      "country": null,
+      "venue": "会場未定",
+      "date": "2026-12-09",
+      "kickoffAt": "2026-12-09",
+      "timeTBD": true,
+      "dateLabel": null,
+      "status": "scheduled",
+      "score": null
+    },
+    {
       "competition": "acle",
       "round": "LS-MD1",
       "home": false,
