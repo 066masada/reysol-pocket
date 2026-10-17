@@ -13,7 +13,7 @@
       "gf": 25,
       "ga": 6,
       "gd": 19,
-      "form": "WLWWW"
+      "form": "LWWWW"
     },
     {
       "rank": 2,
@@ -26,7 +26,7 @@
       "gf": 21,
       "ga": 8,
       "gd": 13,
-      "form": "DWWWW"
+      "form": "WWWWW"
     },
     {
       "rank": 3,
@@ -39,7 +39,7 @@
       "gf": 22,
       "ga": 17,
       "gd": 5,
-      "form": "LLWWW"
+      "form": "LWWWL"
     },
     {
       "rank": 4,
@@ -65,7 +65,7 @@
       "gf": 21,
       "ga": 16,
       "gd": 5,
-      "form": "LLLDW"
+      "form": "LLDWW"
     },
     {
       "rank": 6,
@@ -91,7 +91,7 @@
       "gf": 21,
       "ga": 16,
       "gd": 5,
-      "form": "LWWDL"
+      "form": "WWDLW"
     },
     {
       "rank": 8,
@@ -104,7 +104,7 @@
       "gf": 13,
       "ga": 9,
       "gd": 4,
-      "form": "DWDWD"
+      "form": "WDWDD"
     },
     {
       "rank": 9,
@@ -117,7 +117,7 @@
       "gf": 17,
       "ga": 21,
       "gd": -4,
-      "form": "WWLWL"
+      "form": "WLWLW"
     },
     {
       "rank": 10,
@@ -130,7 +130,7 @@
       "gf": 10,
       "ga": 11,
       "gd": -1,
-      "form": "DLWWW"
+      "form": "LWWWD"
     },
     {
       "rank": 11,
@@ -156,7 +156,7 @@
       "gf": 12,
       "ga": 16,
       "gd": -4,
-      "form": "LLLLW"
+      "form": "LLLWW"
     },
     {
       "rank": 13,
@@ -169,7 +169,7 @@
       "gf": 9,
       "ga": 16,
       "gd": -7,
-      "form": "WDLDD"
+      "form": "DLDDL"
     },
     {
       "rank": 14,
@@ -182,7 +182,7 @@
       "gf": 12,
       "ga": 14,
       "gd": -2,
-      "form": "WDLLL"
+      "form": "DLLLL"
     },
     {
       "rank": 15,
@@ -195,7 +195,7 @@
       "gf": 11,
       "ga": 18,
       "gd": -7,
-      "form": "DLWDD"
+      "form": "LWDDL"
     },
     {
       "rank": 16,
@@ -208,7 +208,7 @@
       "gf": 11,
       "ga": 19,
       "gd": -8,
-      "form": "DLLWL"
+      "form": "LLWLL"
     },
     {
       "rank": 17,
@@ -234,7 +234,7 @@
       "gf": 10,
       "ga": 18,
       "gd": -8,
-      "form": "DLLLL"
+      "form": "LLLLD"
     },
     {
       "rank": 19,
@@ -247,7 +247,7 @@
       "gf": 8,
       "ga": 19,
       "gd": -11,
-      "form": "LWDLD"
+      "form": "WDLDD"
     },
     {
       "rank": 20,
@@ -260,7 +260,7 @@
       "gf": 4,
       "ga": 18,
       "gd": -14,
-      "form": "LDDLL"
+      "form": "DDLLL"
     }
   ]
 }
