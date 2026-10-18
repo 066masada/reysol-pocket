@@ -6,6 +6,14 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    label: 'v0.18.0',
+    date: '2026-10-18',
+    items: [
+      'チケット販売日程を公式ページから1日1回自動で取り込むように（新しく発表された試合もすぐ反映）',
+      '販売の区分を公式の表記どおり「アソシエイツ一次・二次・三次／プレリク先行（抽選）／一般発売」に修正',
+    ],
+  },
+  {
     label: 'v0.17.0',
     date: '2026-10-11',
     items: [

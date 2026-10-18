@@ -1,4 +1,4 @@
-import type { CompetitionId, Fixture, StandingRow, StandingsSnapshot, StandingsTable } from '../types';
+import type { CompetitionId, Fixture, StandingRow, StandingsSnapshot, StandingsTable, TicketSale } from '../types';
 import { CLUB_LIST, KASHIWA_ID } from './clubs';
 import { STADIUMS } from './stadiums';
 import { FIXTURES } from './schedule';
@@ -29,6 +29,11 @@ export interface RemoteFixture {
   score: { reysol: number; opponent: number; note?: string } | null;
   goals?: { reysol: { minute: number; player: string }[]; opponent: { minute: number; player: string }[] };
   resultUrl?: string;
+}
+
+/** 公式「販売日程」から取得したもの。試合日（ホーム戦は1日1試合）で日程と突き合わせる */
+interface RemoteTickets {
+  tickets: { match: string; date: string; sales: TicketSale[]; notes?: string[] }[];
 }
 
 interface RemoteStandings {
@@ -183,6 +188,20 @@ export const mergeStandings = (remote: RemoteStandings): StandingsTable => ({
   })),
 });
 
+/** 販売日程を日程に重ねる。公式に載っている試合だけ上書きし、載っていない試合は手元の値を残す */
+export const applyTickets = (fixtures: Fixture[], remote: RemoteTickets): Fixture[] => {
+  const byDate = new Map(remote.tickets.filter((t) => t.sales?.length).map((t) => [t.date, t]));
+  return fixtures.map((f) => {
+    const t = f.home === KASHIWA_ID ? byDate.get(f.kickoffAt.slice(0, 10)) : undefined;
+    if (!t) return f;
+    return {
+      ...f,
+      ticketUrl: f.ticketUrl ?? 'https://www.reysol.co.jp/ticket/',
+      ticketSales: [...t.sales].sort((a, b) => a.at.localeCompare(b.at)),
+    };
+  });
+};
+
 /* ── 取得 ── */
 
 const getJson = async <T>(name: string, signal: AbortSignal): Promise<T | null> => {
@@ -196,15 +215,17 @@ const getJson = async <T>(name: string, signal: AbortSignal): Promise<T | null> 
 };
 
 export const fetchRemoteData = async (signal: AbortSignal): Promise<RemoteData> => {
-  const [fx, std, acle, hist, meta] = await Promise.all([
+  const [fx, std, acle, hist, meta, tk] = await Promise.all([
     getJson<{ fixtures: RemoteFixture[] }>('fixtures.json', signal),
     getJson<RemoteStandings>('standings-j1.json', signal),
     getJson<RemoteStandings>('standings-acle.json', signal),
     getJson<{ snapshots: StandingsSnapshot[] }>('standings-history.json', signal),
     getJson<{ updatedAt: string }>('meta.json', signal),
+    getJson<RemoteTickets>('tickets.json', signal),
   ]);
+  const fixtures = fx?.fixtures?.length ? mergeFixtures(fx.fixtures) : FIXTURES;
   return {
-    fixtures: fx?.fixtures?.length ? mergeFixtures(fx.fixtures) : FIXTURES,
+    fixtures: tk?.tickets?.length ? applyTickets(fixtures, tk) : fixtures,
     standings: std?.table?.length ? mergeStandings(std) : null,
     acleStandings: acle?.table?.length ? mergeAcleStandings(acle) : null,
     history: hist?.snapshots ?? [],

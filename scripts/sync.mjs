@@ -1,10 +1,11 @@
 /**
  * 公式ページから日程・結果・順位表を取得して data/*.json に書き出す。
  *
- *   node scripts/sync.mjs [--dry]
+ *   node scripts/sync.mjs [--dry] [--watch] [--tickets]
  *
- * 出典（いずれも robots.txt で許可されている公開ページ。1日2回のみ取得する）
+ * 出典（いずれも robots.txt で許可されている公開ページ）
  *   - 日程・結果: https://www.reysol.co.jp/game/results/
+ *   - チケット販売日程: https://www.reysol.co.jp/ticket/tktscd.php （日本時間で1日1回。--tickets で強制）
  *   - J1順位表:   https://www.jleague.jp/standings/j1/
  *
  * 取得に失敗した場合は既存の JSON を残す（古いデータを出し続ける方が空より良い）。
@@ -19,11 +20,13 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = join(ROOT, 'data');
 const DRY = process.argv.includes('--dry');
 const WATCH = process.argv.includes('--watch');
+const FORCE_TICKETS = process.argv.includes('--tickets');
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36';
 
 const SOURCES = {
   fixtures: 'https://www.reysol.co.jp/game/results/',
+  tickets: 'https://www.reysol.co.jp/ticket/tktscd.php',
   standings: 'https://www.jleague.jp/standings/j1/',
   /** ACLE東地区の順位表（Wikipedia 日本語版, CC BY-SA） */
   acle: 'https://ja.wikipedia.org/w/api.php?action=parse&page=AFC%E3%83%81%E3%83%A3%E3%83%B3%E3%83%94%E3%82%AA%E3%83%B3%E3%82%BA%E3%83%AA%E3%83%BC%E3%82%B0%E3%82%A8%E3%83%AA%E3%83%BC%E3%83%882026%2F27&prop=text&format=json&formatversion=2',
@@ -363,6 +366,62 @@ const parseAcleStandings = (html) => {
   return [];
 };
 
+/* ── チケット販売日程 ── */
+
+/**
+ * 表の列は「アソシエイツ一次・二次・三次 / プレリク先行（抽選） / 一般発売」の順。
+ * 「実施なし」の列は飛ばす。
+ */
+const TICKET_COLUMNS = ['first', 'second', 'third', 'lottery', 'general'];
+
+const parseTickets = (html, season) => {
+  const startYear = Number(season.slice(0, 4));
+  const pad = (n) => String(n).padStart(2, '0');
+  // シーズンをまたぐので、1〜6月は翌年
+  const isoOf = (month, day, hh, mm) => {
+    const year = month <= 6 ? startYear + 1 : startYear;
+    const date = `${year}-${pad(month)}-${pad(day)}`;
+    return hh === undefined ? date : `${date}T${pad(hh)}:${pad(mm)}:00+09:00`;
+  };
+
+  const out = [];
+  const blocks = html.split(/<h4[^>]*>/).slice(1);
+  for (const block of blocks) {
+    const title = decode(block.slice(0, block.indexOf('</h4>')).replace(/<br\s*\/?>/g, '\n').replace(/<[^>]+>/g, ''))
+      .replace(/^[◾■◼︎️\s]+/u, '').trim();
+    // 「J1第10節･名古屋グランパス戦\n［10/17(土)19:00］＠三協F柏」
+    const when = title.match(/(\d{1,2})\/(\d{1,2})\([^)]*\)\s*(?:(\d{1,2}):(\d{2}))?/);
+    const table = block.match(/<table[\s\S]*?<\/table>/)?.[0];
+    if (!when || !table) continue;
+
+    const tds = [...table.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/g)]
+      .map((m) => decode(m[1].replace(/<br\s*\/?>/g, ' ').replace(/<[^>]+>/g, '')).replace(/\s+/g, ' ').trim());
+    if (tds.length < TICKET_COLUMNS.length) continue;
+
+    const sales = [];
+    TICKET_COLUMNS.forEach((type, i) => {
+      const m = tds[i].match(/(\d{1,2})\/(\d{1,2})\([^)]*\)\s*(\d{1,2}):(\d{2})/);
+      if (m) sales.push({ type, at: isoOf(+m[1], +m[2], +m[3], +m[4]) });
+    });
+    if (!sales.length) continue;
+    sales.sort((a, b) => a.at.localeCompare(b.at));
+
+    const [match] = title.split('\n');
+    const notes = [...block.slice(block.indexOf('</table>')).matchAll(/※([^<]+)/g)]
+      .slice(0, 2).map((m) => decode(m[1]).trim());
+    out.push({
+      match: match.trim(),
+      date: isoOf(+when[1], +when[2]),
+      sales,
+      ...(notes.length ? { notes } : {}),
+    });
+  }
+  return out;
+};
+
+/** 日本時間の日付（YYYY-MM-DD） */
+const jstDate = (d) => new Date(d.getTime() + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
+
 /* ── 順位の履歴（順位推移グラフ用） ── */
 
 /**
@@ -498,6 +557,29 @@ const main = async () => {
     errors.push(`ACLE順位表: ${e.message}`);
   }
 
+  // チケット販売日程はめったに変わらないので、日本時間で1日1回だけ見に行く
+  const prevMeta = await readJson(join(OUT_DIR, 'meta.json'));
+  let ticketsCheckedAt = prevMeta?.ticketsCheckedAt ?? null;
+  let ticketsOk = prevMeta?.ticketsOk ?? null;
+  const today = jstDate(new Date());
+  if (FORCE_TICKETS || !ticketsCheckedAt || jstDate(new Date(ticketsCheckedAt)) !== today) {
+    try {
+      const season = (await readJson(join(OUT_DIR, 'fixtures.json')))?.season ?? '2026-27';
+      const tickets = parseTickets(await fetchText(SOURCES.tickets), season);
+      // 掲載が0件のこともあり得るが、表の形が変わった可能性が高いので既存を残す
+      if (!tickets.length) throw new Error('販売日程の表が見つかりません');
+      console.log(`チケット販売日程: ${tickets.length}試合`);
+      if (await writeJson('tickets.json', { source: SOURCES.tickets, tickets })) changed.push('tickets.json');
+      ticketsOk = true;
+    } catch (e) {
+      ticketsOk = false;
+      console.error(` - チケット販売日程: ${e.message}`);
+    }
+    ticketsCheckedAt = new Date().toISOString();
+  } else {
+    console.log('チケット販売日程: 本日確認済み');
+  }
+
   if (errors.length) {
     console.error('取得できなかったもの:');
     for (const e of errors) console.error(' -', e);
@@ -505,13 +587,14 @@ const main = async () => {
 
   // 片方でも取れていれば取得時刻を更新する
   if (errors.length < 3) {
-    const prev = await readJson(join(OUT_DIR, 'meta.json'));
     await writeJson('meta.json', {
       updatedAt: new Date().toISOString(),
       fixturesOk: !errors.some((e) => e.startsWith('日程')),
       standingsOk: !errors.some((e) => e.startsWith('順位表')),
       acleOk: !errors.some((e) => e.startsWith('ACLE')),
-      previousUpdatedAt: prev?.updatedAt ?? null,
+      ticketsOk,
+      ticketsCheckedAt,
+      previousUpdatedAt: prevMeta?.updatedAt ?? null,
     });
   }
 

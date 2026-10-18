@@ -21,15 +21,16 @@ interface Props {
 }
 
 const LEGEND = [
+  { label: '会員一次', color: SALE_COLOR.first },
   { label: '抽選', color: SALE_COLOR.lottery },
-  { label: '一次', color: SALE_COLOR.first },
   { label: '二次', color: SALE_COLOR.second },
+  { label: '三次', color: SALE_COLOR.third },
   { label: '一般発売', accent: true },
 ];
 
 /**
  * チケット販売カレンダー。試合日ではなく「販売が始まる日」を並べる。
- * 一般発売（三次）の日はセルを塗って目立たせる。
+ * 一般発売の日はセルを塗って目立たせる。
  */
 export const TicketCalendar = ({ month, fixtures, now, onOpen }: Props) => {
   const y = Number(month.slice(0, 4));
@@ -51,7 +52,7 @@ export const TicketCalendar = ({ month, fixtures, now, onOpen }: Props) => {
         key: e.id,
         label: getClub(opponentId(e.fixture)).short,
         color: SALE_COLOR[e.sale.type],
-        accent: e.sale.type === 'third',
+        accent: e.sale.type === 'general',
         badge: SALE_SHORT[e.sale.type],
         badgeClass: 'cal-sale-badge',
         onClick: () => onOpen(e.fixture.id),
@@ -143,7 +144,7 @@ const SaleRow = ({ e, now, onOpen }: { e: SaleEvent; now: Date; onOpen: (id: str
         <span className="stripe" style={{ background: SALE_COLOR[e.sale.type] }} />
         <span className="sale-body">
           <span className="sale-top">
-            <span className="sale-type" style={{ background: SALE_COLOR[e.sale.type], color: e.sale.type === 'third' ? '#111' : '#fff' }}>
+            <span className="sale-type" style={{ background: SALE_COLOR[e.sale.type], color: e.sale.type === 'general' ? '#111' : '#fff' }}>
               {SALE_LABEL[e.sale.type]}
             </span>
             {started && <span className="sale-live">受付中</span>}

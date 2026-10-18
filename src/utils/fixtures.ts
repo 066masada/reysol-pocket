@@ -87,18 +87,19 @@ export const j1Record = () => recordFor('j1').total;
 export type TicketState = 'onsale' | 'presale' | 'lottery' | 'upcoming' | 'none';
 
 export const SALE_LABEL: Record<TicketSaleType, string> = {
+  first: 'アソシエイツ一次',
   lottery: 'プレリク先行（抽選）',
-  first: '一次販売',
-  second: '二次販売',
-  third: '三次販売（一般）',
+  second: 'アソシエイツ二次',
+  third: 'アソシエイツ三次',
+  general: '一般発売',
 };
 
 export const SALE_SHORT: Record<TicketSaleType, string> = {
-  lottery: '抽選', first: '一次', second: '二次', third: '一般',
+  first: '一次', lottery: '抽選', second: '二次', third: '三次', general: '一般',
 };
 
 export const SALE_COLOR: Record<TicketSaleType, string> = {
-  lottery: '#7A6CA8', first: '#1B4F9C', second: '#3E8FD0', third: '#E5C700',
+  first: '#1B4F9C', lottery: '#7A6CA8', second: '#3E8FD0', third: '#6FB3E0', general: '#E5C700',
 };
 
 const saleTime = (s: TicketSale) => new Date(s.at).getTime();
@@ -118,7 +119,7 @@ export const ticketState = (f: Fixture, now: Date = new Date()): TicketState => 
   if (!f.ticketUrl || f.status === 'ft') return 'none';
   const cur = currentSale(f, now);
   if (cur) {
-    if (cur.type === 'third') return 'onsale';
+    if (cur.type === 'general') return 'onsale';
     if (cur.type === 'lottery') return 'lottery';
     return 'presale';
   }

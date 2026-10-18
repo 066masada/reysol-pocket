@@ -81,7 +81,12 @@ export interface Fixture {
 }
 
 /* ── チケット販売 ── */
-export type TicketSaleType = 'lottery' | 'first' | 'second' | 'third';
+/**
+ * 公式「販売日程」の列に対応する。
+ * first / second / third はアソシエイツ（ファンクラブ）会員先行の一次〜三次、
+ * lottery はプレリク先行（抽選）、general は一般発売。
+ */
+export type TicketSaleType = 'first' | 'lottery' | 'second' | 'third' | 'general';
 
 export interface TicketSale {
   type: TicketSaleType;

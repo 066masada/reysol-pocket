@@ -15,14 +15,17 @@ const TICKET_HOME = 'https://www.reysol.co.jp/ticket/';
 
 /**
  * 販売スケジュール。出典: 柏レイソル公式「販売日程」https://www.reysol.co.jp/ticket/tktscd.php
- * アソシエイツ（ファンクラブ）会員先行は試合前日まで受付のため、個別の日付は持たない。
+ * 表の列どおり、アソシエイツ会員先行の一次〜三次・一般発売、あればプレリク先行（抽選）。
+ * 公開後は data/tickets.json（1日1回の自動取得）で上書きされる。
  */
-const sales = (lottery: string, first: string, second: string, third: string) => [
-  { type: 'lottery' as const, at: lottery },
-  { type: 'first'   as const, at: first },
-  { type: 'second'  as const, at: second },
-  { type: 'third'   as const, at: third },
-];
+const sales = (first: string, second: string, third: string, general: string, lottery?: string) =>
+  [
+    { type: 'first'   as const, at: first },
+    { type: 'second'  as const, at: second },
+    { type: 'third'   as const, at: third },
+    { type: 'general' as const, at: general },
+    ...(lottery ? [{ type: 'lottery' as const, at: lottery }] : []),
+  ].sort((a, b) => a.at.localeCompare(b.at));
 
 const TICKET_JL = 'https://www.jleague-ticket.jp/club/ka/';
 
@@ -90,7 +93,7 @@ export const FIXTURES: Fixture[] = [
     id: '2026-10-17-j1-10', competition: 'j1', round: '第10節',
     kickoffAt: '2026-10-17T19:00:00+09:00', home: K, away: 'nagoya', stadiumId: 'sankyo', status: 'scheduled',
     ticketUrl: TICKET_HOME,
-    ticketSales: sales('2026-09-26T12:00:00+09:00', '2026-09-29T18:00:00+09:00', '2026-10-01T18:00:00+09:00', '2026-10-04T12:00:00+09:00'),
+    ticketSales: sales('2026-09-26T12:00:00+09:00', '2026-09-29T18:00:00+09:00', '2026-10-01T18:00:00+09:00', '2026-10-04T12:00:00+09:00', '2026-09-29T12:00:00+09:00'),
   },
   { id: '2026-10-21-j1-11', competition: 'j1', round: '第11節', kickoffAt: '2026-10-21T19:00:00+09:00', home: 'fctokyo', away: K, stadiumId: 'ajinomoto', status: 'scheduled' },
   { id: '2026-10-24-j1-12', competition: 'j1', round: '第12節', kickoffAt: '2026-10-24T15:00:00+09:00', home: 'kashima', away: K, stadiumId: 'kashima',   status: 'scheduled' },
@@ -99,7 +102,7 @@ export const FIXTURES: Fixture[] = [
     id: '2026-10-31-j1-13', competition: 'j1', round: '第13節',
     kickoffAt: '2026-10-31T16:00:00+09:00', home: K, away: 'urawa', stadiumId: 'sankyo', status: 'scheduled',
     ticketUrl: TICKET_HOME,
-    ticketSales: sales('2026-10-10T12:00:00+09:00', '2026-10-13T18:00:00+09:00', '2026-10-15T18:00:00+09:00', '2026-10-18T12:00:00+09:00'),
+    ticketSales: sales('2026-10-10T12:00:00+09:00', '2026-10-13T18:00:00+09:00', '2026-10-15T18:00:00+09:00', '2026-10-18T12:00:00+09:00', '2026-10-13T12:00:00+09:00'),
   },
 
   /* ── 11月 ── */
@@ -109,10 +112,25 @@ export const FIXTURES: Fixture[] = [
     ticketUrl: TICKET_HOME,
     ticketSales: sales('2026-10-11T12:00:00+09:00', '2026-10-13T18:00:00+09:00', '2026-10-15T18:00:00+09:00', '2026-10-18T12:00:00+09:00'),
   },
-  { id: '2026-11-07-j1-14', competition: 'j1', round: '第14節', kickoffAt: '2026-11-07T16:00:00+09:00', home: K, away: 'kawasaki', stadiumId: 'sankyo', status: 'scheduled', ticketUrl: TICKET_HOME },
-  { id: '2026-11-20-j1-15', competition: 'j1', round: '第15節', kickoffAt: '2026-11-20T19:00:00+09:00', home: K, away: 'chiba',    stadiumId: 'sankyo', status: 'scheduled', ticketUrl: TICKET_HOME },
+  {
+    id: '2026-11-07-j1-14', competition: 'j1', round: '第14節', kickoffAt: '2026-11-07T16:00:00+09:00',
+    home: K, away: 'kawasaki', stadiumId: 'sankyo', status: 'scheduled',
+    ticketUrl: TICKET_HOME,
+    ticketSales: sales('2026-10-18T12:00:00+09:00', '2026-10-20T18:00:00+09:00', '2026-10-22T18:00:00+09:00', '2026-10-25T12:00:00+09:00', '2026-10-20T12:00:00+09:00'),
+  },
+  {
+    id: '2026-11-20-j1-15', competition: 'j1', round: '第15節', kickoffAt: '2026-11-20T19:00:00+09:00',
+    home: K, away: 'chiba', stadiumId: 'sankyo', status: 'scheduled',
+    ticketUrl: TICKET_HOME,
+    ticketSales: sales('2026-11-01T12:00:00+09:00', '2026-11-04T18:00:00+09:00', '2026-11-06T18:00:00+09:00', '2026-11-08T12:00:00+09:00', '2026-11-03T12:00:00+09:00'),
+  },
   { id: '2026-11-24-acle-md5', competition: 'acle', round: 'LS-MD5', kickoffAt: '2026-11-24T16:45:00+09:00', home: 'newcastle', away: K, stadiumId: 'centralcoast', status: 'scheduled', note: '現地18:45／日本16:45' },
-  { id: '2026-11-28-j1-17', competition: 'j1', round: '第17節', kickoffAt: '2026-11-28T16:00:00+09:00', home: K, away: 'hiroshima', stadiumId: 'sankyo', status: 'scheduled', ticketUrl: TICKET_HOME },
+  {
+    id: '2026-11-28-j1-17', competition: 'j1', round: '第17節', kickoffAt: '2026-11-28T16:00:00+09:00',
+    home: K, away: 'hiroshima', stadiumId: 'sankyo', status: 'scheduled',
+    ticketUrl: TICKET_HOME,
+    ticketSales: sales('2026-11-08T12:00:00+09:00', '2026-11-10T18:00:00+09:00', '2026-11-12T18:00:00+09:00', '2026-11-14T12:00:00+09:00', '2026-11-10T12:00:00+09:00'),
+  },
 
   /* ── 12月 ── */
   {
@@ -121,7 +139,12 @@ export const FIXTURES: Fixture[] = [
     ticketUrl: TICKET_HOME,
     ticketSales: sales('2026-11-08T12:00:00+09:00', '2026-11-10T18:00:00+09:00', '2026-11-12T18:00:00+09:00', '2026-11-14T12:00:00+09:00'),
   },
-  { id: '2026-12-06-j1-18', competition: 'j1', round: '第18節', kickoffAt: '2026-12-06T16:00:00+09:00', home: K, away: 'fukuoka',  stadiumId: 'sankyo',   status: 'scheduled', ticketUrl: TICKET_HOME },
+  {
+    id: '2026-12-06-j1-18', competition: 'j1', round: '第18節', kickoffAt: '2026-12-06T16:00:00+09:00',
+    home: K, away: 'fukuoka', stadiumId: 'sankyo', status: 'scheduled',
+    ticketUrl: TICKET_HOME,
+    ticketSales: sales('2026-11-14T12:00:00+09:00', '2026-11-17T18:00:00+09:00', '2026-11-19T18:00:00+09:00', '2026-11-21T12:00:00+09:00', '2026-11-17T12:00:00+09:00'),
+  },
   { id: '2026-12-13-j1-19', competition: 'j1', round: '第19節', kickoffAt: '2026-12-13T14:00:00+09:00', home: 'okayama', away: K,  stadiumId: 'jfe',      status: 'scheduled' },
   { id: '2026-12-16-j1-16', competition: 'j1', round: '第16節', kickoffAt: '2026-12-16T19:00:00+09:00', home: 'gamba', away: K,    stadiumId: 'panasonic', status: 'scheduled' },
   { id: '2026-12-19-j1-20', competition: 'j1', round: '第20節', kickoffAt: '2026-12-19T16:00:00+09:00', home: 'kawasaki', away: K, stadiumId: 'todoroki', status: 'scheduled' },
