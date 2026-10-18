@@ -17,6 +17,19 @@
     },
     {
       "rank": 2,
+      "name": "ＦＣ町田ゼルビア",
+      "points": 23,
+      "played": 10,
+      "won": 7,
+      "drawn": 2,
+      "lost": 1,
+      "gf": 25,
+      "ga": 10,
+      "gd": 15,
+      "form": "WWDLW"
+    },
+    {
+      "rank": 3,
       "name": "ＦＣ東京",
       "points": 23,
       "played": 10,
@@ -29,7 +42,20 @@
       "form": "WWWWW"
     },
     {
-      "rank": 3,
+      "rank": 4,
+      "name": "ヴィッセル神戸",
+      "points": 22,
+      "played": 10,
+      "won": 7,
+      "drawn": 1,
+      "lost": 2,
+      "gf": 17,
+      "ga": 9,
+      "gd": 8,
+      "form": "WWWWL"
+    },
+    {
+      "rank": 5,
       "name": "柏レイソル",
       "points": 21,
       "played": 10,
@@ -42,20 +68,7 @@
       "form": "LWWWL"
     },
     {
-      "rank": 4,
-      "name": "ＦＣ町田ゼルビア",
-      "points": 20,
-      "played": 9,
-      "won": 6,
-      "drawn": 2,
-      "lost": 1,
-      "gf": 22,
-      "ga": 10,
-      "gd": 12,
-      "form": "WWDLW"
-    },
-    {
-      "rank": 5,
+      "rank": 6,
       "name": "鹿島アントラーズ",
       "points": 19,
       "played": 10,
@@ -66,19 +79,6 @@
       "ga": 16,
       "gd": 5,
       "form": "LLDWW"
-    },
-    {
-      "rank": 6,
-      "name": "ヴィッセル神戸",
-      "points": 19,
-      "played": 9,
-      "won": 6,
-      "drawn": 1,
-      "lost": 2,
-      "gf": 14,
-      "ga": 9,
-      "gd": 5,
-      "form": "WWWWL"
     },
     {
       "rank": 7,
@@ -136,13 +136,13 @@
       "rank": 11,
       "name": "ファジアーノ岡山",
       "points": 13,
-      "played": 9,
+      "played": 10,
       "won": 4,
       "drawn": 1,
-      "lost": 4,
+      "lost": 5,
       "gf": 12,
-      "ga": 12,
-      "gd": 0,
+      "ga": 15,
+      "gd": -3,
       "form": "WWWLL"
     },
     {
@@ -214,13 +214,13 @@
       "rank": 17,
       "name": "アビスパ福岡",
       "points": 7,
-      "played": 9,
+      "played": 10,
       "won": 2,
       "drawn": 1,
-      "lost": 6,
+      "lost": 7,
       "gf": 11,
-      "ga": 13,
-      "gd": -2,
+      "ga": 16,
+      "gd": -5,
       "form": "LDLLW"
     },
     {

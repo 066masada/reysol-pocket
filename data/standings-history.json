@@ -254,7 +254,7 @@
     },
     {
       "asOf": "第10節終了時点",
-      "date": "2026-10-17",
+      "date": "2026-10-18",
       "table": [
         {
           "rank": 1,
@@ -264,33 +264,33 @@
         },
         {
           "rank": 2,
-          "name": "ＦＣ東京",
+          "name": "ＦＣ町田ゼルビア",
           "points": 23,
           "played": 10
         },
         {
           "rank": 3,
+          "name": "ＦＣ東京",
+          "points": 23,
+          "played": 10
+        },
+        {
+          "rank": 4,
+          "name": "ヴィッセル神戸",
+          "points": 22,
+          "played": 10
+        },
+        {
+          "rank": 5,
           "name": "柏レイソル",
           "points": 21,
           "played": 10
         },
         {
-          "rank": 4,
-          "name": "ＦＣ町田ゼルビア",
-          "points": 20,
-          "played": 9
-        },
-        {
-          "rank": 5,
+          "rank": 6,
           "name": "鹿島アントラーズ",
           "points": 19,
           "played": 10
-        },
-        {
-          "rank": 6,
-          "name": "ヴィッセル神戸",
-          "points": 19,
-          "played": 9
         },
         {
           "rank": 7,
@@ -320,7 +320,7 @@
           "rank": 11,
           "name": "ファジアーノ岡山",
           "points": 13,
-          "played": 9
+          "played": 10
         },
         {
           "rank": 12,
@@ -356,7 +356,7 @@
           "rank": 17,
           "name": "アビスパ福岡",
           "points": 7,
-          "played": 9
+          "played": 10
         },
         {
           "rank": 18,

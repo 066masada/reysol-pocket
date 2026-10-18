@@ -1,7 +1,9 @@
 {
-  "updatedAt": "2026-10-18T04:21:19.312Z",
+  "updatedAt": "2026-10-18T09:02:34.807Z",
   "fixturesOk": true,
   "standingsOk": true,
   "acleOk": true,
-  "previousUpdatedAt": "2026-10-17T23:59:29.726Z"
+  "ticketsOk": true,
+  "ticketsCheckedAt": "2026-10-18T09:02:34.807Z",
+  "previousUpdatedAt": "2026-10-18T04:21:19.312Z"
 }
