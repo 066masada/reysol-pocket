@@ -439,8 +439,35 @@
       "kickoffAt": "2026-10-24T15:00:00+09:00",
       "timeTBD": false,
       "dateLabel": null,
-      "status": "scheduled",
-      "score": null
+      "status": "ft",
+      "score": {
+        "reysol": 3,
+        "opponent": 2
+      },
+      "goals": {
+        "reysol": [
+          {
+            "minute": 35,
+            "player": "遠藤 渓太"
+          },
+          {
+            "minute": 59,
+            "player": "山内 日向汰"
+          }
+        ],
+        "opponent": [
+          {
+            "minute": 14,
+            "player": "徳田 誉"
+          },
+          {
+            "minute": 88,
+            "player": "チャヴリッチ"
+          }
+        ]
+      },
+      "goalsScore": "3-2",
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/1024.php"
     },
     {
       "competition": "j1",
