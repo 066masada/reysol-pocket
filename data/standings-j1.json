@@ -26,7 +26,7 @@
       "gf": 27,
       "ga": 8,
       "gd": 19,
-      "form": "WWWWD"
+      "form": "WWWDW"
     },
     {
       "rank": 3,
@@ -78,7 +78,7 @@
       "gf": 25,
       "ga": 18,
       "gd": 7,
-      "form": "WDLWW"
+      "form": "DLWWW"
     },
     {
       "rank": 7,
@@ -91,7 +91,7 @@
       "gf": 21,
       "ga": 23,
       "gd": -2,
-      "form": "LWLWW"
+      "form": "WLWWW"
     },
     {
       "rank": 8,
@@ -117,7 +117,7 @@
       "gf": 16,
       "ga": 12,
       "gd": 4,
-      "form": "DWDDD"
+      "form": "WDDDD"
     },
     {
       "rank": 10,
@@ -130,7 +130,7 @@
       "gf": 15,
       "ga": 17,
       "gd": -2,
-      "form": "WLLLW"
+      "form": "LLLWL"
     },
     {
       "rank": 11,
@@ -143,7 +143,7 @@
       "gf": 14,
       "ga": 18,
       "gd": -4,
-      "form": "LLWWD"
+      "form": "LWWDD"
     },
     {
       "rank": 12,
@@ -156,7 +156,7 @@
       "gf": 12,
       "ga": 19,
       "gd": -7,
-      "form": "LDDLD"
+      "form": "DDLDD"
     },
     {
       "rank": 13,
@@ -182,7 +182,7 @@
       "gf": 15,
       "ga": 19,
       "gd": -4,
-      "form": "WDDLW"
+      "form": "DDLWL"
     },
     {
       "rank": 15,
@@ -260,7 +260,7 @@
       "gf": 12,
       "ga": 24,
       "gd": -12,
-      "form": "DLDDL"
+      "form": "LDDLD"
     }
   ]
 }
