@@ -1074,8 +1074,17 @@
       "kickoffAt": "2026-10-27T21:15:00+09:00",
       "timeTBD": false,
       "dateLabel": null,
-      "status": "scheduled",
-      "score": null
+      "status": "ft",
+      "score": {
+        "reysol": 0,
+        "opponent": 0
+      },
+      "goals": {
+        "reysol": [],
+        "opponent": []
+      },
+      "goalsScore": "0-0",
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/1027.php"
     },
     {
       "competition": "acle",
