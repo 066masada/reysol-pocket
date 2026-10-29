@@ -887,6 +887,34 @@
       "resultUrl": "https://www.reysol.co.jp/game/results/202627/1003.php"
     },
     {
+      "competition": "levain",
+      "round": "準々決勝-第1戦",
+      "home": false,
+      "opponent": "川崎フロンターレ",
+      "country": null,
+      "venue": "U等々力",
+      "date": "2026-11-11",
+      "kickoffAt": "2026-11-11T19:00:00+09:00",
+      "timeTBD": false,
+      "dateLabel": null,
+      "status": "scheduled",
+      "score": null
+    },
+    {
+      "competition": "levain",
+      "round": "準々決勝-第2戦",
+      "home": true,
+      "opponent": "川崎フロンターレ",
+      "country": null,
+      "venue": "三協F柏",
+      "date": "2026-11-15",
+      "kickoffAt": "2026-11-15T17:00:00+09:00",
+      "timeTBD": false,
+      "dateLabel": null,
+      "status": "scheduled",
+      "score": null
+    },
+    {
       "competition": "emperor",
       "round": "2回戦",
       "home": true,
