@@ -2,13 +2,14 @@
  * 試合中のスコアを取得する。
  *
  * 出典: TheSportsDB のライブスコア（無料・キー不要・CORS許可）
- *   https://www.thesportsdb.com/api/v1/json/3/livescore.php?s=Soccer
+ *   https://www.thesportsdb.com/api/v1/json/123/livescore.php?s=Soccer
+ *   （旧無料キー "3" は廃止され 403 になる。現行の無料キーは "123"）
  *
  * 進行中の試合だけが返るので、柏が含まれる1件を拾う。
  * 取得できないときは null を返し、画面は通常表示のままにする。
  */
 
-const URL = 'https://www.thesportsdb.com/api/v1/json/3/livescore.php?s=Soccer';
+const URL = 'https://www.thesportsdb.com/api/v1/json/123/livescore.php?s=Soccer';
 
 /** 相手の英語表記が分からなくても拾えるよう、柏の名前で照合する */
 const KASHIWA = /kashiwa/i;

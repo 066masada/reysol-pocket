@@ -106,7 +106,7 @@ GitHub Actions が1日2回（JST 6:00 / 23:30）公式ページを取得し、�
 
 ## 試合中のライブスコア
 
-試合時間中だけ、[TheSportsDB のライブスコア](https://www.thesportsdb.com/api/v1/json/3/livescore.php?s=Soccer)（無料・キー不要・CORS許可）を
+試合時間中だけ、[TheSportsDB のライブスコア](https://www.thesportsdb.com/api/v1/json/123/livescore.php?s=Soccer)（無料・キー不要・CORS許可）を
 **10秒おき**に取得します（[src/hooks/useLiveScore.ts](src/hooks/useLiveScore.ts)）。
 
 - 柏を含む試合だけを拾うので、相手クラブの英語表記は不要
