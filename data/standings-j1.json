@@ -30,6 +30,19 @@
     },
     {
       "rank": 3,
+      "name": "ＦＣ町田ゼルビア",
+      "points": 28,
+      "played": 13,
+      "won": 8,
+      "drawn": 4,
+      "lost": 1,
+      "gf": 30,
+      "ga": 10,
+      "gd": 20,
+      "form": "WWWDD"
+    },
+    {
+      "rank": 4,
       "name": "柏レイソル",
       "points": 28,
       "played": 13,
@@ -40,19 +53,6 @@
       "ga": 19,
       "gd": 10,
       "form": "WLDWW"
-    },
-    {
-      "rank": 4,
-      "name": "ＦＣ町田ゼルビア",
-      "points": 27,
-      "played": 12,
-      "won": 8,
-      "drawn": 3,
-      "lost": 1,
-      "gf": 30,
-      "ga": 10,
-      "gd": 20,
-      "form": "LWWWD"
     },
     {
       "rank": 5,
@@ -84,17 +84,30 @@
       "rank": 7,
       "name": "川崎フロンターレ",
       "points": 22,
-      "played": 12,
+      "played": 13,
       "won": 6,
       "drawn": 4,
-      "lost": 2,
-      "gf": 25,
-      "ga": 18,
-      "gd": 7,
-      "form": "DLWWW"
+      "lost": 3,
+      "gf": 27,
+      "ga": 22,
+      "gd": 5,
+      "form": "LWWWL"
     },
     {
       "rank": 8,
+      "name": "横浜Ｆ・マリノス",
+      "points": 21,
+      "played": 13,
+      "won": 5,
+      "drawn": 6,
+      "lost": 2,
+      "gf": 20,
+      "ga": 14,
+      "gd": 6,
+      "form": "DDDDW"
+    },
+    {
+      "rank": 9,
       "name": "浦和レッズ",
       "points": 21,
       "played": 13,
@@ -105,19 +118,6 @@
       "ga": 27,
       "gd": -6,
       "form": "LWWWL"
-    },
-    {
-      "rank": 9,
-      "name": "横浜Ｆ・マリノス",
-      "points": 18,
-      "played": 12,
-      "won": 4,
-      "drawn": 6,
-      "lost": 2,
-      "gf": 16,
-      "ga": 12,
-      "gd": 4,
-      "form": "WDDDD"
     },
     {
       "rank": 10,
@@ -188,30 +188,56 @@
       "rank": 15,
       "name": "Ｖ・ファーレン長崎",
       "points": 12,
-      "played": 12,
+      "played": 13,
       "won": 3,
       "drawn": 3,
-      "lost": 6,
-      "gf": 15,
-      "ga": 19,
-      "gd": -4,
-      "form": "DDLWL"
+      "lost": 7,
+      "gf": 16,
+      "ga": 21,
+      "gd": -5,
+      "form": "DLWLL"
     },
     {
       "rank": 16,
       "name": "ガンバ大阪",
-      "points": 11,
-      "played": 12,
+      "points": 12,
+      "played": 13,
       "won": 2,
-      "drawn": 5,
+      "drawn": 6,
       "lost": 5,
       "gf": 14,
       "ga": 21,
       "gd": -7,
-      "form": "LLDWD"
+      "form": "LDWDD"
     },
     {
       "rank": 17,
+      "name": "東京ヴェルディ",
+      "points": 11,
+      "played": 13,
+      "won": 2,
+      "drawn": 5,
+      "lost": 6,
+      "gf": 11,
+      "ga": 22,
+      "gd": -11,
+      "form": "LLDWW"
+    },
+    {
+      "rank": 18,
+      "name": "ジェフユナイテッド千葉",
+      "points": 10,
+      "played": 13,
+      "won": 2,
+      "drawn": 4,
+      "lost": 7,
+      "gf": 15,
+      "ga": 24,
+      "gd": -9,
+      "form": "DDLDW"
+    },
+    {
+      "rank": 19,
       "name": "水戸ホーリーホック",
       "points": 9,
       "played": 13,
@@ -224,43 +250,17 @@
       "form": "LLLLL"
     },
     {
-      "rank": 18,
-      "name": "東京ヴェルディ",
-      "points": 8,
-      "played": 12,
-      "won": 1,
-      "drawn": 5,
-      "lost": 6,
-      "gf": 9,
-      "ga": 21,
-      "gd": -12,
-      "form": "LLLDW"
-    },
-    {
-      "rank": 19,
+      "rank": 20,
       "name": "アビスパ福岡",
       "points": 7,
-      "played": 12,
+      "played": 13,
       "won": 2,
       "drawn": 1,
-      "lost": 9,
+      "lost": 10,
       "gf": 13,
-      "ga": 21,
-      "gd": -8,
-      "form": "LWLLL"
-    },
-    {
-      "rank": 20,
-      "name": "ジェフユナイテッド千葉",
-      "points": 7,
-      "played": 12,
-      "won": 1,
-      "drawn": 4,
-      "lost": 7,
-      "gf": 12,
       "ga": 24,
-      "gd": -12,
-      "form": "LDDLD"
+      "gd": -11,
+      "form": "WLLLL"
     }
   ]
 }

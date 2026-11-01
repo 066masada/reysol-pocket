@@ -632,7 +632,7 @@
     },
     {
       "asOf": "第13節終了時点",
-      "date": "2026-10-31",
+      "date": "2026-11-01",
       "table": [
         {
           "rank": 1,
@@ -648,15 +648,15 @@
         },
         {
           "rank": 3,
-          "name": "柏レイソル",
+          "name": "ＦＣ町田ゼルビア",
           "points": 28,
           "played": 13
         },
         {
           "rank": 4,
-          "name": "ＦＣ町田ゼルビア",
-          "points": 27,
-          "played": 12
+          "name": "柏レイソル",
+          "points": 28,
+          "played": 13
         },
         {
           "rank": 5,
@@ -674,19 +674,19 @@
           "rank": 7,
           "name": "川崎フロンターレ",
           "points": 22,
-          "played": 12
+          "played": 13
         },
         {
           "rank": 8,
-          "name": "浦和レッズ",
+          "name": "横浜Ｆ・マリノス",
           "points": 21,
           "played": 13
         },
         {
           "rank": 9,
-          "name": "横浜Ｆ・マリノス",
-          "points": 18,
-          "played": 12
+          "name": "浦和レッズ",
+          "points": 21,
+          "played": 13
         },
         {
           "rank": 10,
@@ -722,37 +722,37 @@
           "rank": 15,
           "name": "Ｖ・ファーレン長崎",
           "points": 12,
-          "played": 12
+          "played": 13
         },
         {
           "rank": 16,
           "name": "ガンバ大阪",
-          "points": 11,
-          "played": 12
+          "points": 12,
+          "played": 13
         },
         {
           "rank": 17,
+          "name": "東京ヴェルディ",
+          "points": 11,
+          "played": 13
+        },
+        {
+          "rank": 18,
+          "name": "ジェフユナイテッド千葉",
+          "points": 10,
+          "played": 13
+        },
+        {
+          "rank": 19,
           "name": "水戸ホーリーホック",
           "points": 9,
           "played": 13
         },
         {
-          "rank": 18,
-          "name": "東京ヴェルディ",
-          "points": 8,
-          "played": 12
-        },
-        {
-          "rank": 19,
+          "rank": 20,
           "name": "アビスパ福岡",
           "points": 7,
-          "played": 12
-        },
-        {
-          "rank": 20,
-          "name": "ジェフユナイテッド千葉",
-          "points": 7,
-          "played": 12
+          "played": 13
         }
       ]
     }
