@@ -1147,8 +1147,26 @@
       "kickoffAt": "2026-11-03T19:00:00+09:00",
       "timeTBD": false,
       "dateLabel": null,
-      "status": "scheduled",
-      "score": null
+      "status": "ft",
+      "score": {
+        "reysol": 2,
+        "opponent": 0
+      },
+      "goals": {
+        "reysol": [
+          {
+            "minute": 47,
+            "player": "遠藤 渓太"
+          },
+          {
+            "minute": 57,
+            "player": "藤尾 翔太"
+          }
+        ],
+        "opponent": []
+      },
+      "goalsScore": "2-0",
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/1103.php"
     },
     {
       "competition": "acle",
