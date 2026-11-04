@@ -18,34 +18,34 @@
     {
       "rank": 2,
       "name": "鹿島アントラーズ",
-      "played": 3,
+      "played": 4,
       "won": 3,
-      "drawn": 0,
+      "drawn": 1,
       "lost": 0,
       "gf": 11,
       "ga": 1,
       "gd": 10,
-      "points": 9
+      "points": 10
     },
     {
       "rank": 3,
+      "name": "ガンバ大阪",
+      "played": 4,
+      "won": 2,
+      "drawn": 2,
+      "lost": 0,
+      "gf": 11,
+      "ga": 6,
+      "gd": 5,
+      "points": 8
+    },
+    {
+      "rank": 4,
       "name": "柏レイソル",
       "played": 4,
       "won": 2,
       "drawn": 1,
       "lost": 1,
-      "gf": 8,
-      "ga": 3,
-      "gd": 5,
-      "points": 7
-    },
-    {
-      "rank": 4,
-      "name": "ガンバ大阪",
-      "played": 3,
-      "won": 2,
-      "drawn": 1,
-      "lost": 0,
       "gf": 8,
       "ga": 3,
       "gd": 5,
@@ -76,7 +76,7 @@
       "points": 7
     },
     {
-      "rank": 7,
+      "rank": 6,
       "name": "ジョホール・ダルル・タクジム",
       "played": 4,
       "won": 2,
@@ -137,6 +137,18 @@
     },
     {
       "rank": 12,
+      "name": "ブリーラム・ユナイテッド",
+      "played": 4,
+      "won": 0,
+      "drawn": 3,
+      "lost": 1,
+      "gf": 2,
+      "ga": 3,
+      "gd": -1,
+      "points": 3
+    },
+    {
+      "rank": 13,
       "name": "ポート",
       "played": 4,
       "won": 1,
@@ -146,18 +158,6 @@
       "ga": 14,
       "gd": -5,
       "points": 3
-    },
-    {
-      "rank": 13,
-      "name": "ブリーラム・ユナイテッド",
-      "played": 3,
-      "won": 0,
-      "drawn": 2,
-      "lost": 1,
-      "gf": 2,
-      "ga": 3,
-      "gd": -1,
-      "points": 2
     },
     {
       "rank": 14,
@@ -174,14 +174,14 @@
     {
       "rank": 15,
       "name": "浦項スティーラース",
-      "played": 3,
+      "played": 4,
       "won": 0,
-      "drawn": 0,
+      "drawn": 1,
       "lost": 3,
-      "gf": 1,
-      "ga": 8,
+      "gf": 4,
+      "ga": 11,
       "gd": -7,
-      "points": 0
+      "points": 1
     },
     {
       "rank": 16,
