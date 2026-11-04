@@ -47,7 +47,7 @@ const AppContent = () => {
       <header className="app-header">
         <div className="app-header-inner">
           <div className="brand" {...longPress} style={{ userSelect: 'none', WebkitUserSelect: 'none', cursor: 'default' }}>
-            <span className="brand-mark" aria-hidden>R</span>REYSOL POCKET
+            <span className="brand-mark" aria-hidden />REYSOL POCKET
           </div>
           <span className="brand-sub">{SEASON}</span>
         </div>

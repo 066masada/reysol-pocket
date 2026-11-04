@@ -151,13 +151,9 @@ svg { display: inline-block; vertical-align: middle; flex: 0 0 auto; }
 }
 .brand { display: flex; align-items: center; gap: var(--s-2); font-family: var(--font-num); font-weight: 700; font-size: 15px; letter-spacing: .08em; user-select: none; -webkit-user-select: none; }
 .brand-mark {
-  width: 17px; height: 17px; border-radius: 50%; flex: 0 0 auto;
-  background: var(--sun);
-  box-shadow: 0 0 5px 1px rgba(255, 176, 0, .8), 0 0 13px 3px rgba(255, 176, 0, .4);
-  /* アイコンと同じ「陽の中の R」 */
-  display: grid; place-items: center;
-  font-family: var(--font-num); font-weight: 700; font-size: 12px;
-  line-height: 1; color: var(--night);
+  /* アプリアイコンと同じ画像。ロゴ長押しの隠しコマンドと競合しないよう img ではなく背景で表示 */
+  width: 24px; height: 24px; border-radius: 6px; flex: 0 0 auto;
+  background: url('/icons/icon-192.png') center / cover no-repeat;
 }
 .brand-sub { font-family: var(--font-num); color: var(--on-night-2); font-size: 11px; letter-spacing: .08em; }
 
