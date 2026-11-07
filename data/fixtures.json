@@ -516,8 +516,31 @@
       "kickoffAt": "2026-11-07T16:00:00+09:00",
       "timeTBD": false,
       "dateLabel": null,
-      "status": "scheduled",
-      "score": null
+      "status": "ft",
+      "score": {
+        "reysol": 2,
+        "opponent": 1
+      },
+      "goals": {
+        "reysol": [
+          {
+            "minute": 40,
+            "player": "山内 日向汰"
+          },
+          {
+            "minute": 52,
+            "player": "山内 日向汰"
+          }
+        ],
+        "opponent": [
+          {
+            "minute": 44,
+            "player": "ペドロ ホマーノ"
+          }
+        ]
+      },
+      "goalsScore": "2-1",
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/1107.php"
     },
     {
       "competition": "j1",
