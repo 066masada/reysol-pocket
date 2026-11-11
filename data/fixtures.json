@@ -942,8 +942,31 @@
       "kickoffAt": "2026-11-11T19:00:00+09:00",
       "timeTBD": false,
       "dateLabel": null,
-      "status": "scheduled",
-      "score": null
+      "status": "ft",
+      "score": {
+        "reysol": 2,
+        "opponent": 1
+      },
+      "goals": {
+        "reysol": [
+          {
+            "minute": 84,
+            "player": "三丸 拡"
+          },
+          {
+            "minute": 87,
+            "player": "久保 藤次郎"
+          }
+        ],
+        "opponent": [
+          {
+            "minute": 47,
+            "player": "伊藤 達哉"
+          }
+        ]
+      },
+      "goalsScore": "2-1",
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/1111.php"
     },
     {
       "competition": "levain",
