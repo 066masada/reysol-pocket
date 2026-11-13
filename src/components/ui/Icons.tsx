@@ -31,6 +31,9 @@ export const IconBack = () => (
 export const IconExternal = () => (
   <svg {...base}><path d="M14 4h6v6M20 4l-9 9" /><path d="M19 13v6H5V5h6" /></svg>
 );
+export const IconStar = () => (
+  <svg {...base}><path d="M12 3.5l2.6 5.3 5.9.9-4.25 4.1 1 5.8L12 16.9l-5.25 2.7 1-5.8L3.5 9.7l5.9-.9z" /></svg>
+);
 export const IconCalendarAdd = () => (
   <svg {...base}><rect x="3" y="4" width="18" height="17" rx="2" /><path d="M3 9h18M8 2v4M16 2v4M12 12v6M9 15h6" /></svg>
 );
