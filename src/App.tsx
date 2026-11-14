@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { NavigationProvider, useNavigation, type Screen } from './contexts/NavigationContext';
-import { SettingsProvider } from './contexts/SettingsContext';
 import { HomePage } from './components/pages/HomePage';
 import { SchedulePage } from './components/pages/SchedulePage';
 import { LivePage } from './components/pages/LivePage';
@@ -91,10 +90,8 @@ const AppContent = () => {
 
 export default function App() {
   return (
-    <SettingsProvider>
-      <NavigationProvider>
-        <AppContent />
-      </NavigationProvider>
-    </SettingsProvider>
+    <NavigationProvider>
+      <AppContent />
+    </NavigationProvider>
   );
 }

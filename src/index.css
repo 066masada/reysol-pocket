@@ -83,7 +83,9 @@
     --career-text:   #E6E3D6;
   }
 }
+/* 表示は常にダーク（index.html の <html data-theme="dark">） */
 :root[data-theme="dark"] {
+  color-scheme: dark;
   --ground:    #111111;
   --paper:     #1E1E1C;
   --paper-2:   #2A2A27;

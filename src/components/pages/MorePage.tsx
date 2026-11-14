@@ -1,5 +1,4 @@
 import type { ExternalLink } from '../../types';
-import { useSettings, type ThemeMode } from '../../contexts/SettingsContext';
 import { useNavigation } from '../../contexts/NavigationContext';
 import { ACLE } from '../../data/acle';
 import { LINK_GROUPS, linksByGroup } from '../../data/links';
@@ -17,14 +16,7 @@ const ICON_STYLE: Record<ExternalLink['group'], { bg: string; fg: string; text: 
   board:    { bg: 'var(--night)', fg: 'var(--sun)', text: 'BBS' },
 };
 
-const THEMES: { id: ThemeMode; label: string }[] = [
-  { id: 'system', label: '端末に合わせる' },
-  { id: 'light', label: 'ライト' },
-  { id: 'dark', label: 'ダーク' },
-];
-
 export const MorePage = () => {
-  const { theme, setTheme } = useSettings();
   const { updatedAt } = useData();
   const { navigate } = useNavigation();
 
@@ -73,14 +65,6 @@ export const MorePage = () => {
       <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
         <span className="eyebrow">Settings</span>
         <div className="card card-pad" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
-          <div>
-            <div style={{ fontWeight: 700, marginBottom: 6 }}>テーマ</div>
-            <div className="seg" role="radiogroup" aria-label="テーマ">
-              {THEMES.map((t) => (
-                <button type="button" key={t.id} role="radio" aria-checked={theme === t.id} className={theme === t.id ? 'active' : ''} onClick={() => setTheme(t.id)}>{t.label}</button>
-              ))}
-            </div>
-          </div>
           <div>
             <div style={{ fontWeight: 700, marginBottom: 4 }}>ホーム画面に追加</div>
             <p className="note">
