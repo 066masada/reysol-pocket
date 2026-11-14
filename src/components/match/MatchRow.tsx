@@ -2,7 +2,8 @@ import type { Fixture } from '../../types';
 import { COMPETITIONS } from '../../data/competitions';
 import { getClub } from '../../data/clubs';
 import { STADIUMS } from '../../data/stadiums';
-import { isHome, opponentId, outcome, scoreForKashiwa, kickoffDate } from '../../utils/fixtures';
+import { useData } from '../../data/store';
+import { isHome, isInMatchWindow, opponentId, outcome, scoreForKashiwa, kickoffDate, withLiveScore } from '../../utils/fixtures';
 import { fmtTime, isSameDay, weekdayEn } from '../../utils/date';
 import { HABadge, TicketBadge } from './Parts';
 
@@ -12,7 +13,10 @@ interface Props {
   onOpen: (id: string) => void;
 }
 
-export const MatchRow = ({ f, now, onOpen }: Props) => {
+export const MatchRow = ({ f: raw, now, onOpen }: Props) => {
+  useData();
+  const f = withLiveScore(raw);
+  const live = isInMatchWindow(f, now);
   const comp = COMPETITIONS[f.competition];
   const d = kickoffDate(f);
   const opp = getClub(opponentId(f));
@@ -39,7 +43,7 @@ export const MatchRow = ({ f, now, onOpen }: Props) => {
         <div className="vn">{f.timeTBD && f.dateLabel ? `${f.dateLabel} · ` : ''}{st?.name ?? '会場未定'}</div>
       </div>
       <div className="right">
-        {f.status === 'ft' && f.score ? (
+        {(f.status === 'ft' || live) && f.score ? (
           <span className={`res res-${o ?? 'D'}`}>{scoreForKashiwa(f)}</span>
         ) : f.timeTBD ? (
           <span className="ko tbd">時刻未定</span>

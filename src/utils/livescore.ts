@@ -23,8 +23,8 @@ export interface LiveScore {
   opponent: number;
   /** 柏がホームか */
   home: boolean;
-  /** 経過（分）。取得できなければ null */
-  minute: number | null;
+  /** 経過。アディショナルタイムは "90+4" の形。取得できなければ null */
+  minute: string | null;
   status: LiveStatus;
   /** 相手の英語表記（照合の確認用） */
   opponentName: string;
@@ -49,10 +49,25 @@ const num = (v: unknown): number | null => {
   return Number.isFinite(n) ? n : null;
 };
 
+/** "45" / "90+4" の形だけを経過として採る */
+const toMinute = (v: unknown): string | null => {
+  const s = String(v ?? '').trim();
+  return /^\d+(\+\d+)?$/.test(s) ? s : null;
+};
+
 export const STATUS_LABEL: Record<LiveStatus, string> = {
   '1H': '前半', HT: 'ハーフタイム', '2H': '後半', ET: '延長', PEN: 'PK戦',
   FT: '試合終了', NS: 'まもなく', OTHER: '進行中',
 };
+
+/** 時計が動いている状態か（ハーフタイムや終了後は経過を出さない） */
+const CLOCK_RUNNING: LiveStatus[] = ['1H', '2H', 'ET', 'OTHER'];
+
+/** 「67′ 後半」「ハーフタイム」のような進行状況の表記 */
+export const liveClock = (l: Pick<LiveScore, 'minute' | 'status'>) =>
+  l.minute !== null && CLOCK_RUNNING.includes(l.status)
+    ? `${l.minute}′ ${STATUS_LABEL[l.status]}`
+    : STATUS_LABEL[l.status];
 
 export const fetchLiveScore = async (signal?: AbortSignal): Promise<LiveScore | null> => {
   try {
@@ -72,7 +87,7 @@ export const fetchLiveScore = async (signal?: AbortSignal): Promise<LiveScore | 
       reysol: home ? h : a,
       opponent: home ? a : h,
       home,
-      minute: num(e.strProgress),
+      minute: toMinute(e.strProgress),
       status: toStatus(e.strStatus),
       opponentName: (home ? e.strAwayTeam : e.strHomeTeam) ?? '',
       fetchedAt: Date.now(),

@@ -6,7 +6,7 @@ import { isHome, isInMatchWindow, kickoffDate, ticketState } from '../../utils/f
 import { countdownTo, fmtTime, pad2, weekdayEn } from '../../utils/date';
 import { mapsDirectionsUrl, openExternal } from '../../utils/external';
 import { useData } from '../../data/store';
-import { STATUS_LABEL } from '../../utils/livescore';
+import { liveClock } from '../../utils/livescore';
 import { CompetitionChip, Crest } from './Parts';
 import { IconMap, IconPlay, IconTicket } from '../ui/Icons';
 
@@ -51,9 +51,7 @@ export const MatchHero = ({ f, now, onOpen }: Props) => {
             <>
               <div className="hero-score">{score ? (isHome(f) ? `${score.reysol}–${score.opponent}` : `${score.opponent}–${score.reysol}`) : '–'}</div>
               <div className="d" style={{ color: 'var(--live)' }}>
-                {score
-                  ? `${score.minute !== null ? `${score.minute}′ ` : ''}${STATUS_LABEL[score.status]}`
-                  : `${elapsed}′ 進行中`}
+                {score ? liveClock(score) : `${elapsed}′ 進行中`}
               </div>
             </>
           ) : (

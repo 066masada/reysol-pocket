@@ -52,10 +52,13 @@ export const isInMatchWindow = (f: Fixture, now: Date) => {
   return now.getTime() >= t && now.getTime() <= t + MATCH_WINDOW_MS;
 };
 
-/** 同期が追いつくまで、ライブのスコアで補う */
+/**
+ * 同期が追いつくまで、ライブのスコアで補う。
+ * 同期は試合途中のスコアを書くことがあるので、確定（ft）するまではライブを優先する。
+ */
 export const withLiveScore = (f: Fixture): Fixture => {
   const l = liveFor(f);
-  if (!l || f.score) return f;
+  if (!l || f.status === 'ft') return f;
   const home = isHome(f);
   return {
     ...f,

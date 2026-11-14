@@ -3,7 +3,7 @@ import type { Fixture } from '../../types';
 import { COMPETITIONS } from '../../data/competitions';
 import { getClub } from '../../data/clubs';
 import { STADIUMS } from '../../data/stadiums';
-import { isHome, kickoffDate, opponentId, outcome, scoreForKashiwa } from '../../utils/fixtures';
+import { isHome, isInMatchWindow, kickoffDate, opponentId, outcome, scoreForKashiwa, withLiveScore } from '../../utils/fixtures';
 import { fmtTime, pad2, WEEK } from '../../utils/date';
 import { CalendarGrid, type CalendarItem } from './CalendarGrid';
 import { TicketBadge } from './Parts';
@@ -64,7 +64,8 @@ export const MatchCalendar = ({ month, fixtures, now, onOpen }: Props) => {
         <span className="eyebrow">{m}月の試合 · {monthFixtures.length}試合</span>
         <div className="card">
           {monthFixtures.length === 0 && <p className="empty">この月に試合はありません</p>}
-          {monthFixtures.map((f) => {
+          {monthFixtures.map((raw) => {
+            const f = withLiveScore(raw);
             const d = kickoffDate(f);
             const opp = getClub(opponentId(f));
             const st = f.stadiumId ? STADIUMS[f.stadiumId] : undefined;
@@ -84,7 +85,7 @@ export const MatchCalendar = ({ month, fixtures, now, onOpen }: Props) => {
                   <span className="cal-row-venue">{st?.short ?? '会場未定'}</span>
                 </span>
                 <span className="cal-row-right num">
-                  {f.status === 'ft' && f.score
+                  {(f.status === 'ft' || isInMatchWindow(f, now)) && f.score
                     ? <b className={`res-${o ?? 'D'}`}>{scoreForKashiwa(f)}</b>
                     : f.timeTBD ? <span className="tbd">時刻未定</span> : fmtTime(d)}
                   {f.status !== 'ft' && <TicketBadge f={f} now={now} />}

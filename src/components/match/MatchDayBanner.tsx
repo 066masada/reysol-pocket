@@ -9,7 +9,7 @@ import { countdownTo, fmtTime, pad2 } from '../../utils/date';
 import { mapsDirectionsUrl, openExternal } from '../../utils/external';
 import { useWeather } from '../../hooks/useWeather';
 import { useData } from '../../data/store';
-import { STATUS_LABEL } from '../../utils/livescore';
+import { liveClock } from '../../utils/livescore';
 import { WeatherLine } from './WeatherLine';
 import { weatherTip } from '../../utils/weather';
 import { IconBoard, IconExternal, IconMap, IconPlay, IconTicket } from '../ui/Icons';
@@ -69,7 +69,7 @@ export const MatchDayBanner = ({ f, phase, now, onOpen }: {
         </span>
         <span className="mdb-sub">
           {comp.short} {f.round} · {st?.short ?? '会場未定'}
-          {phase === 'live' && score ? ` · ${score.minute !== null ? `${score.minute}′ ` : ''}${STATUS_LABEL[score.status]}` : ''}
+          {phase === 'live' && score ? ` · ${liveClock(score)}` : ''}
           {phase === 'justFinished' && f.score ? ` · ${scoreForKashiwa(f)}` : ''}
         </span>
       </button>

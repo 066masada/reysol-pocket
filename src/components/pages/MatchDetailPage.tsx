@@ -9,7 +9,8 @@ import { STADIUMS } from '../../data/stadiums';
 import { TICKET_LINKS } from '../../data/schedule';
 import { highlightUrl } from '../../data/links';
 import { useData } from '../../data/store';
-import { isHome, isInMatchWindow, kickoffDate, opponentId, outcome, ticketState, SALE_COLOR, SALE_LABEL } from '../../utils/fixtures';
+import { isHome, isInMatchWindow, kickoffDate, liveFor, opponentId, outcome, ticketState, withLiveScore, SALE_COLOR, SALE_LABEL } from '../../utils/fixtures';
+import { liveClock } from '../../utils/livescore';
 import { fmtDateFull, fmtTime, fmtMonthDay } from '../../utils/date';
 import { openExternal } from '../../utils/external';
 import { downloadIcs, downloadSaleIcs } from '../../utils/ics';
@@ -30,7 +31,8 @@ export const MatchDetailPage = ({ id }: { id: string }) => {
   const { closeMatch } = useNavigation();
   const now = useNow(1000);
   const { fixtures } = useData();
-  const f = fixtures.find((x) => x.id === id);
+  const raw = fixtures.find((x) => x.id === id);
+  const f = raw && withLiveScore(raw);
   const weather = useWeather(f, now);
 
   useEffect(() => {
@@ -54,6 +56,7 @@ export const MatchDetailPage = ({ id }: { id: string }) => {
   const st = f.stadiumId ? STADIUMS[f.stadiumId] : undefined;
   const d = kickoffDate(f);
   const live = isInMatchWindow(f, now);
+  const clock = live ? liveFor(f) : null;
   const o = outcome(f);
   const tk = ticketState(f, now);
   const board = BOARD_BY_CLUB[opp.id];
@@ -85,12 +88,16 @@ export const MatchDetailPage = ({ id }: { id: string }) => {
                 ) : (
                   <div className="t">{f.timeTBD ? '--:--' : fmtTime(d)}</div>
                 )}
-                <div className="d">{f.timeTBD && f.dateLabel ? f.dateLabel : fmtDateFull(d)}</div>
+                {clock ? (
+                  <div className="d" style={{ color: 'var(--live)' }}>{liveClock(clock)}</div>
+                ) : (
+                  <div className="d">{f.timeTBD && f.dateLabel ? f.dateLabel : fmtDateFull(d)}</div>
+                )}
               </div>
               <div className="hero-team"><Crest club={away} /><b>{away.name}</b><span>{away.country ?? 'AWAY'}</span></div>
             </div>
             {f.score?.note && <p className="hero-venue">{f.score.note}</p>}
-            {o && <p className="hero-venue">柏レイソル {o === 'W' ? '勝利' : o === 'D' ? '引き分け' : '敗戦'}</p>}
+            {o && !live && <p className="hero-venue">柏レイソル {o === 'W' ? '勝利' : o === 'D' ? '引き分け' : '敗戦'}</p>}
           </section>
 
           {f.goals && (f.goals.reysol.length > 0 || f.goals.opponent.length > 0) && (
