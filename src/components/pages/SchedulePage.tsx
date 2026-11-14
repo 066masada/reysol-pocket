@@ -72,6 +72,13 @@ export const SchedulePage = () => {
     });
   };
 
+  // カレンダーの横スワイプ：試合のある月の並びで前後へ
+  const monthIdx = months.indexOf(month);
+  const prevMonth = monthIdx > 0 ? months[monthIdx - 1] : undefined;
+  const nextMonth = monthIdx >= 0 ? months[monthIdx + 1] : undefined;
+  const goPrev = prevMonth ? () => setMonth(prevMonth) : undefined;
+  const goNext = nextMonth ? () => setMonth(nextMonth) : undefined;
+
   const filtered = fixtures.filter((f) => comps.has(f.competition));
   const list = filtered.filter((f) => month === ALL_KEY || monthKey(kickoffDate(f)) === month);
 
@@ -114,12 +121,12 @@ export const SchedulePage = () => {
 
       {content === 'ticket' ? (
         mode === 'calendar' && month !== ALL_KEY ? (
-          <TicketCalendar month={month} fixtures={filtered} now={now} onOpen={openMatch} />
+          <TicketCalendar month={month} fixtures={filtered} now={now} onOpen={openMatch} onPrev={goPrev} onNext={goNext} />
         ) : (
           <TicketList fixtures={filtered} month={month === ALL_KEY ? null : month} now={now} onOpen={openMatch} />
         )
       ) : mode === 'calendar' && month !== ALL_KEY ? (
-        <MatchCalendar month={month} fixtures={filtered} now={now} onOpen={openMatch} />
+        <MatchCalendar month={month} fixtures={filtered} now={now} onOpen={openMatch} onPrev={goPrev} onNext={goNext} />
       ) : (
         <>
           <div className="card">

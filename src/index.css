@@ -443,6 +443,13 @@ svg { display: inline-block; vertical-align: middle; flex: 0 0 auto; }
    CALENDAR
    ============================================================ */
 .cal { padding: var(--s-2) var(--s-2) 0; }
+/* 横スワイプで月を切り替える。縦スクロールはブラウザに任せる */
+.cal-body { touch-action: pan-y; will-change: transform; }
+.cal-slide.from-next { animation: cal-in-next .22s ease-out; }
+.cal-slide.from-prev { animation: cal-in-prev .22s ease-out; }
+@keyframes cal-in-next { from { transform: translateX(24%); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes cal-in-prev { from { transform: translateX(-24%); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .cal-slide.from-next, .cal-slide.from-prev { animation: none; } }
 .cal-week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px; padding-bottom: 4px; }
 .cal-wd { text-align: center; font-family: var(--font-num); font-size: 10.5px; letter-spacing: .08em; color: var(--ink-3); }
 .cal-wd.sun { color: var(--loss); } .cal-wd.sat { color: #1B4F9C; }

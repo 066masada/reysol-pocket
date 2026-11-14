@@ -18,6 +18,9 @@ interface Props {
   fixtures: Fixture[];
   now: Date;
   onOpen: (id: string) => void;
+  /** カレンダーを横スワイプしたときに前／次の月へ */
+  onPrev?: () => void;
+  onNext?: () => void;
 }
 
 const LEGEND = [
@@ -32,7 +35,7 @@ const LEGEND = [
  * チケット販売カレンダー。試合日ではなく「販売が始まる日」を並べる。
  * 一般発売の日はセルを塗って目立たせる。
  */
-export const TicketCalendar = ({ month, fixtures, now, onOpen }: Props) => {
+export const TicketCalendar = ({ month, fixtures, now, onOpen, onPrev, onNext }: Props) => {
   const y = Number(month.slice(0, 4));
   const m = Number(month.slice(5, 7));
   const allowed = useMemo(() => new Set(fixtures.map((f) => f.id)), [fixtures]);
@@ -94,7 +97,7 @@ export const TicketCalendar = ({ month, fixtures, now, onOpen }: Props) => {
         </section>
       )}
 
-      <CalendarGrid year={y} month={m} now={now} itemsByDay={itemsByDay} legend={LEGEND} />
+      <CalendarGrid year={y} month={m} now={now} itemsByDay={itemsByDay} legend={LEGEND} onPrev={onPrev} onNext={onNext} />
 
       <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
         <span className="eyebrow">{m}月の販売 · {events.length}件</span>

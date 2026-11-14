@@ -14,6 +14,9 @@ interface Props {
   fixtures: Fixture[];
   now: Date;
   onOpen: (id: string) => void;
+  /** カレンダーを横スワイプしたときに前／次の月へ */
+  onPrev?: () => void;
+  onNext?: () => void;
 }
 
 const LEGEND = [
@@ -25,7 +28,7 @@ const LEGEND = [
 ];
 
 /** 試合カレンダー。ホーム開催日を塗り、大会色のドットで種別を示す */
-export const MatchCalendar = ({ month, fixtures, now, onOpen }: Props) => {
+export const MatchCalendar = ({ month, fixtures, now, onOpen, onPrev, onNext }: Props) => {
   const y = Number(month.slice(0, 4));
   const m = Number(month.slice(5, 7));
 
@@ -58,7 +61,7 @@ export const MatchCalendar = ({ month, fixtures, now, onOpen }: Props) => {
 
   return (
     <>
-      <CalendarGrid year={y} month={m} now={now} itemsByDay={itemsByDay} legend={LEGEND} />
+      <CalendarGrid year={y} month={m} now={now} itemsByDay={itemsByDay} legend={LEGEND} onPrev={onPrev} onNext={onNext} />
 
       <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
         <span className="eyebrow">{m}月の試合 · {monthFixtures.length}試合</span>

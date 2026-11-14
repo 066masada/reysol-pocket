@@ -11,6 +11,8 @@ const MAX_DURATION = 800;
 /** 横スクロールできる要素の上で始まったスワイプは、その要素の操作として扱う */
 const inHorizontalScroller = (start: EventTarget | null): boolean => {
   let el = start instanceof Element ? start : null;
+  // カレンダーなど、自前で横スワイプを処理する部品
+  if (el?.closest('[data-own-swipe]')) return true;
   while (el && el !== document.body) {
     const style = getComputedStyle(el);
     const scrollable = style.overflowX === 'auto' || style.overflowX === 'scroll';

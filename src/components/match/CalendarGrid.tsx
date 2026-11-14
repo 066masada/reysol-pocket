@@ -1,4 +1,6 @@
+import { useRef, useState } from 'react';
 import { isSameDay, WEEK } from '../../utils/date';
+import { useMonthSwipe } from '../../hooks/useMonthSwipe';
 
 export interface CalendarItem {
   key: string;
@@ -21,10 +23,25 @@ interface Props {
   now: Date;
   itemsByDay: Map<number, CalendarItem[]>;
   legend: { label: string; color?: string; accent?: boolean }[];
+  /** 横スワイプで前／次の月へ（その方向に月がなければ省略） */
+  onPrev?: () => void;
+  onNext?: () => void;
 }
 
 /** 月カレンダーの枠。中身（試合／チケット）は itemsByDay で差し替える */
-export const CalendarGrid = ({ year, month, now, itemsByDay, legend }: Props) => {
+export const CalendarGrid = ({ year, month, now, itemsByDay, legend, onPrev, onNext }: Props) => {
+  const bodyRef = useRef<HTMLDivElement>(null);
+  useMonthSwipe(bodyRef, { onPrev, onNext });
+
+  // 月が変わった向きに合わせて、新しい月を左右からスライドインさせる
+  const monthIndex = year * 12 + month;
+  const [shown, setShown] = useState(monthIndex);
+  const [dir, setDir] = useState<'next' | 'prev' | null>(null);
+  if (shown !== monthIndex) {
+    setDir(monthIndex > shown ? 'next' : 'prev');
+    setShown(monthIndex);
+  }
+
   const leading = new Date(year, month - 1, 1).getDay();
   const daysInMonth = new Date(year, month, 0).getDate();
 
@@ -36,6 +53,8 @@ export const CalendarGrid = ({ year, month, now, itemsByDay, legend }: Props) =>
 
   return (
     <div className="card cal">
+      <div className="cal-body" ref={bodyRef} data-own-swipe>
+      <div key={monthIndex} className={`cal-slide${dir ? ` from-${dir}` : ''}`}>
       <div className="cal-week">
         {WEEK.map((w, i) => (
           <span key={w} className={`cal-wd${i === 0 ? ' sun' : i === 6 ? ' sat' : ''}`}>{w}</span>
@@ -71,6 +90,8 @@ export const CalendarGrid = ({ year, month, now, itemsByDay, legend }: Props) =>
             </button>
           );
         })}
+      </div>
+      </div>
       </div>
       <div className="cal-legend">
         {legend.map((l) => (
