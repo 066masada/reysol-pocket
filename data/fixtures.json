@@ -980,7 +980,25 @@
       "timeTBD": false,
       "dateLabel": null,
       "status": "scheduled",
-      "score": null
+      "score": {
+        "reysol": 0,
+        "opponent": 1
+      },
+      "goals": {
+        "reysol": [],
+        "opponent": [
+          {
+            "minute": 9,
+            "player": "谷口 栄斗"
+          },
+          {
+            "minute": 25,
+            "player": "伊藤 達哉"
+          }
+        ]
+      },
+      "goalsScore": "0-1",
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/1115.php"
     },
     {
       "competition": "emperor",
