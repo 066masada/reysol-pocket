@@ -451,6 +451,11 @@
             "player": "遠藤 渓太"
           },
           {
+            "minute": 45,
+            "added": 1,
+            "player": "山内 日向汰"
+          },
+          {
             "minute": 59,
             "player": "山内 日向汰"
           }
@@ -467,7 +472,8 @@
         ]
       },
       "goalsScore": "3-2",
-      "resultUrl": "https://www.reysol.co.jp/game/results/202627/1024.php"
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/1024.php",
+      "goalsParser": 2
     },
     {
       "competition": "j1",
@@ -498,12 +504,18 @@
           {
             "minute": 90,
             "player": "久保 藤次郎"
+          },
+          {
+            "minute": 90,
+            "added": 2,
+            "player": "原田 亘"
           }
         ],
         "opponent": []
       },
       "goalsScore": "4-0",
-      "resultUrl": "https://www.reysol.co.jp/game/results/202627/1031.php"
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/1031.php",
+      "goalsParser": 2
     },
     {
       "competition": "j1",
@@ -905,6 +917,11 @@
             "player": "藤尾 翔太"
           },
           {
+            "minute": 90,
+            "added": 3,
+            "player": "瀬川 祐輔"
+          },
+          {
             "minute": 103,
             "player": "弓場 堅真"
           },
@@ -914,6 +931,11 @@
           }
         ],
         "opponent": [
+          {
+            "minute": 45,
+            "added": 3,
+            "player": "イッサム ジェバリ"
+          },
           {
             "minute": 73,
             "player": "ウェルトン"
@@ -929,7 +951,8 @@
         ]
       },
       "goalsScore": "5-4",
-      "resultUrl": "https://www.reysol.co.jp/game/results/202627/1003.php"
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/1003.php",
+      "goalsParser": 2
     },
     {
       "competition": "levain",
@@ -979,13 +1002,35 @@
       "kickoffAt": "2026-11-15T17:00:00+09:00",
       "timeTBD": false,
       "dateLabel": null,
-      "status": "scheduled",
+      "status": "ft",
       "score": {
-        "reysol": 0,
-        "opponent": 1
+        "reysol": 5,
+        "opponent": 4
       },
       "goals": {
-        "reysol": [],
+        "reysol": [
+          {
+            "minute": 45,
+            "added": 2,
+            "player": "久保 藤次郎"
+          },
+          {
+            "minute": 54,
+            "player": "藤尾 翔太"
+          },
+          {
+            "minute": 60,
+            "player": "山内 日向汰"
+          },
+          {
+            "minute": 64,
+            "player": "久保 藤次郎"
+          },
+          {
+            "minute": 72,
+            "player": "瀬川 祐輔"
+          }
+        ],
         "opponent": [
           {
             "minute": 9,
@@ -994,11 +1039,48 @@
           {
             "minute": 25,
             "player": "伊藤 達哉"
+          },
+          {
+            "minute": 30,
+            "player": "脇坂 泰斗"
+          },
+          {
+            "minute": 80,
+            "player": "山市 秀翔"
           }
         ]
       },
-      "goalsScore": "0-1",
-      "resultUrl": "https://www.reysol.co.jp/game/results/202627/1115.php"
+      "goalsScore": "5-4",
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/1115.php",
+      "goalsParser": 2
+    },
+    {
+      "competition": "levain",
+      "round": "準決勝-第1戦",
+      "home": true,
+      "opponent": "鹿島アントラーズ",
+      "country": null,
+      "venue": "三協F柏",
+      "date": "2027-03-24",
+      "kickoffAt": "2027-03-24T19:00:00+09:00",
+      "timeTBD": false,
+      "dateLabel": null,
+      "status": "scheduled",
+      "score": null
+    },
+    {
+      "competition": "levain",
+      "round": "準決勝-第2戦",
+      "home": false,
+      "opponent": "鹿島アントラーズ",
+      "country": null,
+      "venue": "メルスタ",
+      "date": "2027-03-28",
+      "kickoffAt": "2027-03-28T15:00:00+09:00",
+      "timeTBD": false,
+      "dateLabel": null,
+      "status": "scheduled",
+      "score": null
     },
     {
       "competition": "emperor",

@@ -215,6 +215,9 @@ const resultUrl = (season, date) =>
  * 「得点者」の見出しごとに、直前のチームロゴでどちらのチームかを判定する。
  * ページは試合中も更新されるので、途中経過でもそのまま使える。
  */
+/** parseGoals を直したら上げる（数が合わない試合を一度だけ取り直す） */
+const GOALS_PARSER_VERSION = 2;
+
 const parseGoals = (html) => {
   const out = { reysol: [], opponent: [] };
   const marker = /得点者/g;
@@ -231,15 +234,18 @@ const parseGoals = (html) => {
     const end = rest.search(/得点者|警告|退場|交代|メンバー|スターティング/g, 1);
     const seg = rest.slice(6, end > 6 ? end : 2000);
 
-    for (const g of seg.matchAll(/<span[^>]*>\s*(\d+)分\s*<\/span>\s*<span[^>]*>\s*([^<]+?)\s*<\/span>/g)) {
+    // 「54分」のほか、アディショナルタイムは「45+2分」「90+4分」の形で出る
+    for (const g of seg.matchAll(/<span[^>]*>\s*(\d+)\s*(?:\+\s*(\d+)\s*)?分\s*<\/span>\s*<span[^>]*>\s*([^<]+?)\s*<\/span>/g)) {
       const minute = Number(g[1]);
-      const player = decode(g[2]).replace(/\s+/g, ' ').trim();
-      if (!player || out[side].some((x) => x.minute === minute && x.player === player)) continue;
-      out[side].push({ minute, player });
+      const added = g[2] ? Number(g[2]) : undefined;
+      const player = decode(g[3]).replace(/\s+/g, ' ').trim();
+      if (!player || out[side].some((x) => x.minute === minute && x.added === added && x.player === player)) continue;
+      out[side].push(added ? { minute, added, player } : { minute, player });
     }
   }
-  out.reysol.sort((a, b) => a.minute - b.minute);
-  out.opponent.sort((a, b) => a.minute - b.minute);
+  const byTime = (a, b) => a.minute - b.minute || (a.added ?? 0) - (b.added ?? 0);
+  out.reysol.sort(byTime);
+  out.opponent.sort(byTime);
   return out;
 };
 
@@ -299,8 +305,13 @@ const attachGoals = async (season, fixtures, previous) => {
       f.goalsScore = prev.goalsScore;
       f.resultUrl = prev.resultUrl;
     }
-    // 0-0 の試合は得点者が空なので、取得済みかどうかは goalsScore で判断する
-    const alreadyDone = prev?.goals && prev.goalsScore === `${f.score?.reysol ?? ''}-${f.score?.opponent ?? ''}` && f.status === 'ft';
+    if (prev?.goalsParser) f.goalsParser = prev.goalsParser;
+    // 0-0 の試合は得点者が空なので、取得済みかどうかは goalsScore で判断する。
+    // 得点者の数がスコアと合わないときは、パーサーを直した後に一度だけ取り直す
+    const goalCount = prev?.goals ? prev.goals.reysol.length + prev.goals.opponent.length : -1;
+    const scoreTotal = (f.score?.reysol ?? 0) + (f.score?.opponent ?? 0);
+    const alreadyDone = prev?.goals && prev.goalsScore === `${f.score?.reysol ?? ''}-${f.score?.opponent ?? ''}` && f.status === 'ft'
+      && (goalCount === scoreTotal || prev.goalsParser === GOALS_PARSER_VERSION);
     if (alreadyDone) continue;
     // 日程一覧の反映は遅いので、ここ数日の未確定の試合は結果ページを見る
     if ((f.status !== 'ft' && !isRecent(f)) || fetched >= 6) continue;
@@ -321,6 +332,7 @@ const attachGoals = async (season, fixtures, previous) => {
       }
       f.goals = goals;
       f.goalsScore = `${f.score?.reysol ?? ''}-${f.score?.opponent ?? ''}`;
+      f.goalsParser = GOALS_PARSER_VERSION;
       f.resultUrl = url;
       const total = goals.reysol.length + goals.opponent.length;
       const expected = (f.score?.reysol ?? 0) + (f.score?.opponent ?? 0);

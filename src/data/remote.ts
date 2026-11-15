@@ -1,4 +1,4 @@
-import type { CompetitionId, Fixture, StandingRow, StandingsSnapshot, StandingsTable, TicketSale } from '../types';
+import type { CompetitionId, Fixture, Goal, StandingRow, StandingsSnapshot, StandingsTable, TicketSale } from '../types';
 import { CLUB_LIST, KASHIWA_ID } from './clubs';
 import { STADIUMS } from './stadiums';
 import { FIXTURES } from './schedule';
@@ -27,7 +27,7 @@ export interface RemoteFixture {
   status: 'scheduled' | 'ft';
   /** 公式ページの並びに合わせ、柏のスコアが reysol */
   score: { reysol: number; opponent: number; note?: string } | null;
-  goals?: { reysol: { minute: number; player: string }[]; opponent: { minute: number; player: string }[] };
+  goals?: { reysol: Goal[]; opponent: Goal[] };
   resultUrl?: string;
 }
 

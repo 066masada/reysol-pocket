@@ -51,7 +51,12 @@ export type MatchStatus = 'scheduled' | 'live' | 'ft' | 'postponed';
 
 export interface Score { home: number; away: number; note?: string }
 
-export interface Goal { minute: number; player: string }
+export interface Goal {
+  minute: number;
+  /** アディショナルタイム（「45+2分」なら minute 45・added 2） */
+  added?: number;
+  player: string;
+}
 
 export interface Fixture {
   id: string;
