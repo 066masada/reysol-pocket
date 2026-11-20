@@ -565,8 +565,23 @@
       "kickoffAt": "2026-11-20T19:00:00+09:00",
       "timeTBD": false,
       "dateLabel": null,
-      "status": "scheduled",
-      "score": null
+      "status": "ft",
+      "score": {
+        "reysol": 0,
+        "opponent": 1
+      },
+      "goals": {
+        "reysol": [],
+        "opponent": [
+          {
+            "minute": 76,
+            "player": "呉屋 大翔"
+          }
+        ]
+      },
+      "goalsScore": "0-1",
+      "goalsParser": 2,
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/1120.php"
     },
     {
       "competition": "j1",
