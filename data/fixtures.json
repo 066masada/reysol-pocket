@@ -580,8 +580,8 @@
         ]
       },
       "goalsScore": "0-1",
-      "goalsParser": 2,
-      "resultUrl": "https://www.reysol.co.jp/game/results/202627/1120.php"
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/1120.php",
+      "goalsParser": 2
     },
     {
       "competition": "j1",
