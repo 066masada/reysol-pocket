@@ -1340,8 +1340,32 @@
       "kickoffAt": "2026-11-24T16:45:00+09:00",
       "timeTBD": false,
       "dateLabel": null,
-      "status": "scheduled",
-      "score": null
+      "status": "ft",
+      "score": {
+        "reysol": 2,
+        "opponent": 1
+      },
+      "goals": {
+        "reysol": [
+          {
+            "minute": 7,
+            "player": "山内 日向汰"
+          },
+          {
+            "minute": 70,
+            "player": "弓場 堅真"
+          }
+        ],
+        "opponent": [
+          {
+            "minute": 24,
+            "player": "ザック クラフ"
+          }
+        ]
+      },
+      "goalsScore": "2-1",
+      "goalsParser": 2,
+      "resultUrl": "https://www.reysol.co.jp/game/results/202627/1124.php"
     },
     {
       "competition": "acle",
