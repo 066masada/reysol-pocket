@@ -13,7 +13,7 @@
       "gf": 38,
       "ga": 10,
       "gd": 28,
-      "form": "DWWWW"
+      "form": "WWWWD"
     },
     {
       "rank": 2,
@@ -26,7 +26,7 @@
       "gf": 36,
       "ga": 14,
       "gd": 22,
-      "form": "LWWDD"
+      "form": "WWDDD"
     },
     {
       "rank": 3,
@@ -65,7 +65,7 @@
       "gf": 31,
       "ga": 25,
       "gd": 6,
-      "form": "WWLLW"
+      "form": "WLLWW"
     },
     {
       "rank": 6,
@@ -91,7 +91,7 @@
       "gf": 25,
       "ga": 18,
       "gd": 7,
-      "form": "DDWDD"
+      "form": "DWDDW"
     },
     {
       "rank": 8,
@@ -117,7 +117,7 @@
       "gf": 19,
       "ga": 22,
       "gd": -3,
-      "form": "WLLDW"
+      "form": "LLDWW"
     },
     {
       "rank": 10,
@@ -130,7 +130,7 @@
       "gf": 26,
       "ga": 33,
       "gd": -7,
-      "form": "WWLDL"
+      "form": "WLDLD"
     },
     {
       "rank": 11,
@@ -156,7 +156,7 @@
       "gf": 17,
       "ga": 24,
       "gd": -7,
-      "form": "DDLLD"
+      "form": "DLLDW"
     },
     {
       "rank": 13,
@@ -169,7 +169,7 @@
       "gf": 18,
       "ga": 30,
       "gd": -12,
-      "form": "DDLWL"
+      "form": "DLWLD"
     },
     {
       "rank": 14,
@@ -182,7 +182,7 @@
       "gf": 18,
       "ga": 26,
       "gd": -8,
-      "form": "LDWWW"
+      "form": "DWWWL"
     },
     {
       "rank": 15,
@@ -195,7 +195,7 @@
       "gf": 12,
       "ga": 23,
       "gd": -11,
-      "form": "DWWWD"
+      "form": "WWWDL"
     },
     {
       "rank": 16,
@@ -208,7 +208,7 @@
       "gf": 15,
       "ga": 27,
       "gd": -12,
-      "form": "LLLLW"
+      "form": "LLLWW"
     },
     {
       "rank": 17,
@@ -221,7 +221,7 @@
       "gf": 11,
       "ga": 26,
       "gd": -15,
-      "form": "LLLLD"
+      "form": "LLLDL"
     },
     {
       "rank": 18,
@@ -234,7 +234,7 @@
       "gf": 18,
       "ga": 24,
       "gd": -6,
-      "form": "WLLDD"
+      "form": "LLDDL"
     },
     {
       "rank": 19,
@@ -260,7 +260,7 @@
       "gf": 15,
       "ga": 28,
       "gd": -13,
-      "form": "LLLDL"
+      "form": "LLDLL"
     }
   ]
 }
