@@ -1010,7 +1010,7 @@
     },
     {
       "asOf": "第16節終了時点",
-      "date": "2026-11-25",
+      "date": "2026-11-28",
       "table": [
         {
           "rank": 1,
@@ -1020,15 +1020,15 @@
         },
         {
           "rank": 2,
-          "name": "サンフレッチェ広島",
-          "points": 32,
+          "name": "柏レイソル",
+          "points": 34,
           "played": 16
         },
         {
           "rank": 3,
-          "name": "柏レイソル",
-          "points": 31,
-          "played": 15
+          "name": "サンフレッチェ広島",
+          "points": 32,
+          "played": 17
         },
         {
           "rank": 4,
@@ -1038,15 +1038,15 @@
         },
         {
           "rank": 5,
-          "name": "川崎フロンターレ",
-          "points": 28,
+          "name": "ヴィッセル神戸",
+          "points": 30,
           "played": 16
         },
         {
           "rank": 6,
-          "name": "ヴィッセル神戸",
-          "points": 27,
-          "played": 15
+          "name": "川崎フロンターレ",
+          "points": 28,
+          "played": 16
         },
         {
           "rank": 7,
@@ -1057,26 +1057,26 @@
         {
           "rank": 8,
           "name": "鹿島アントラーズ",
-          "points": 24,
-          "played": 15
+          "points": 25,
+          "played": 16
         },
         {
           "rank": 9,
           "name": "ファジアーノ岡山",
-          "points": 23,
-          "played": 16
+          "points": 24,
+          "played": 17
         },
         {
           "rank": 10,
           "name": "浦和レッズ",
           "points": 23,
-          "played": 16
+          "played": 17
         },
         {
           "rank": 11,
           "name": "京都サンガF.C.",
-          "points": 19,
-          "played": 15
+          "points": 22,
+          "played": 16
         },
         {
           "rank": 12,
@@ -1086,31 +1086,31 @@
         },
         {
           "rank": 13,
-          "name": "セレッソ大阪",
+          "name": "清水エスパルス",
           "points": 18,
-          "played": 16
+          "played": 17
         },
         {
           "rank": 14,
-          "name": "ジェフユナイテッド千葉",
-          "points": 16,
-          "played": 16
+          "name": "セレッソ大阪",
+          "points": 18,
+          "played": 17
         },
         {
           "rank": 15,
+          "name": "ジェフユナイテッド千葉",
+          "points": 16,
+          "played": 17
+        },
+        {
+          "rank": 16,
           "name": "東京ヴェルディ",
           "points": 15,
           "played": 16
         },
         {
-          "rank": 16,
-          "name": "水戸ホーリーホック",
-          "points": 15,
-          "played": 16
-        },
-        {
           "rank": 17,
-          "name": "清水エスパルス",
+          "name": "水戸ホーリーホック",
           "points": 15,
           "played": 16
         },
